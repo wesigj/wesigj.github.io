@@ -1,0 +1,265 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content=" 1.const含义 const表示常类型，其值不可更改。\n2.const作用 修饰常量 1 const int a = 66; 类型检查 const具有类型，并支持所有类型 const修饰，名为常量，具备不可更改属性 防更改，保护作用，增加程序健壮性 节省空间，内存 从汇编上看，const实质是使用内存地址访问，#define是立即数 const常量存储在内存中，只有一个内存地址，#define是预编译时，拷贝到代码中，不占用内存空间（RAM），占用ROM。 3.const作用域 const 常量具有块作用域（如果定义在函数或代码块内部）或文件作用域（如果定义在所有函数外部），遵循C语言的普通作用域规则。 #define 定义的宏在预处理阶段展开，没有作用域的概念，除非使用 #undef 取消定义。 4.修饰常量 1 2 "><title>C++ basic const</title>
+<link rel=canonical href=https://wesigj.github.io/p/c-basic-const/><link rel=stylesheet href=/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css><meta property='og:title' content="C++ basic const"><meta property='og:description' content=" 1.const含义 const表示常类型，其值不可更改。\n2.const作用 修饰常量 1 const int a = 66; 类型检查 const具有类型，并支持所有类型 const修饰，名为常量，具备不可更改属性 防更改，保护作用，增加程序健壮性 节省空间，内存 从汇编上看，const实质是使用内存地址访问，#define是立即数 const常量存储在内存中，只有一个内存地址，#define是预编译时，拷贝到代码中，不占用内存空间（RAM），占用ROM。 3.const作用域 const 常量具有块作用域（如果定义在函数或代码块内部）或文件作用域（如果定义在所有函数外部），遵循C语言的普通作用域规则。 #define 定义的宏在预处理阶段展开，没有作用域的概念，除非使用 #undef 取消定义。 4.修饰常量 1 2 "><meta property='og:url' content='https://wesigj.github.io/p/c-basic-const/'><meta property='og:site_name' content='Hugo Theme Stack Starter'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='C++'><meta property='article:published_time' content='2024-09-07T15:07:39+08:00'><meta property='article:modified_time' content='2024-09-07T15:07:39+08:00'><meta name=twitter:title content="C++ basic const"><meta name=twitter:description content=" 1.const含义 const表示常类型，其值不可更改。\n2.const作用 修饰常量 1 const int a = 66; 类型检查 const具有类型，并支持所有类型 const修饰，名为常量，具备不可更改属性 防更改，保护作用，增加程序健壮性 节省空间，内存 从汇编上看，const实质是使用内存地址访问，#define是立即数 const常量存储在内存中，只有一个内存地址，#define是预编译时，拷贝到代码中，不占用内存空间（RAM），占用ROM。 3.const作用域 const 常量具有块作用域（如果定义在函数或代码块内部）或文件作用域（如果定义在所有函数外部），遵循C语言的普通作用域规则。 #define 定义的宏在预处理阶段展开，没有作用域的概念，除非使用 #undef 取消定义。 4.修饰常量 1 2 "><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu897059592634026878.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Hugo Theme Stack Starter</a></h1><h2 class=site-description>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2></div></header><ol class=menu-social><li><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#1const含义>1.const含义</a></li><li><a href=#2const作用>2.const作用</a></li><li><a href=#3const作用域>3.const作用域</a></li><li><a href=#4修饰常量>4.修饰常量</a></li><li><a href=#5const与指针>5.const与指针</a><ol><li><a href=#51指向常量的指针>5.1.指向常量的指针</a></li><li><a href=#52常指针>5.2.常指针</a></li><li><a href=#53指向常量的常指针>5.3.指向常量的常指针</a></li></ol></li><li><a href=#6const与函数>6.const与函数</a></li><li><a href=#7const与类>7.const与类</a></li><li><a href=#8const与static>8.const与static</a><ol><li><a href=#81将常量定义与static结合>8.1.将常量定义与static结合</a></li><li><a href=#82在类外面初始化>8.2.在类外面初始化</a></li></ol></li><li><a href=#关于作者>关于作者</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/c++/>C++</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/c-basic-const/>C++ basic const</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 07, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>3 minute read</time></div></footer></div></header><section class=article-content><hr><h2 id=1const含义>1.const含义</h2><p>const表示常类型，其值不可更改。</p><h2 id=2const作用>2.const作用</h2><ul><li>修饰常量</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=mi>66</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>类型检查<ul><li>const具有类型，并支持所有类型</li><li>const修饰，名为常量，具备不可更改属性</li></ul></li><li>防更改，保护作用，增加程序健壮性</li><li>节省空间，内存<ul><li>从汇编上看，const实质是使用内存地址访问，#define是立即数</li><li>const常量存储在内存中，只有一个内存地址，#define是预编译时，拷贝到代码中，不占用内存空间（RAM），占用ROM。</li></ul></li></ul><h2 id=3const作用域>3.const作用域</h2><ul><li>const 常量具有块作用域（如果定义在函数或代码块内部）或文件作用域（如果定义在所有函数外部），遵循C语言的普通作用域规则。</li><li>#define 定义的宏在预处理阶段展开，没有作用域的概念，除非使用 #undef 取消定义。</li></ul><h2 id=4修饰常量>4.修饰常量</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span><span class=mi>66</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>a</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=c1>//ERROR can not change const constant
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=5const与指针>5.const与指针</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span> <span class=c1>//指向const常类型的普通指针
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=k>const</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span> <span class=c1>//同上
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=o>*</span> <span class=k>const</span> <span class=n>p</span><span class=p>;</span><span class=c1>//指向int类型的常指针
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>const</span> <span class=kt>int</span> <span class=o>*</span><span class=k>const</span> <span class=n>p</span><span class=p>;</span><span class=c1>//指向const常类型的常指针
+</span></span></span></code></pre></td></tr></table></div></div><p>有趣的解析方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>const</span> <span class=kt>char</span> <span class=o>*</span> <span class=n>p</span><span class=p>;</span> <span class=c1>//p is a pointer to const char
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>char</span> <span class=k>const</span> <span class=o>*</span> <span class=n>p</span><span class=p>;</span> <span class=c1>//同上
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>char</span> <span class=o>*</span> <span class=k>const</span> <span class=n>p</span><span class=p>;</span> <span class=c1>//p is a const pointer to char
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>const</span> <span class=kt>char</span> <span class=o>*</span> <span class=k>const</span> <span class=n>p</span><span class=p>;</span> <span class=c1>//p is a const pointer to const char
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=51指向常量的指针>5.1.指向常量的指针</h3><ul><li>指向常量的指针，其中常量不可修改</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp># *p=10; </span><span class=c1>//error 不能修改常量
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>a</span><span class=o>=</span><span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=o>*</span><span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1>// int *p = &amp;a; //error 常量必须用常指针指向
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>允许把非const对象的地址赋给指向const对象的指针</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=n>a</span><span class=o>=</span><span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=o>*</span><span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>a</span><span class=o>=</span><span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>p</span><span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=52常指针>5.2.常指针</h3><p>const指针定义时，必须初始化，const指针不可变，但指向的值可变。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include&lt;iostream&gt;
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>main</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span><span class=mi>66</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>b</span> <span class=o>=</span><span class=mi>88</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=o>*</span> <span class=k>const</span> <span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// p = &amp;b; //error
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span><span class=o>&lt;&lt;*</span><span class=n>p</span><span class=o>&lt;&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>a</span><span class=o>=</span><span class=mi>100</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span><span class=o>&lt;&lt;*</span><span class=n>p</span><span class=o>&lt;&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>const指针不能指向常量</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include&lt;iostream&gt;
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>using</span> <span class=k>namespace</span> <span class=n>std</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>int</span> <span class=n>a</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//&#34;const int *&#34; 类型的值不能用于初始化 &#34;int *const&#34; 类型的实体
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// int * const p=&amp;a; // error! can not const int* -&gt; int*const
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=53指向常量的常指针>5.3.指向常量的常指针</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=o>*</span> <span class=k>const</span> <span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=6const与函数>6.const与函数</h2><ul><li>const修饰函数返回值<ul><li><p>const int fun();
+函数返回const常量，但是函数返回后通常会拷贝。</p></li><li><p>const int *fun();
+函数返回指向常量的指针，指针指向的内容不能更改。</p></li><li><p>int *const fun();
+指针不能更改。</p></li></ul></li><li>const修饰函数参数<ul><li>函数参数或函数参数指针在函数内不能更改</li></ul></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>void</span> <span class=nf>fun1</span><span class=p>(</span><span class=k>const</span> <span class=kt>int</span> <span class=n>a</span><span class=p>);</span><span class=c1>//参数不可变
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=nf>fun2</span><span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=k>const</span> <span class=n>a</span><span class=p>);</span><span class=c1>//指针不能变
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=nf>fun</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=n>dest</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>src</span><span class=p>);</span><span class=c1>//防止常类型src被更改
+</span></span></span></code></pre></td></tr></table></div></div><p>主要功能：
+保护参数和指针不被更改。
+保护常类型不被更改。</p><ul><li>CPP中引用，增加效率，防止更改</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>void</span> <span class=nf>fun</span><span class=p>(</span><span class=k>const</span> <span class=n>T</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>);</span><span class=c1>//T为模板，任意类型
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>cpp，增加了引用(reference)</strong>：</p><blockquote><p>C语言本身没有引用（reference）的概念，引用是C++等其他编程语言中的一个特性。在C语言中，参数传递通常通过值传递（pass by value）或指针传递（pass by pointer）实现。
+如果T为基础类型，理论来说，基础数据类型的参数不存在构造、析构的过程，而复制也非常快，“值传递”和“引用传递”的效率几乎相当。</p></blockquote><p><strong>面试问题</strong>：</p><ul><li>如果函数需要传入一个指针，是否需要为该指针加上const，把const加在指针不同的位置有什么区别?</li><li>如果写的函数需要传入的参数是一个复杂类型的实例，传入值参数或者引用参数有什么区别，什么时候需要为传入的引用参数加上const?</li></ul><h2 id=7const与类>7.const与类</h2><ul><li>在类中，任何不会修改数据成员的函数都应该声明为const类型。如果在编写const成员函数时，不慎修改 数据成员，或者调用了其它非const成员函数，编译器将指出错误，这无疑会提高程序的健壮性。
+例如：</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>normalFunction</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 可以修改成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>constantFunction</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 不能修改任何成员变量，除非它们被声明为 mutable
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>在这个示例中，normalFunction 是一个非常成员函数，可以修改对象的状态；而 constantFunction 是一个常成员函数，承诺不修改对象的状态，并且可以被用于操作常量对象。</p></blockquote><hr><ul><li>使用const关键字进行修饰的成员函数，称为常成员函数。<del>只有常成员函数才有资格操作常量或常对象</del>，没有使用const关键字进行说明的成员函数不能用来操作常对象。</li><li>const对象只能访问const成员函数,而非const对象可以访问任意的成员函数,包括const成员函数.</li></ul><p>简单来说</p><ul><li>常对象才能调用常函数和常量，不可调用非常函数或变量。</li><li>常函数不能调用，修改任何成员函数，成员变量，除非它们被声明为 mutable</li></ul><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyClass</span><span class=p>(</span><span class=kt>int</span> <span class=n>val</span><span class=p>)</span> <span class=o>:</span> <span class=n>value</span><span class=p>(</span><span class=n>val</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 非const成员函数，可以修改成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=nf>modifyValue</span><span class=p>(</span><span class=kt>int</span> <span class=n>newValue</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>value</span> <span class=o>=</span> <span class=n>newValue</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Value modified to: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>value</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// const成员函数，不能修改成员变量，但可以读取
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=nf>displayValue</span><span class=p>()</span> <span class=k>const</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Current value: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>value</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=n>MyClass</span> <span class=n>constObject</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span> <span class=c1>// 创建一个const对象
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 下面的调用是允许的，因为displayValue()是一个const成员函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>constObject</span><span class=p>.</span><span class=n>displayValue</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 下面的调用将导致编译错误，因为modifyValue()不是一个const成员函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// constObject.modifyValue(20); // 错误：不能在const对象上调用non-const成员函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 创建一个非const对象
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyClass</span> <span class=n>nonConstObject</span><span class=p>(</span><span class=mi>20</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 可以调用非const成员函数来修改非const对象的状态
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>nonConstObject</span><span class=p>.</span><span class=n>modifyValue</span><span class=p>(</span><span class=mi>30</span><span class=p>);</span> <span class=c1>// 正确调用
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 也可以调用const成员函数来读取非const对象的状态
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>nonConstObject</span><span class=p>.</span><span class=n>displayValue</span><span class=p>();</span> <span class=c1>// 正确调用
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>从中可以看出，const对象只能调用const函数和const常量，</p></blockquote><hr><ul><li>于类中的const成员变量必须通过初始化列表进行初始化，如下所示：</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Apple</span><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>people</span><span class=p>[</span><span class=mi>100</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Apple</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>);</span> 
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>int</span> <span class=n>apple_number</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Apple</span><span class=o>::</span><span class=n>Apple</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span><span class=o>:</span><span class=n>apple_number</span><span class=p>(</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=8const与static>8.const与static</h2><h3 id=81将常量定义与static结合>8.1.将常量定义与static结合</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>static</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>apple_number</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=82在类外面初始化>8.2.在类外面初始化</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>Apple</span><span class=o>::</span><span class=n>apple_number</span><span class=o>=</span><span class=mi>10</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用c++11进行编译，可以在定义出初始化：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>static</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>apple_number</span><span class=o>=</span><span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1>// 或者
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>const</span> <span class=kt>int</span> <span class=n>apple_number</span><span class=o>=</span><span class=mi>10</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>这两种都在c++11中支持！</p><p>编译的时候加上<code>-std=c++11</code>即可！</p><p>在C++中，static静态成员变量不能在类的内部初始化。在类的内部只是声明，定义必须在类定义体的外部，通常在类的实现文件中初始化。</p><p>在类中声明：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=n>ap</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>在类实现文件中使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=n>Apple</span><span class=o>::</span><span class=n>ap</span><span class=o>=</span><span class=mi>666</span>
+</span></span></code></pre></td></tr></table></div></div><p>对于此项，c++11不能进行声明并初始化，也就是上述使用方法。</p><hr><h2 id=关于作者>关于作者</h2><ul><li>微信公众号:WeSiGJ</li><li>GitHub:<a class=link href=https://github.com/wesigj/cplusplusboys target=_blank rel=noopener>https://github.com/wesigj/cplusplusboys</a></li><li>CSDN:<a class=link href=https://blog.csdn.net/wesigj target=_blank rel=noopener>https://blog.csdn.net/wesigj</a></li><li>微博:</li><li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。</li></ul><img src=/./img/wechat.jpg width=60%></section><footer class=article-footer><section class=article-tags><a href=/tags/c++/>C++</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Hugo Theme Stack Starter</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.26.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
