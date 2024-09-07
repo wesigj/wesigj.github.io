@@ -1,0 +1,401 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="设计模式-工厂方法模式 [TOC]\nOverview 工厂方法模式是一种创建型设计模式 子类继承，重载，多态基类 具体工厂生产具体产品 看起来内容挺多的，要耐心啊！ 工厂方法模式（Factory Method Pattern）是一种创建型设计模式，用于将对象的创建过程封装在一个函数或方法中，从而将对象的创建和使用分离。这种模式允许系统在不修改已有代码的情况下引入新的产品。\n"><title>design pattern Factory Method Pattern</title>
+<link rel=canonical href=https://wesigj.github.io/p/design-pattern-factory-method-pattern/><link rel=stylesheet href=/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css><meta property='og:title' content="design pattern Factory Method Pattern"><meta property='og:description' content="设计模式-工厂方法模式 [TOC]\nOverview 工厂方法模式是一种创建型设计模式 子类继承，重载，多态基类 具体工厂生产具体产品 看起来内容挺多的，要耐心啊！ 工厂方法模式（Factory Method Pattern）是一种创建型设计模式，用于将对象的创建过程封装在一个函数或方法中，从而将对象的创建和使用分离。这种模式允许系统在不修改已有代码的情况下引入新的产品。\n"><meta property='og:url' content='https://wesigj.github.io/p/design-pattern-factory-method-pattern/'><meta property='og:site_name' content="Wesigj's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='design_pattern'><meta property='article:published_time' content='2024-09-08T00:08:00+08:00'><meta property='article:modified_time' content='2024-09-08T00:08:00+08:00'><meta name=twitter:title content="design pattern Factory Method Pattern"><meta name=twitter:description content="设计模式-工厂方法模式 [TOC]\nOverview 工厂方法模式是一种创建型设计模式 子类继承，重载，多态基类 具体工厂生产具体产品 看起来内容挺多的，要耐心啊！ 工厂方法模式（Factory Method Pattern）是一种创建型设计模式，用于将对象的创建过程封装在一个函数或方法中，从而将对象的创建和使用分离。这种模式允许系统在不修改已有代码的情况下引入新的产品。\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu7443220043442625548.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Wesigj's blog</a></h1><h2 class=site-description>路漫漫其修远兮，吾将上下而求索。</h2></div></header><ol class=menu-social><li><a href=https://wesigj.github.io/ target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#overview>Overview</a></li><li><a href=#1工厂方法模式简介>1.工厂方法模式简介</a><ol><li><a href=#11-工厂方法模式的关键特点>1.1. 工厂方法模式的关键特点</a></li><li><a href=#12-工厂方法模式的结构>1.2. 工厂方法模式的结构</a></li><li><a href=#13-c-示例代码>1.3. C++ 示例代码</a></li><li><a href=#14-注意事项>1.4. 注意事项</a></li></ol></li><li><a href=#2如何用工厂方法模式解决代码中的耦合问题>2.如何用工厂方法模式解决代码中的耦合问题？</a><ol><li><a href=#21-步骤>2.1. 步骤</a></li><li><a href=#22-示例>2.2. 示例</a><ol><li><a href=#221-定义日志记录器接口>2.2.1. 定义日志记录器接口</a></li><li><a href=#222-实现具体日志记录器>2.2.2. 实现具体日志记录器</a></li><li><a href=#223-定义工厂接口>2.2.3. 定义工厂接口</a></li><li><a href=#224-实现具体工厂>2.2.4. 实现具体工厂</a></li><li><a href=#225-客户端使用工厂>2.2.5. 客户端使用工厂</a></li></ol></li><li><a href=#23-解耦的优势>2.3. 解耦的优势</a></li></ol></li><li><a href=#3应用场景>3.应用场景</a></li><li><a href=#4用工厂方法模式实现数据库连接类>4.用工厂方法模式实现数据库连接类</a><ol><li><a href=#41-假设我们有以下数据库连接类>4.1. 假设我们有以下数据库连接类</a></li><li><a href=#42-定义一个数据库连接的接口>4.2. 定义一个数据库连接的接口</a></li><li><a href=#43-创建一个工厂基类>4.3. 创建一个工厂基类</a></li><li><a href=#43-实现具体的工厂类>4.3. 实现具体的工厂类</a></li><li><a href=#44-客户端使用示例>4.4. 客户端使用示例</a></li></ol></li><li><a href=#5工厂模式-单元测试>5.工厂模式 单元测试</a></li><li><a href=#6工厂方法模式和简单工厂模式有什么区别它们各自适用于什么情况>6.工厂方法模式和简单工厂模式有什么区别，它们各自适用于什么情况？</a><ol><li><a href=#61简单工厂模式>6.1.简单工厂模式</a></li><li><a href=#62工厂方法模式>6.2.工厂方法模式</a></li><li><a href=#63区别>6.3.区别</a></li></ol></li><li><a href=#7在实际开发中如何决定使用工厂方法模式还是简单工厂模式>7.在实际开发中，如何决定使用工厂方法模式还是简单工厂模式？</a></li><li><a href=#关于作者>关于作者</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/design_pattern/ style=background-color:#2a9d8f;color:#fff>design_pattern</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/design-pattern-factory-method-pattern/>design pattern Factory Method Pattern</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 08, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>12 minute read</time></div></footer></div></header><section class=article-content><h1 id=设计模式-工厂方法模式>设计模式-工厂方法模式</h1><p>[TOC]</p><h2 id=overview>Overview</h2><ul><li><strong>工厂方法模式是一种创建型设计模式</strong></li><li><strong>子类继承，重载，多态基类</strong></li><li><strong>具体工厂生产具体产品</strong></li><li><strong>看起来内容挺多的，要耐心啊！</strong></li></ul><hr><p>工厂方法模式（Factory Method Pattern）是一种创建型设计模式，用于将对象的创建过程封装在一个函数或方法中，从而将对象的创建和使用分离。这种模式允许系统在不修改已有代码的情况下引入新的产品。</p><h2 id=1工厂方法模式简介>1.工厂方法模式简介</h2><h3 id=11-工厂方法模式的关键特点>1.1. 工厂方法模式的关键特点</h3><ol><li><strong>封装性</strong>：对象的创建过程被封装在一个函数或方法中。</li><li><strong>扩展性</strong>：当需要添加新的产品时，只需添加相应的具体产品类和相应的具体工厂类，无需修改已有代码。</li><li><strong>解耦</strong>：客户端代码独立于具体产品类，只与抽象产品和工厂类交互。</li></ol><h3 id=12-工厂方法模式的结构>1.2. 工厂方法模式的结构</h3><ul><li><strong>产品（Product）</strong>：定义了产品的接口。</li><li><strong>具体产品（Concrete Product）</strong>：实现了产品接口的具体类。</li><li><strong>工厂（Factory）</strong>：定义了创建产品的方法，通常是一个静态方法或抽象方法。</li><li><strong>具体工厂（Concrete Factory）</strong>：实现了工厂接口，生成具体产品对象。</li></ul><h3 id=13-c-示例代码>1.3. C++ 示例代码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// 产品接口
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>Product</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=o>~</span><span class=n>Product</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>use</span><span class=p>()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 具体产品
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>ConcreteProduct</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Product</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>use</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Using ConcreteProduct&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 工厂接口
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>Factory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=o>~</span><span class=n>Factory</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=n>Product</span><span class=o>*</span> <span class=nf>createProduct</span><span class=p>()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 具体工厂
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>ConcreteFactory</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Factory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Product</span><span class=o>*</span> <span class=n>createProduct</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>new</span> <span class=nf>ConcreteProduct</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 客户端代码
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Factory</span><span class=o>*</span> <span class=n>factory</span> <span class=o>=</span> <span class=k>new</span> <span class=n>ConcreteFactory</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>Product</span><span class=o>*</span> <span class=n>product</span> <span class=o>=</span> <span class=n>factory</span><span class=o>-&gt;</span><span class=n>createProduct</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>product</span><span class=o>-&gt;</span><span class=n>use</span><span class=p>();</span> <span class=c1>// 使用具体产品
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>delete</span> <span class=n>product</span><span class=p>;</span> <span class=c1>// 释放资源
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>delete</span> <span class=n>factory</span><span class=p>;</span> <span class=c1>// 释放资源
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=14-注意事项>1.4. 注意事项</h3><ul><li><strong>简单工厂</strong>：如果创建逻辑简单，可以使用简单工厂模式，将所有创建逻辑放在一个工厂类中。</li><li><strong>参数化工厂</strong>：如果创建对象需要外部参数，可以在工厂方法中传递这些参数。</li><li><strong>工厂方法模式与抽象工厂模式</strong>：工厂方法模式用于创建单一产品，而抽象工厂模式用于创建产品族。</li><li><strong>性能考虑</strong>：工厂方法模式可能会引入额外的性能开销，尤其是在创建对象时。</li></ul><p>工厂方法模式适用于当创建对象的逻辑复杂或者需要将创建逻辑与使用逻辑分离的场景。它提高了系统的灵活性和扩展性，使得在不修改现有代码的情况下引入新的产品变得更加容易。</p><h2 id=2如何用工厂方法模式解决代码中的耦合问题>2.如何用工厂方法模式解决代码中的耦合问题？</h2><p>工厂方法模式通过将对象的创建逻辑从使用对象的代码中分离出来，可以有效地解决代码耦合问题。以下是使用工厂方法模式解决耦合问题的步骤和示例：</p><h3 id=21-步骤>2.1. 步骤</h3><ol><li><p><strong>定义产品接口</strong>：为需要解耦的对象创建一个接口或抽象类。</p></li><li><p><strong>实现具体产品</strong>：为每种具体的对象类型实现产品接口。</p></li><li><p><strong>定义工厂接口</strong>：为创建产品定义一个工厂接口或抽象类。</p></li><li><p><strong>实现具体工厂</strong>：为每种具体产品类型实现一个具体的工厂类。</p></li><li><p><strong>客户端使用工厂</strong>：客户端代码通过工厂接口请求产品，而不是直接创建具体产品。</p></li><li><p><strong>解耦客户端和具体实现</strong>：客户端不再依赖于具体产品类的实现，只依赖于产品接口和工厂接口。</p></li></ol><h3 id=22-示例>2.2. 示例</h3><p>假设我们有一个应用程序，它使用不同类型的日志记录器，但我们希望客户端代码不依赖于具体的日志记录器实现。</p><h4 id=221-定义日志记录器接口>2.2.1. 定义日志记录器接口</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Logger</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=o>~</span><span class=n>Logger</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>log</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>message</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=222-实现具体日志记录器>2.2.2. 实现具体日志记录器</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>ConsoleLogger</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Logger</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>log</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>message</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Console: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>message</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>FileLogger</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Logger</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>log</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>message</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 将日志消息写入文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=223-定义工厂接口>2.2.3. 定义工厂接口</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>LoggerFactory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=o>~</span><span class=n>LoggerFactory</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=n>Logger</span><span class=o>*</span> <span class=nf>createLogger</span><span class=p>()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=224-实现具体工厂>2.2.4. 实现具体工厂</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>ConsoleLoggerFactory</span> <span class=o>:</span> <span class=k>public</span> <span class=n>LoggerFactory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Logger</span><span class=o>*</span> <span class=n>createLogger</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>new</span> <span class=nf>ConsoleLogger</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>FileLoggerFactory</span> <span class=o>:</span> <span class=k>public</span> <span class=n>LoggerFactory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Logger</span><span class=o>*</span> <span class=n>createLogger</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>new</span> <span class=nf>FileLogger</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=225-客户端使用工厂>2.2.5. 客户端使用工厂</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Application</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>LoggerFactory</span><span class=o>*</span> <span class=n>loggerFactory</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Application</span><span class=p>(</span><span class=n>LoggerFactory</span><span class=o>*</span> <span class=n>factory</span><span class=p>)</span> <span class=o>:</span> <span class=n>loggerFactory</span><span class=p>(</span><span class=n>factory</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>setLoggerFactory</span><span class=p>(</span><span class=n>LoggerFactory</span><span class=o>*</span> <span class=n>factory</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>loggerFactory</span> <span class=o>=</span> <span class=n>factory</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>log</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>message</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Logger</span><span class=o>*</span> <span class=n>logger</span> <span class=o>=</span> <span class=n>loggerFactory</span><span class=o>-&gt;</span><span class=n>createLogger</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=n>logger</span><span class=o>-&gt;</span><span class=n>log</span><span class=p>(</span><span class=n>message</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>delete</span> <span class=n>logger</span><span class=p>;</span> <span class=c1>// 使用完毕后释放资源
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Application</span> <span class=n>app</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 根据配置或环境设置不同的日志记录器
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>loggerType</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Enter logger type (Console/File): &#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cin</span> <span class=o>&gt;&gt;</span> <span class=n>loggerType</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>loggerType</span> <span class=o>==</span> <span class=s>&#34;Console&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>app</span><span class=p>.</span><span class=n>setLoggerFactory</span><span class=p>(</span><span class=k>new</span> <span class=n>ConsoleLoggerFactory</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>loggerType</span> <span class=o>==</span> <span class=s>&#34;File&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>app</span><span class=p>.</span><span class=n>setLoggerFactory</span><span class=p>(</span><span class=k>new</span> <span class=n>FileLoggerFactory</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Invalid logger type&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>app</span><span class=p>.</span><span class=n>log</span><span class=p>(</span><span class=s>&#34;This is a log message.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=23-解耦的优势>2.3. 解耦的优势</h3><ul><li><strong>易于扩展</strong>：添加新的日志记录器类型时，只需添加新的具体日志记录器类和相应的工厂类。</li><li><strong>提高模块化</strong>：客户端代码与日志记录器的具体实现解耦，只依赖于接口。</li><li><strong>灵活配置</strong>：可以在运行时根据配置选择不同的日志记录器，无需修改客户端代码。</li></ul><p>通过这种方式，工厂方法模式使得代码更加灵活和可维护，同时降低了各组件之间的依赖性。</p><h2 id=3应用场景>3.应用场景</h2><p>工厂方法模式在实际开发中有多种应用场景，以下是一些常见的例子：</p><ol><li><p><strong>数据库连接</strong>：
+创建不同类型的数据库连接（如 MySQL、PostgreSQL）时，可以使用工厂方法模式根据不同的数据库类型生成相应的数据库连接对象。</p></li><li><p><strong>图形用户界面（GUI）组件</strong>：
+在GUI应用程序中，创建不同类型的按钮、文本框等组件时，可以使用工厂方法模式来封装组件的创建过程。</p></li><li><p><strong>日志记录器</strong>：
+根据不同的日志级别或日志输出目的地（如控制台、文件、网络）创建不同的日志记录器实例。</p></li><li><p><strong>配置文件解析器</strong>：
+针对不同的配置文件格式（如 XML、JSON、YAML）创建相应的解析器对象。</p></li><li><p><strong>支付网关集成</strong>：
+在电子商务应用中，根据不同的支付服务提供商（如 PayPal、Stripe、Alipay）创建支付网关实例。</p></li><li><p><strong>对象-关系映射（ORM）</strong>：
+在ORM框架中，根据数据库表映射创建相应的模型对象。</p></li><li><p><strong>图像处理</strong>：
+根据不同的图像格式（如 JPEG、PNG、GIF）创建相应的图像处理对象。</p></li><li><p><strong>协议处理器</strong>：
+在网络编程中，根据不同的通信协议（如 HTTP、FTP、SMTP）创建对应的协议处理器对象。</p></li><li><p><strong>报表生成</strong>：
+根据不同的报表格式（如 PDF、Excel、HTML）创建相应的报表生成器。</p></li><li><p><strong>邮件发送</strong>：
+根据邮件发送服务（如 SMTP、SendGrid、Amazon SES）创建邮件发送对象。</p></li><li><p><strong>硬件设备驱动程序</strong>：
+为不同类型的硬件设备（如打印机、扫描仪）创建相应的驱动程序实例。</p></li><li><p><strong>API客户端</strong>：
+为不同的API服务（如 Twitter API、Facebook API）创建客户端实例。</p></li><li><p><strong>依赖注入容器</strong>：
+在依赖注入框架中，工厂方法模式用于创建依赖项的实例。</p></li><li><p><strong>多态性实现</strong>：
+在需要实现多态性的场景中，工厂方法可以用来根据条件生成继承体系中的特定子类实例。</p></li><li><p><strong>游戏开发</strong>：
+在游戏开发中，根据不同的敌人类型或游戏对象创建相应的对象实例。</p></li></ol><p>工厂方法模式通过将对象创建的逻辑封装起来，使得代码更加模块化和可维护，同时也提高了扩展性。当系统中存在多种类型的对象需要创建，并且这些对象的创建逻辑可能会变化时，工厂方法模式尤其有用。</p><h2 id=4用工厂方法模式实现数据库连接类>4.用工厂方法模式实现数据库连接类</h2><p>当然，以下是一个使用工厂方法模式的具体示例，我们将创建一个简单的数据库连接工厂，用于根据不同的数据库类型生成相应的数据库连接对象。</p><h3 id=41-假设我们有以下数据库连接类>4.1. 假设我们有以下数据库连接类</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// MySQL数据库连接类
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>MySQLConnection</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>connect</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Connecting to MySQL database...&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// MySQL连接逻辑
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// PostgreSQL数据库连接类
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>PostgreSQLConnection</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>connect</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Connecting to PostgreSQL database...&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// PostgreSQL连接逻辑
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=42-定义一个数据库连接的接口>4.2. 定义一个数据库连接的接口</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>DatabaseConnection</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=o>~</span><span class=n>DatabaseConnection</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>connect</span><span class=p>()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=43-创建一个工厂基类>4.3. 创建一个工厂基类</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>DatabaseConnectionFactory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=o>~</span><span class=n>DatabaseConnectionFactory</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=n>DatabaseConnection</span><span class=o>*</span> <span class=nf>createConnection</span><span class=p>()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=43-实现具体的工厂类>4.3. 实现具体的工厂类</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// MySQL数据库连接工厂
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>MySQLConnectionFactory</span> <span class=o>:</span> <span class=k>public</span> <span class=n>DatabaseConnectionFactory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>DatabaseConnection</span><span class=o>*</span> <span class=n>createConnection</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>new</span> <span class=nf>MySQLConnection</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// PostgreSQL数据库连接工厂
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>PostgreSQLConnectionFactory</span> <span class=o>:</span> <span class=k>public</span> <span class=n>DatabaseConnectionFactory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>DatabaseConnection</span><span class=o>*</span> <span class=n>createConnection</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>new</span> <span class=nf>PostgreSQLConnection</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=44-客户端使用示例>4.4. 客户端使用示例</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 客户端代码，根据需要选择数据库类型
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>dbType</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Enter database type (MySQL/PostgreSQL): &#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cin</span> <span class=o>&gt;&gt;</span> <span class=n>dbType</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>DatabaseConnectionFactory</span><span class=o>*</span> <span class=n>factory</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>dbType</span> <span class=o>==</span> <span class=s>&#34;MySQL&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>factory</span> <span class=o>=</span> <span class=k>new</span> <span class=n>MySQLConnectionFactory</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>dbType</span> <span class=o>==</span> <span class=s>&#34;PostgreSQL&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>factory</span> <span class=o>=</span> <span class=k>new</span> <span class=n>PostgreSQLConnectionFactory</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Invalid database type&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>DatabaseConnection</span><span class=o>*</span> <span class=n>dbConnection</span> <span class=o>=</span> <span class=n>factory</span><span class=o>-&gt;</span><span class=n>createConnection</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>dbConnection</span><span class=o>-&gt;</span><span class=n>connect</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 释放资源
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>delete</span> <span class=n>dbConnection</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>delete</span> <span class=n>factory</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个示例中，我们定义了一个<code>DatabaseConnection</code>接口和两个具体的数据库连接类<code>MySQLConnection</code>和<code>PostgreSQLConnection</code>。然后，我们创建了<code>DatabaseConnectionFactory</code>工厂接口和两个具体的工厂类<code>MySQLConnectionFactory</code>与<code>PostgreSQLConnectionFactory</code>。在<code>main</code>函数中，根据用户输入选择相应的数据库类型，并使用相应的工厂来创建和连接数据库。</p><p>这个示例展示了工厂方法模式如何帮助我们封装对象创建的复杂性，并且使得系统更容易扩展。如果需要支持新的数据库类型，我们只需添加新的数据库连接类和相应的工厂类，而无需修改现有的代码。</p><h2 id=5工厂模式-单元测试>5.工厂模式 单元测试</h2><p>工厂方法模式在实际项目中的单元测试通常涉及以下几个方面：</p><ol><li><p><strong>测试工厂类创建对象的功能</strong>：验证工厂类是否能够根据给定的参数或条件正确创建出预期的对象类型。这通常涉及到检查返回的对象是否是正确的类实例。</p></li><li><p><strong>测试对象的正确性</strong>：确保通过工厂方法创建的对象具有正确的属性和状态。这可能包括验证对象的字段值、状态或行为是否符合预期。</p></li><li><p><strong>测试边界条件和异常处理</strong>：检查工厂方法在面对不寻常的输入或错误条件时是否能够妥善处理，例如返回<code>null</code>或抛出异常。</p></li><li><p><strong>测试代码覆盖率</strong>：确保单元测试覆盖了工厂方法的所有分支和逻辑路径，以验证代码的健壮性。</p></li><li><p><strong>测试解耦合性</strong>：验证工厂方法模式是否成功地将对象创建的逻辑与使用对象的逻辑分离，从而降低代码之间的耦合度。</p></li><li><p><strong>测试可扩展性</strong>：通过添加新的产品类和相应的工厂类来测试系统是否能够灵活扩展，而无需修改现有代码。</p></li><li><p><strong>使用模拟对象</strong>：在测试中使用模拟（mock）对象来模拟依赖关系，确保测试的独立性和可重复性。</p></li><li><p><strong>编写清晰的测试用例</strong>：每个测试用例应该具有明确的目的和描述，便于理解和维护。</p></li><li><p><strong>执行测试并验证结果</strong>：运行测试并检查结果是否符合预期，确保所有测试都通过。</p></li><li><p><strong>持续集成</strong>：将单元测试集成到持续集成流程中，确保代码的每次提交都能自动运行测试，及时发现问题。</p></li></ol><p>通过这些测试策略，可以确保工厂方法模式的实现是正确、可靠和易于维护的。单元测试不仅帮助开发者验证代码的正确性，还提高了代码质量和项目的可维护性。</p><h2 id=6工厂方法模式和简单工厂模式有什么区别它们各自适用于什么情况>6.工厂方法模式和简单工厂模式有什么区别，它们各自适用于什么情况？</h2><p>工厂方法模式（Factory Method Pattern）和简单工厂模式（Simple Factory Pattern）都是创建型设计模式，它们用于封装对象的创建过程。尽管它们的目的相似，但它们在结构和使用场景上有一些关键的区别：</p><h3 id=61简单工厂模式>6.1.简单工厂模式</h3><ol><li><strong>定义</strong>：简单工厂模式使用一个中心工厂类来创建所有类型的对象。这个类负责接收参数并根据参数决定创建哪种类型的对象。</li><li><strong>结构</strong>：简单工厂模式通常包含一个工厂类和多个具体产品类。</li><li><strong>优点</strong>：<ul><li>易于理解和实现。</li><li>客户端不需要知道具体的类是如何实现的。</li><li>隐藏了对象创建的复杂性。</li></ul></li><li><strong>缺点</strong>：<ul><li>工厂类集中了所有创建逻辑，违反了单一职责原则。</li><li>每增加一个产品类别，都需要修改工厂类，违反了开闭原则。</li></ul></li><li><strong>适用场景</strong>：<ul><li>当创建逻辑比较简单，不需要重复编写创建代码时。</li><li>当产品种类较少，且新增产品类别的频率较低时。</li></ul></li></ol><h3 id=62工厂方法模式>6.2.工厂方法模式</h3><ol><li><strong>定义</strong>：工厂方法模式定义了一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法让类的实例化推迟到子类。</li><li><strong>结构</strong>：工厂方法模式包含一个抽象工厂接口、多个具体工厂类和多个具体产品类。</li><li><strong>优点</strong>：<ul><li>遵循开闭原则，增加新的产品类不需要修改现有代码。</li><li>增加了创建逻辑的扩展性，每个具体工厂类负责创建一种产品。</li><li>符合单一职责原则，每个工厂类只负责创建一种具体产品。</li></ul></li><li><strong>缺点</strong>：<ul><li>增加了系统的复杂度，需要为每个产品类创建对应的工厂类。</li><li>增加了系统的抽象性和理解难度。</li></ul></li><li><strong>适用场景</strong>：<ul><li>当产品类别较多，且需要根据不同的条件创建不同的产品实例时。</li><li>当系统需要扩展性，能够灵活地引入新产品类别而不影响现有代码时。</li></ul></li></ol><h3 id=63区别>6.3.区别</h3><ul><li><strong>扩展性</strong>：工厂方法模式更容易扩展，因为它遵循开闭原则，而简单工厂模式在添加新产品时需要修改工厂类。</li><li><strong>职责分配</strong>：工厂方法模式将创建逻辑分散到各个具体工厂类中，而简单工厂模式将所有创建逻辑集中在一个工厂类中。</li><li><strong>抽象程度</strong>：工厂方法模式提供了更高层次的抽象，允许系统在运行时动态选择使用哪个工厂类。</li></ul><p>在选择使用哪种模式时，需要根据实际项目的需求、系统的复杂度和预期的扩展性来决定。如果预计产品类别会频繁变化或增加，工厂方法模式可能是更好的选择。如果产品类别相对固定且数量较少，简单工厂模式可能更简单直接。</p><h2 id=7在实际开发中如何决定使用工厂方法模式还是简单工厂模式>7.在实际开发中，如何决定使用工厂方法模式还是简单工厂模式？</h2><p>在实际开发中，决定使用工厂方法模式还是简单工厂模式，可以根据以下几个关键因素进行考虑：</p><ol><li><p><strong>扩展性需求</strong>：</p><ul><li>如果系统预计会有频繁的产品种类扩展，或者需要在未来添加更多产品类型，工厂方法模式更加合适，因为它遵循开闭原则，易于扩展。</li></ul></li><li><p><strong>产品种类数量</strong>：</p><ul><li>如果系统中的产品种类较少，或者新增产品的需求较低，简单工厂模式可能更加简单和直接。</li></ul></li><li><p><strong>创建逻辑复杂度</strong>：</p><ul><li>如果对象的创建逻辑相对简单，或者创建过程中不需要太多子类特有的逻辑，简单工厂模式可能更合适。</li><li>如果对象的创建逻辑较为复杂，或者不同的产品类型需要不同的创建逻辑，工厂方法模式允许将这些逻辑分散到各个具体工厂类中。</li></ul></li><li><p><strong>系统耦合度</strong>：</p><ul><li>如果希望降低系统各部分之间的耦合度，工厂方法模式通过定义抽象工厂接口，使得客户端代码与具体实现解耦。</li></ul></li><li><p><strong>代码维护性</strong>：</p><ul><li>如果系统的可维护性是关键考虑因素，工厂方法模式通常提供更好的维护性，因为它允许在不修改现有代码的基础上引入新的产品类型。</li></ul></li><li><p><strong>性能考虑</strong>：</p><ul><li>如果性能是一个关键因素，并且对象创建不是性能瓶颈，可以选择简单工厂模式，因为它可能更轻量级。</li><li>如果对象创建过程可能影响性能，工厂方法模式允许对创建过程进行优化，而不影响其他工厂类。</li></ul></li><li><p><strong>设计原则遵循</strong>：</p><ul><li>如果希望严格遵循设计原则，如单一职责原则和开闭原则，工厂方法模式是更好的选择。</li></ul></li><li><p><strong>团队熟悉度</strong>：</p><ul><li>考虑团队对设计模式的熟悉程度和偏好。如果团队对工厂方法模式更熟悉，选择工厂方法模式可能更有利于项目的顺利进行。</li></ul></li><li><p><strong>项目规模</strong>：</p><ul><li>对于大型项目或企业级应用，工厂方法模式可能更合适，因为它提供了更好的扩展性和灵活性。</li><li>对于小型或简单的项目，简单工厂模式可能足够用，且实现起来更快捷。</li></ul></li><li><p><strong>现有代码基础</strong>：</p><ul><li>如果现有系统已经采用了工厂方法模式，新增功能时继续使用工厂方法模式可以保持代码风格的一致性。</li><li>如果现有系统较小，且没有使用设计模式，引入简单工厂模式可能更简单。</li></ul></li></ol><p>综合考虑上述因素，可以做出更合适的选择。在一些情况下，两种模式可以结合使用，例如，使用简单工厂模式来处理创建逻辑相对简单的对象，而使用工厂方法模式来处理需要高度扩展性的对象。</p><hr><h2 id=关于作者>关于作者</h2><ul><li>微信公众号:WeSiGJ</li><li>GitHub:<a class=link href=https://github.com/wesigj/cplusplusboys target=_blank rel=noopener>https://github.com/wesigj/cplusplusboys</a></li><li>CSDN:<a class=link href=https://blog.csdn.net/wesigj target=_blank rel=noopener>https://blog.csdn.net/wesigj</a></li><li>微博:</li><li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。</li></ul><img src=/./img/wechat.jpg width=60%></section><footer class=article-footer><section class=article-tags><a href=/tags/design_pattern/>Design_pattern</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/design-pattern-chain-of-responsibility-pattern/><div class=article-details><h2 class=article-title>design pattern Chain of Responsibility Pattern</h2></div></a></article><article><a href=/p/design-pattern-command-pattern/><div class=article-details><h2 class=article-title>design pattern Command Pattern</h2></div></a></article><article><a href=/p/design-pattern-composite-pattern/><div class=article-details><h2 class=article-title>design pattern Composite Pattern</h2></div></a></article><article><a href=/p/design-pattern-facade-pattern/><div class=article-details><h2 class=article-title>design pattern Facade Pattern</h2></div></a></article><article><a href=/p/design-pattern-flyweight-pattern/><div class=article-details><h2 class=article-title>design pattern Flyweight Pattern</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Wesigj's blog</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.26.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

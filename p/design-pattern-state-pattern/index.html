@@ -1,0 +1,196 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="设计模式-状态模式-State Pattern [TOC]\nOverview 状态模式（State Pattern）是一种行为型设计模式 它允许一个对象在其内部状态改变时改变它的行为，看起来好像修改了它的类 这种模式通过将状态相关的行为封装在独立的类中，并在运行时根据状态对象来切换这些行为，从而使得对象能够在内部状态变化时合理地更改其行为 1.状态模式（State Pattern） 状态模式（State Pattern）是一种行为型设计模式，它允许一个对象在其内部状态改变时改变它的行为，看起来好像修改了它的类。这种模式通过将状态相关的行为封装在独立的类中，并在运行时根据状态对象来切换这些行为，从而使得对象能够在内部状态变化时合理地更改其行为。\n"><title>design pattern State Pattern</title>
+<link rel=canonical href=https://wesigj.github.io/p/design-pattern-state-pattern/><link rel=stylesheet href=/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css><meta property='og:title' content="design pattern State Pattern"><meta property='og:description' content="设计模式-状态模式-State Pattern [TOC]\nOverview 状态模式（State Pattern）是一种行为型设计模式 它允许一个对象在其内部状态改变时改变它的行为，看起来好像修改了它的类 这种模式通过将状态相关的行为封装在独立的类中，并在运行时根据状态对象来切换这些行为，从而使得对象能够在内部状态变化时合理地更改其行为 1.状态模式（State Pattern） 状态模式（State Pattern）是一种行为型设计模式，它允许一个对象在其内部状态改变时改变它的行为，看起来好像修改了它的类。这种模式通过将状态相关的行为封装在独立的类中，并在运行时根据状态对象来切换这些行为，从而使得对象能够在内部状态变化时合理地更改其行为。\n"><meta property='og:url' content='https://wesigj.github.io/p/design-pattern-state-pattern/'><meta property='og:site_name' content="Wesigj's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='design_pattern'><meta property='article:published_time' content='2024-09-08T00:08:00+08:00'><meta property='article:modified_time' content='2024-09-08T00:08:00+08:00'><meta name=twitter:title content="design pattern State Pattern"><meta name=twitter:description content="设计模式-状态模式-State Pattern [TOC]\nOverview 状态模式（State Pattern）是一种行为型设计模式 它允许一个对象在其内部状态改变时改变它的行为，看起来好像修改了它的类 这种模式通过将状态相关的行为封装在独立的类中，并在运行时根据状态对象来切换这些行为，从而使得对象能够在内部状态变化时合理地更改其行为 1.状态模式（State Pattern） 状态模式（State Pattern）是一种行为型设计模式，它允许一个对象在其内部状态改变时改变它的行为，看起来好像修改了它的类。这种模式通过将状态相关的行为封装在独立的类中，并在运行时根据状态对象来切换这些行为，从而使得对象能够在内部状态变化时合理地更改其行为。\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu7443220043442625548.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Wesigj's blog</a></h1><h2 class=site-description>路漫漫其修远兮，吾将上下而求索。</h2></div></header><ol class=menu-social><li><a href=https://wesigj.github.io/ target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#overview>Overview</a></li><li><a href=#1状态模式state-pattern>1.状态模式（State Pattern）</a></li><li><a href=#2状态模式优缺点>2.状态模式优缺点</a><ol><li><a href=#21优点>2.1.优点</a></li><li><a href=#22缺点>2.2.缺点</a></li></ol></li><li><a href=#3状态模式在实际开发中有哪些常见的应用场景>3.状态模式在实际开发中有哪些常见的应用场景？</a></li><li><a href=#4在设计状态模式时有哪些常见的问题和挑战>4.在设计状态模式时，有哪些常见的问题和挑战？</a></li><li><a href=#5状态模式在多线程环境中如何保证状态的一致性和线程安全>5.状态模式在多线程环境中如何保证状态的一致性和线程安全？</a></li><li><a href=#6状态模式在实际项目中如何与观察者模式结合使用>6.状态模式在实际项目中如何与观察者模式结合使用？</a></li><li><a href=#7在设计状态模式和观察者模式的结合时有哪些常见的设计模式或原则可以参考>7.在设计状态模式和观察者模式的结合时，有哪些常见的设计模式或原则可以参考？</a></li><li><a href=#关于作者>关于作者</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/design_pattern/ style=background-color:#2a9d8f;color:#fff>design_pattern</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/design-pattern-state-pattern/>design pattern State Pattern</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 08, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>12 minute read</time></div></footer></div></header><section class=article-content><h1 id=设计模式-状态模式-state-pattern>设计模式-状态模式-State Pattern</h1><p>[TOC]</p><h2 id=overview>Overview</h2><ul><li>状态模式（State Pattern）是一种行为型设计模式</li><li>它允许一个对象在其内部状态改变时改变它的行为，看起来好像修改了它的类</li><li>这种模式通过将状态相关的行为封装在独立的类中，并在运行时根据状态对象来切换这些行为，从而使得对象能够在内部状态变化时合理地更改其行为</li></ul><hr><h2 id=1状态模式state-pattern>1.状态模式（State Pattern）</h2><p>状态模式（State Pattern）是一种行为型设计模式，它允许一个对象在其内部状态改变时改变它的行为，看起来好像修改了它的类。这种模式通过将状态相关的行为封装在独立的类中，并在运行时根据状态对象来切换这些行为，从而使得对象能够在内部状态变化时合理地更改其行为。</p><p>状态模式的主要角色包括：</p><ol><li><p><strong>Context（上下文）</strong>：维护一个指向当前状态对象的引用，这个引用定义了当前状态对象应该执行哪些操作。</p></li><li><p><strong>State（状态接口）</strong>：定义一个接口，以封装与Context的一个特定状态相关的行为。</p></li><li><p><strong>Concrete State（具体状态）</strong>：实现State接口，定义与一个特定状态相关的行为。</p></li><li><p><strong>Client（客户端）</strong>：创建Context对象，并根据需要改变其状态。</p></li></ol><p>状态模式的实现通常涉及以下几个步骤：</p><ol><li>定义状态接口，声明在不同状态下需要执行的操作。</li><li>实现具体状态类，这些类实现状态接口，并定义每个状态下的行为。</li><li>创建上下文类，持有状态接口的引用，并提供方法来改变其状态。</li><li>客户端代码根据需要改变上下文的状态。</li></ol><p>以下是一个简单的C++实现示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// 状态接口
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>State</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=n>insertQuarter</span><span class=p>()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>ejectQuarter</span><span class=p>()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>turnCrank</span><span class=p>()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>dispense</span><span class=p>()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=o>~</span><span class=n>State</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 具体状态A
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>ConcreteStateA</span> <span class=o>:</span> <span class=k>public</span> <span class=n>State</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>insertQuarter</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;State A: Inserted a quarter.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>ejectQuarter</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;State A: Ejected a quarter.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>turnCrank</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;State A: Turned crank.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>dispense</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;State A: Dispensed.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 具体状态B
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>ConcreteStateB</span> <span class=o>:</span> <span class=k>public</span> <span class=n>State</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>insertQuarter</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;State B: Inserted a quarter.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>ejectQuarter</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;State B: Ejected a quarter.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>turnCrank</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;State B: Turned crank.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>dispense</span><span class=p>()</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;State B: Dispensed.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 上下文
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>GumballMachine</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>State</span><span class=o>*</span> <span class=n>state</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>GumballMachine</span><span class=p>(</span><span class=n>State</span><span class=o>*</span> <span class=n>state</span><span class=p>)</span> <span class=o>:</span> <span class=n>state</span><span class=p>(</span><span class=n>state</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>setState</span><span class=p>(</span><span class=n>State</span><span class=o>*</span> <span class=n>state</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>this</span><span class=o>-&gt;</span><span class=n>state</span> <span class=o>=</span> <span class=n>state</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>insertQuarter</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>state</span><span class=o>-&gt;</span><span class=n>insertQuarter</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>ejectQuarter</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>state</span><span class=o>-&gt;</span><span class=n>ejectQuarter</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>turnCrank</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>state</span><span class=o>-&gt;</span><span class=n>turnCrank</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>dispense</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>state</span><span class=o>-&gt;</span><span class=n>dispense</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>State</span><span class=o>*</span> <span class=n>stateA</span> <span class=o>=</span> <span class=k>new</span> <span class=n>ConcreteStateA</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>GumballMachine</span> <span class=n>gumballMachine</span><span class=p>(</span><span class=n>stateA</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>gumballMachine</span><span class=p>.</span><span class=n>insertQuarter</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>gumballMachine</span><span class=p>.</span><span class=n>turnCrank</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>gumballMachine</span><span class=p>.</span><span class=n>ejectQuarter</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>State</span><span class=o>*</span> <span class=n>stateB</span> <span class=o>=</span> <span class=k>new</span> <span class=n>ConcreteStateB</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>gumballMachine</span><span class=p>.</span><span class=n>setState</span><span class=p>(</span><span class=n>stateB</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>gumballMachine</span><span class=p>.</span><span class=n>insertQuarter</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>gumballMachine</span><span class=p>.</span><span class=n>turnCrank</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>gumballMachine</span><span class=p>.</span><span class=n>dispense</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>delete</span> <span class=n>stateA</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>delete</span> <span class=n>stateB</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，<code>GumballMachine</code> 是上下文，它持有一个指向 <code>State</code> 接口的指针。<code>ConcreteStateA</code> 和 <code>ConcreteStateB</code> 是具体的状态类，它们实现了 <code>State</code> 接口中定义的操作。在 <code>main</code> 函数中，我们创建了一个 <code>GumballMachine</code> 实例，并在不同状态下切换，展示了状态模式的使用。</p><p>状态模式的优点包括局部化了状态相关的操作，将状态转换逻辑封装在状态对象内部，以及可以在运行时切换对象的行为。缺点是可能增加系统中对象的数量，每个状态都需要一个具体的状态类。</p><h2 id=2状态模式优缺点>2.状态模式优缺点</h2><ul><li>优点<ul><li>单一职责原则。 将与特定状态相关的代码放在单独的类中。</li><li>开闭原则。 无需修改已有状态类和上下文就能引入新状态。</li><li>通过消除臃肿的状态机条件语句简化上下文代码。</li></ul></li><li>缺点<ul><li>如果状态机只有很少的几个状态， 或者很少发生改变， 那么应用该模式可能会显得小题大作。</li></ul></li></ul><p>状态模式（State Pattern）的优缺点如下：</p><h3 id=21优点>2.1.优点</h3><ol><li><p><strong>局部化状态行为</strong>：将与特定状态相关的行为封装在单独的状态类中，使得状态相关的代码更加模块化和易于管理。</p></li><li><p><strong>消除庞大的条件分支语句</strong>：在没有使用状态模式的情况下，对象的状态管理可能需要大量的条件分支语句，状态模式可以将这些条件分支分散到不同的状态类中。</p></li><li><p><strong>易于扩展</strong>：新增状态时，只需添加一个新的具体状态类，而无需修改其他代码，符合开闭原则。</p></li><li><p><strong>清晰的逻辑</strong>：状态模式使得状态转换逻辑更加清晰，每个状态类都明确定义了何时以及如何转换到其他状态。</p></li><li><p><strong>提高可维护性</strong>：状态模式将对象的状态封装在单独的类中，使得状态的管理和对象的其他行为分离，提高了代码的可维护性。</p></li><li><p><strong>促进职责单一</strong>：每个状态类只关注与自身状态相关的行为，符合单一职责原则。</p></li></ol><h3 id=22缺点>2.2.缺点</h3><ol><li><p><strong>过多的状态类</strong>：如果系统中状态很多，可能会导致大量的具体状态类，增加系统的复杂性。</p></li><li><p><strong>增加系统开销</strong>：每个状态都是一个对象，可能会增加内存开销，尤其是在状态对象数量较多的情况下。</p></li><li><p><strong>状态管理复杂</strong>：在某些情况下，状态转换逻辑可能非常复杂，需要仔细设计以确保状态转换的正确性。</p></li><li><p><strong>可能引入循环依赖</strong>：在一些设计中，状态对象之间可能存在相互引用，这可能导致循环依赖问题。</p></li><li><p><strong>状态切换可能导致错误</strong>：如果状态转换逻辑不明确或者错误，可能会导致系统行为异常。</p></li><li><p><strong>状态切换的可见性</strong>：在某些设计中，状态切换可能对外部不可见，这可能会使得调试和测试变得更加困难。</p></li></ol><p>在使用状态模式时，应该根据具体的应用场景和需求来决定是否采用这种模式。在设计时，应该考虑到状态模式可能带来的复杂性，并确保状态转换逻辑的正确性和清晰性。</p><h2 id=3状态模式在实际开发中有哪些常见的应用场景>3.状态模式在实际开发中有哪些常见的应用场景？</h2><p>状态模式在实际开发中广泛应用于需要根据对象状态改变行为的场景。以下是一些典型的应用场景：</p><ol><li><p><strong>工作流管理</strong>：在工作流管理系统中，每个任务可能有不同的状态，如待审批、审批中、已批准、已拒绝等。状态模式可以用来封装每个状态下的行为。</p></li><li><p><strong>订单处理系统</strong>：在电子商务平台中，订单可以有多种状态，如未支付、已支付、正在发货、已发货、交易完成、交易取消等。状态模式可以管理这些状态的转换以及每个状态下允许的操作。</p></li><li><p><strong>游戏状态管理</strong>：在游戏中，玩家或游戏本身可能有不同的状态，如游戏开始、游戏暂停、游戏结束等。状态模式可以用来控制游戏在不同状态下的行为。</p></li><li><p><strong>权限控制</strong>：在权限控制系统中，用户可能有不同的权限状态，如普通用户、审核中、管理员等。状态模式可以用来封装与不同权限相关的行为。</p></li><li><p><strong>设备状态控制</strong>：在嵌入式系统或硬件控制软件中，设备可能有多种状态，如待机、工作、错误、维护等。状态模式可以用来管理设备在不同状态下的行为。</p></li><li><p><strong>用户界面状态</strong>：在图形用户界面（GUI）中，组件如按钮、菜单项等可能有不同的状态，如可用、禁用、选中等。状态模式可以用来处理不同状态下的事件。</p></li><li><p><strong>协议状态机</strong>：在网络通信协议中，连接可能有不同的状态，如连接建立、数据传输、连接关闭等。状态模式可以用来管理这些状态的转换。</p></li><li><p><strong>状态验证</strong>：在需要根据对象状态进行验证的系统中，如表单填写，每个字段可能有多种状态，如已填写、未填写、验证通过、验证失败等。状态模式可以用来封装状态验证逻辑。</p></li><li><p><strong>定时任务调度</strong>：在任务调度系统中，任务可能有计划中、执行中、已完成、已跳过等状态。状态模式可以用来管理任务在不同状态下的行为。</p></li><li><p><strong>产品生命周期管理</strong>：在产品生命周期管理中，产品可能经历设计、生产、销售、维护、淘汰等状态。状态模式可以用来封装每个状态下的行为。</p></li></ol><p>状态模式的优点在于它将状态相关的行为封装在具体的状态类中，使得状态转换逻辑清晰，并且可以在运行时动态地改变对象的行为。然而，它也可能导致系统中状态类的数量增多，因此在设计时需要权衡其优缺点。</p><h2 id=4在设计状态模式时有哪些常见的问题和挑战>4.在设计状态模式时，有哪些常见的问题和挑战？</h2><p>在设计状态模式时，可能会遇到以下常见问题和挑战：</p><ol><li><p><strong>状态类爆炸</strong>：如果系统中存在很多状态，可能会导致大量的具体状态类，这会增加系统的复杂性和维护成本。</p></li><li><p><strong>状态转换逻辑复杂</strong>：状态模式要求将状态转换逻辑封装在上下文（Context）中，当状态转换逻辑非常复杂时，管理这些转换可能会变得困难。</p></li><li><p><strong>状态一致性</strong>：确保在状态转换过程中，上下文的状态始终保持一致是一个挑战，特别是在多线程环境中。</p></li><li><p><strong>状态管理</strong>：随着系统的发展，状态的增加和删除需要仔细管理，以避免状态管理的混乱。</p></li><li><p><strong>状态的入口</strong>：在某些情况下，确定状态的初始状态并正确初始化上下文可能是一个挑战。</p></li><li><p><strong>状态恢复</strong>：在某些应用中，可能需要支持状态的撤销和恢复，这需要额外的设计和实现。</p></li><li><p><strong>状态依赖</strong>：有些状态的行为可能依赖于其他状态的信息，这可能导致状态类之间的耦合。</p></li><li><p><strong>状态模式与观察者模式的结合</strong>：在需要状态变化通知其他对象时，如何有效地结合状态模式和观察者模式是一个设计挑战。</p></li><li><p><strong>状态的持久化</strong>：在某些系统中，可能需要将状态持久化到数据库或文件中，这需要在状态模式中考虑持久化和恢复的逻辑。</p></li><li><p><strong>状态的线程安全</strong>：在多线程环境中，确保状态的线程安全是一个挑战，需要考虑同步和并发访问的问题。</p></li><li><p><strong>状态的可预测性</strong>：在复杂的系统中，状态转换可能不是线性的，设计时需要确保状态转换的可预测性和正确性。</p></li><li><p><strong>状态模式的过度使用</strong>：在一些简单的场景中，过度使用状态模式可能会导致不必要的复杂性。</p></li></ol><p>为了解决这些问题和挑战，设计时需要仔细考虑系统的规模、状态的数量、状态转换的复杂性以及系统的可维护性。同时，应该遵循设计原则，如单一职责原则、开闭原则和迪米特法则，来确保系统的灵活性和可扩展性。在实现时，可以考虑使用设计模式的组合，如结合策略模式、命令模式或观察者模式，来解决特定的设计问题。</p><h2 id=5状态模式在多线程环境中如何保证状态的一致性和线程安全>5.状态模式在多线程环境中如何保证状态的一致性和线程安全？</h2><p>在多线程环境中，确保状态模式的一致性和线程安全，可以采取以下措施：</p><ol><li><p><strong>使用互斥锁（Mutex）</strong>：在状态转换方法中使用互斥锁来保护状态的一致性，确保同一时间只有一个线程可以改变状态。</p></li><li><p><strong>条件变量（Condition Variable）</strong>：在状态模式中，条件变量可以用来协调线程间的工作，当状态发生改变时，通知等待的线程。</p></li><li><p><strong>避免死锁</strong>：在设计状态模式时，要注意避免死锁的发生。确保获取锁的顺序一致，或者使用定时锁（尝试锁），以防止线程永久阻塞。</p></li><li><p><strong>最小化锁的粒度</strong>：尽量减小锁的范围和持有时间，例如使用<code>std::lock_guard</code>和<code>std::unique_lock</code>来自动管理锁的生命周期。</p></li><li><p><strong>使用不可变对象</strong>：如果状态对象是不可变的，那么它们自然是线程安全的，因为它们的状态在创建后不会改变。</p></li><li><p><strong>线程局部存储（Thread-Local Storage）</strong>：使用线程局部存储来保存每个线程的状态，这样可以避免线程间的共享和竞争。</p></li><li><p><strong>使用原子操作</strong>：对于简单的状态更新，可以使用原子操作来确保操作的原子性，而不需要使用重量级的锁。</p></li><li><p><strong>状态模式与观察者模式结合</strong>：当状态改变时，使用观察者模式通知所有依赖于状态的对象，确保它们能够及时响应状态的变化。</p></li><li><p><strong>避免在持有锁时进行长时间操作</strong>：持有锁时不要执行耗时的计算或者调用外部资源，这样可以减少锁的等待时间，提高系统的并发性能。</p></li><li><p><strong>使用读写锁（Read-Write Lock）</strong>：如果状态读操作远多于写操作，可以使用读写锁来允许多个线程同时读取状态，但在写入时需要独占访问。</p></li></ol><p>通过上述措施，可以在多线程环境中有效地使用状态模式，同时确保状态的一致性和线程安全。在实际应用中，应根据具体的并发需求和性能目标来选择合适的同步策略。</p><h2 id=6状态模式在实际项目中如何与观察者模式结合使用>6.状态模式在实际项目中如何与观察者模式结合使用？</h2><p>在实际项目中，状态模式和观察者模式可以结合使用来构建更加灵活和响应式的系统。以下是它们结合使用的一些常见应用场景和方法：</p><ol><li><p><strong>工作流状态更新</strong>：在一个工作流管理系统中，每个任务都有不同的状态，如“待审批”、“审批中”、“已完成”等。状态模式可以用来封装每个状态下的行为。同时，当任务状态发生变化时，系统可能需要通知其他部分，比如通知任务的处理者或更新相关的监控仪表板。这时，观察者模式可以用来实现状态变化的通知机制。</p></li><li><p><strong>用户界面与数据模型同步</strong>：在模型-视图-控制器（MVC）架构中，数据模型（Model）的变化需要实时反映到视图（View）上。状态模式可以用来管理数据模型的不同状态，而观察者模式则确保当数据模型的状态发生变化时，所有依赖的视图都能得到更新。</p></li><li><p><strong>游戏状态管理</strong>：在游戏开发中，游戏可能有不同的游戏状态，如“菜单”、“游戏进行中”、“暂停”、“游戏结束”等。状态模式可以用来定义这些状态和它们之间的转换。观察者模式则可以用来通知游戏中的其他系统或组件，如声音系统、得分系统等，关于游戏状态的变化。</p></li><li><p><strong>订单处理系统</strong>：在电子商务平台中，订单对象会经历多个状态，如“新建”、“支付”、“发货”、“完成”等。状态模式可以用来封装订单的每个状态相关的行为。当订单状态发生变化时，可能需要通知物流系统、库存系统或客户服务系统，观察者模式可以用来实现这种通知。</p></li><li><p><strong>设备状态监控</strong>：在嵌入式系统或物联网（IoT）设备中，设备可能有多种状态，如“待机”、“工作”、“错误”、“维护”等。状态模式可以用来管理设备的状态和行为。观察者模式则可以用来实现设备状态变化的监控和报警系统。</p></li></ol><p>结合使用状态模式和观察者模式时，关键在于设计一个清晰的状态转换逻辑，并确保状态变化能够及时通知到所有相关的观察者。这种结合使用可以提高系统的模块化和可维护性，同时也使得状态变化的管理更加集中和一致。</p><h2 id=7在设计状态模式和观察者模式的结合时有哪些常见的设计模式或原则可以参考>7.在设计状态模式和观察者模式的结合时，有哪些常见的设计模式或原则可以参考？</h2><p>在设计状态模式和观察者模式的结合时，可以参考以下设计原则和模式：</p><ol><li><p><strong>单一职责原则</strong>：确保每个类和模块只负责一个功能，这样当状态改变时，相关的类可以独立地变化而不影响其他模块。</p></li><li><p><strong>开闭原则</strong>：设计时应当使系统易于扩展新的状态或观察者，而不需要修改已有的代码。</p></li><li><p><strong>依赖倒置原则</strong>：高层模块不应依赖于低层模块，两者都应该依赖于抽象。在状态模式和观察者模式的结合中，可以通过接口或抽象类来实现。</p></li><li><p><strong>迪米特法则</strong>：减少对象之间的直接交互，通过中介者来传递消息，这有助于降低系统的耦合度。</p></li><li><p><strong>命令模式</strong>：在状态模式中，可以结合命令模式来封装具体的行为，使得状态转换更加灵活。</p></li><li><p><strong>中介者模式</strong>：当系统中的组件交互复杂时，可以使用中介者模式来简化组件之间的通信。</p></li><li><p><strong>策略模式</strong>：在状态模式中，可以使用策略模式来定义一系列算法（行为），并在运行时选择使用哪一个算法。</p></li><li><p><strong>模板方法模式</strong>：在观察者模式中，可以使用模板方法模式来定义一个算法的框架，允许子类在不改变算法结构的情况下重写算法的某些步骤。</p></li><li><p><strong>组合模式</strong>：当观察者或状态对象需要形成树形结构时，可以使用组合模式来表示部分-整体层次结构。</p></li><li><p><strong>迭代器模式</strong>：在观察者模式中，如果需要遍历所有观察者，可以使用迭代器模式来提供一个顺序访问的接口。</p></li></ol><p>在实际应用中，可以根据具体的需求和上下文来选择适合的设计原则和模式。例如，如果状态转换逻辑复杂，可以考虑使用策略模式来简化；如果需要在状态变化时通知多个观察者，可以结合使用观察者模式。通过这些设计原则和模式的结合使用，可以构建出灵活、可扩展且易于维护的系统。</p><hr><h2 id=关于作者>关于作者</h2><ul><li>微信公众号:WeSiGJ</li><li>GitHub:<a class=link href=https://github.com/wesigj/cplusplusboys target=_blank rel=noopener>https://github.com/wesigj/cplusplusboys</a></li><li>CSDN:<a class=link href=https://blog.csdn.net/wesigj target=_blank rel=noopener>https://blog.csdn.net/wesigj</a></li><li>微博:</li><li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。</li></ul><img src=/./img/wechat.jpg width=60%></section><footer class=article-footer><section class=article-tags><a href=/tags/design_pattern/>Design_pattern</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/design-pattern-chain-of-responsibility-pattern/><div class=article-details><h2 class=article-title>design pattern Chain of Responsibility Pattern</h2></div></a></article><article><a href=/p/design-pattern-command-pattern/><div class=article-details><h2 class=article-title>design pattern Command Pattern</h2></div></a></article><article><a href=/p/design-pattern-composite-pattern/><div class=article-details><h2 class=article-title>design pattern Composite Pattern</h2></div></a></article><article><a href=/p/design-pattern-facade-pattern/><div class=article-details><h2 class=article-title>design pattern Facade Pattern</h2></div></a></article><article><a href=/p/design-pattern-factory-method-pattern/><div class=article-details><h2 class=article-title>design pattern Factory Method Pattern</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Wesigj's blog</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.26.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
