@@ -4189,6 +4189,48 @@
 &lt;li>微博:&lt;/li>
 &lt;li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。&lt;/li>
 &lt;/ul>
+&lt;img src=https://wesigj.github.io/./img/wechat.jpg width=60% /></description></item><item><title>C++ basic series</title><link>https://wesigj.github.io/p/c-basic-series/</link><pubDate>Sat, 07 Sep 2024 15:07:39 +0800</pubDate><guid>https://wesigj.github.io/p/c-basic-series/</guid><description>&lt;h1 id="overview">Overview
+&lt;/h1>&lt;hr>
+&lt;h2 id="c-basic-面试基础知识系列">C++ basic 面试基础知识系列
+&lt;/h2>&lt;ul>
+&lt;li>&lt;a class="link" href="./Basic/abstract/README.md" >abstract&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/assert/README.md" >assert&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/bit_field/README.md" >bit_field&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/bit_operation/README.md" >bit_operation&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/C&amp;#43;&amp;#43;Features/README.md" >C++Features&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/const/README.md" >const&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/decltype/README.md" >decltype&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/double_colon/README.md" >double_colon&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/enum/README.md" >enum&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/explicit/README.md" >explicit&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/extern/README.md" >extern&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/friend/README.md" >friend&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/function_pointerANDpointer_function/README.md" >function_pointerANDpointer_function&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/inline/README.md" >inline&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/macro_definition/README.md" >macro_definition&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/pointerANDreferance/README.md" >pointerANDreferance&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/polymorphic/README.md" >polymorphic&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/sizeof/README.md" >sizeof&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/static/README.md" >static&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/struct/README.md" >struct&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/this/README.md" >this&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/union/README.md" >union&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/using/README.md" >using&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/virtual/README.md" >virtual&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/volatile/README.md" >volatile&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="./Basic/vptr_vtable/README.md" >vptr_vtable&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="关于作者">关于作者
+&lt;/h2>&lt;ul>
+&lt;li>微信公众号:WeSiGJ&lt;/li>
+&lt;li>GitHub:&lt;a class="link" href="https://github.com/wesigj/cplusplusboys" target="_blank" rel="noopener"
+>https://github.com/wesigj/cplusplusboys&lt;/a>&lt;/li>
+&lt;li>CSDN:&lt;a class="link" href="https://blog.csdn.net/wesigj" target="_blank" rel="noopener"
+>https://blog.csdn.net/wesigj&lt;/a>&lt;/li>
+&lt;li>微博:&lt;/li>
+&lt;li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。&lt;/li>
+&lt;/ul>
 &lt;img src=https://wesigj.github.io/./img/wechat.jpg width=60% /></description></item><item><title>C++ basic sizeof</title><link>https://wesigj.github.io/p/c-basic-sizeof/</link><pubDate>Sat, 07 Sep 2024 15:07:39 +0800</pubDate><guid>https://wesigj.github.io/p/c-basic-sizeof/</guid><description>&lt;h1 id="c面试基础系列-sizeof">C++面试基础系列-sizeof
 &lt;/h1>&lt;p>[TOC]&lt;/p>
 &lt;h2 id="overview">Overview
@@ -8312,48 +8354,6 @@
 &lt;li>理解 &lt;code>vptr&lt;/code> 和 &lt;code>vtable&lt;/code> 有助于深入学习 C++ 的内存管理和多态性机制。&lt;/li>
 &lt;/ul>
 &lt;p>通过深入理解 &lt;code>vptr&lt;/code> 和 &lt;code>vtable&lt;/code>，你可以更好地掌握 C++ 的多态性机制，编写出更高效、更安全的面向对象代码。&lt;/p>
-&lt;hr>
-&lt;h2 id="关于作者">关于作者
-&lt;/h2>&lt;ul>
-&lt;li>微信公众号:WeSiGJ&lt;/li>
-&lt;li>GitHub:&lt;a class="link" href="https://github.com/wesigj/cplusplusboys" target="_blank" rel="noopener"
->https://github.com/wesigj/cplusplusboys&lt;/a>&lt;/li>
-&lt;li>CSDN:&lt;a class="link" href="https://blog.csdn.net/wesigj" target="_blank" rel="noopener"
->https://blog.csdn.net/wesigj&lt;/a>&lt;/li>
-&lt;li>微博:&lt;/li>
-&lt;li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。&lt;/li>
-&lt;/ul>
-&lt;img src=https://wesigj.github.io/./img/wechat.jpg width=60% /></description></item><item><title>C++ basic series</title><link>https://wesigj.github.io/p/c-basic-series/</link><pubDate>Wed, 07 Sep 2022 15:07:39 +0800</pubDate><guid>https://wesigj.github.io/p/c-basic-series/</guid><description>&lt;h1 id="overview">Overview
-&lt;/h1>&lt;hr>
-&lt;h2 id="c-basic-面试基础知识系列">C++ basic 面试基础知识系列
-&lt;/h2>&lt;ul>
-&lt;li>&lt;a class="link" href="./Basic/abstract/README.md" >abstract&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/assert/README.md" >assert&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/bit_field/README.md" >bit_field&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/bit_operation/README.md" >bit_operation&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/C&amp;#43;&amp;#43;Features/README.md" >C++Features&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/const/README.md" >const&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/decltype/README.md" >decltype&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/double_colon/README.md" >double_colon&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/enum/README.md" >enum&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/explicit/README.md" >explicit&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/extern/README.md" >extern&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/friend/README.md" >friend&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/function_pointerANDpointer_function/README.md" >function_pointerANDpointer_function&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/inline/README.md" >inline&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/macro_definition/README.md" >macro_definition&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/pointerANDreferance/README.md" >pointerANDreferance&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/polymorphic/README.md" >polymorphic&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/sizeof/README.md" >sizeof&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/static/README.md" >static&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/struct/README.md" >struct&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/this/README.md" >this&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/union/README.md" >union&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/using/README.md" >using&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/virtual/README.md" >virtual&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/volatile/README.md" >volatile&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="./Basic/vptr_vtable/README.md" >vptr_vtable&lt;/a>&lt;/li>
-&lt;/ul>
 &lt;hr>
 &lt;h2 id="关于作者">关于作者
 &lt;/h2>&lt;ul>
