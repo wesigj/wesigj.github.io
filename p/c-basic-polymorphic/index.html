@@ -1,0 +1,238 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="C++面试基础系列-polymorphic [TOC]\nOverview C++ 支持面向对象编程，包括类（Class）和对象（Object）、继承（Inheritance）、封装（Encapsulation）和多态（Polymorphism）。 C 语言不支持面向对象编程。 1.polymorphic多态性 在C++中，多态性（Polymorphism）是一个核心概念，它允许我们通过基类的接口来使用派生类的对象。多态性使得代码更加灵活和可扩展，主要有以下几种形式：\n"><title>C++ basic polymorphic</title>
+<link rel=canonical href=https://wesigj.github.io/p/c-basic-polymorphic/><link rel=stylesheet href=/scss/style.min.eb7f50cc23d1bd7ff2d2052c25614348c70e74f31980578f9f89974c5a7447d4.css><meta property='og:title' content="C++ basic polymorphic"><meta property='og:description' content="C++面试基础系列-polymorphic [TOC]\nOverview C++ 支持面向对象编程，包括类（Class）和对象（Object）、继承（Inheritance）、封装（Encapsulation）和多态（Polymorphism）。 C 语言不支持面向对象编程。 1.polymorphic多态性 在C++中，多态性（Polymorphism）是一个核心概念，它允许我们通过基类的接口来使用派生类的对象。多态性使得代码更加灵活和可扩展，主要有以下几种形式：\n"><meta property='og:url' content='https://wesigj.github.io/p/c-basic-polymorphic/'><meta property='og:site_name' content="Wesigj's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='C++'><meta property='article:published_time' content='2024-09-07T15:07:39+08:00'><meta property='article:modified_time' content='2024-09-07T15:07:39+08:00'><meta name=twitter:title content="C++ basic polymorphic"><meta name=twitter:description content="C++面试基础系列-polymorphic [TOC]\nOverview C++ 支持面向对象编程，包括类（Class）和对象（Object）、继承（Inheritance）、封装（Encapsulation）和多态（Polymorphism）。 C 语言不支持面向对象编程。 1.polymorphic多态性 在C++中，多态性（Polymorphism）是一个核心概念，它允许我们通过基类的接口来使用派生类的对象。多态性使得代码更加灵活和可扩展，主要有以下几种形式：\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu7443220043442625548.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Wesigj's blog</a></h1><h2 class=site-description>路漫漫其修远兮，吾将上下而求索。</h2></div></header><ol class=menu-social><li><a href=https://wesigj.github.io/ target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/_index.zh-cn/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#overview>Overview</a></li><li><a href=#1polymorphic多态性>1.polymorphic多态性</a></li><li><a href=#2编译时多态的实现>2.编译时多态的实现</a><ol><li><a href=#示例代码>示例代码</a><ol><li><a href=#函数重载示例>函数重载示例</a></li><li><a href=#运算符重载示例>运算符重载示例：</a></li><li><a href=#模板示例>模板示例：</a></li></ol></li></ol></li><li><a href=#3运行时多态的实现>3.运行时多态的实现</a><ol><li><a href=#示例代码-1>示例代码</a></li></ol></li><li><a href=#4编译时多态的优点>4.编译时多态的优点</a></li><li><a href=#关于作者>关于作者</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/c++/ style=background-color:#2a9d8f;color:#fff>C++</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/c-basic-polymorphic/>C++ basic polymorphic</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 07, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>6 minute read</time></div></footer></div></header><section class=article-content><h1 id=c面试基础系列-polymorphic>C++面试基础系列-polymorphic</h1><p>[TOC]</p><h2 id=overview>Overview</h2><ul><li>C++ 支持面向对象编程，包括类（Class）和对象（Object）、继承（Inheritance）、封装（Encapsulation）和多态（Polymorphism）。</li><li>C 语言不支持面向对象编程。</li></ul><h2 id=1polymorphic多态性>1.polymorphic多态性</h2><p>在C++中，多态性（Polymorphism）是一个核心概念，它允许我们通过基类的接口来使用派生类的对象。多态性使得代码更加灵活和可扩展，主要有以下几种形式：</p><ol><li><p><strong>编译时多态（静态绑定）</strong>：通过函数重载和运算符重载实现，它们在编译时就已经确定。</p></li><li><p><strong>运行时多态（动态绑定）</strong>：通过虚函数实现，调用哪个函数的实现是在运行时根据对象的实际类型来确定的。</p></li></ol><h2 id=2编译时多态的实现>2.编译时多态的实现</h2><p>编译时多态，也称为静态多态或早绑定（Early Binding），是在编译期间确定函数调用的机制。在C++中，编译时多态主要通过以下几种方式实现：</p><ol><li><p><strong>函数重载（Function Overloading）</strong>：</p><ul><li>允许在同一个作用域内定义多个同名函数，只要它们的参数列表不同（参数类型、数量或顺序不同）。</li></ul></li><li><p><strong>运算符重载（Operator Overloading）</strong>：</p><ul><li>允许为自定义类型定义或修改已有运算符的行为。</li></ul></li><li><p><strong>模板（Templates）</strong>：</p><ul><li>允许创建泛型类和函数，它们可以在编译时根据模板参数实例化出不同类型的具体实现。</li></ul></li></ol><h3 id=示例代码>示例代码</h3><h4 id=函数重载示例>函数重载示例</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// 函数重载示例
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=kt>int</span> <span class=n>num</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Integer: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>num</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=kt>double</span> <span class=n>num</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Double: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>num</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>print</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>    <span class=c1>// 调用第一个print函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>print</span><span class=p>(</span><span class=mf>3.14</span><span class=p>);</span>  <span class=c1>// 调用第二个print函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，<code>print</code> 函数被重载了两次，一次接受 <code>int</code> 类型的参数，另一次接受 <code>double</code> 类型的参数。编译器根据传递给 <code>print</code> 函数的参数类型来决定调用哪个函数。</p><h4 id=运算符重载示例>运算符重载示例：</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Point</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Point</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>,</span> <span class=kt>int</span> <span class=n>y</span><span class=p>)</span> <span class=o>:</span> <span class=n>x</span><span class=p>(</span><span class=n>x</span><span class=p>),</span> <span class=n>y</span><span class=p>(</span><span class=n>y</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 运算符重载，实现点的加法
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Point</span> <span class=k>operator</span><span class=o>+</span><span class=p>(</span><span class=k>const</span> <span class=n>Point</span><span class=o>&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nf>Point</span><span class=p>(</span><span class=n>x</span> <span class=o>+</span> <span class=n>other</span><span class=p>.</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span> <span class=o>+</span> <span class=n>other</span><span class=p>.</span><span class=n>y</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point</span> <span class=n>p1</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point</span> <span class=n>p2</span><span class=p>(</span><span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point</span> <span class=n>p3</span> <span class=o>=</span> <span class=n>p1</span> <span class=o>+</span> <span class=n>p2</span><span class=p>;</span> <span class=c1>// 使用重载的 + 运算符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;p3: (&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>p3</span><span class=p>.</span><span class=n>x</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;, &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>p3</span><span class=p>.</span><span class=n>y</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;)&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，我们为 <code>Point</code> 类重载了 <code>+</code> 运算符，使其能够实现两个点的加法。编译器在编译时根据操作数的类型确定使用哪个 <code>+</code> 运算符。</p><h4 id=模板示例>模板示例：</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// 模板类示例
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Container</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=n>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Container</span><span class=p>(</span><span class=n>T</span> <span class=n>val</span><span class=p>)</span> <span class=o>:</span> <span class=n>value</span><span class=p>(</span><span class=n>val</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=nf>getValue</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Container</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>intContainer</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Container</span><span class=o>&lt;</span><span class=kt>double</span><span class=o>&gt;</span> <span class=n>doubleContainer</span><span class=p>(</span><span class=mf>3.14</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;intContainer value: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>intContainer</span><span class=p>.</span><span class=n>getValue</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;doubleContainer value: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>doubleContainer</span><span class=p>.</span><span class=n>getValue</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，我们定义了一个模板类 <code>Container</code>，它可以存储任何类型的值。编译器在编译时根据模板参数的类型来实例化 <code>Container</code> 类的不同版本。</p><p>编译时多态的优点是调用效率高，因为它在编译期间就已经确定了调用的具体函数或方法。然而，它的局限性在于只能在编译时知道所有可能的调用类型。</p><h2 id=3运行时多态的实现>3.运行时多态的实现</h2><ul><li><strong>虚函数（Virtual Functions）</strong>：在基类中使用 <code>virtual</code> 关键字声明的函数，可以被子类重写（Override）。</li><li><strong>虚析构函数（Virtual Destructor）</strong>：确保通过基类指针删除派生类对象时，能够调用到正确的析构函数。</li><li><strong>动态类型识别（Dynamic Cast）</strong>：在运行时检查对象的类型，并在需要时将基类指针转换为派生类指针。</li></ul><h3 id=示例代码-1>示例代码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// 基类
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>Animal</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 虚函数，用于模拟动物的声音
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>virtual</span> <span class=kt>void</span> <span class=n>speak</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Some animal sound&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 虚析构函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>virtual</span> <span class=o>~</span><span class=n>Animal</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 派生类 Dog
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>Dog</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Animal</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 重写基类的虚函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=n>speak</span><span class=p>()</span> <span class=k>const</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Woof! Woof!&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 派生类 Cat
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>Cat</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Animal</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 重写基类的虚函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=n>speak</span><span class=p>()</span> <span class=k>const</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Meow! Meow!&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 创建对象
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Animal</span><span class=o>*</span> <span class=n>animal1</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Dog</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>Animal</span><span class=o>*</span> <span class=n>animal2</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Cat</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 多态性：通过基类指针调用派生类的方法
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>animal1</span><span class=o>-&gt;</span><span class=n>speak</span><span class=p>();</span> <span class=c1>// 输出: Woof! Woof!
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>animal2</span><span class=o>-&gt;</span><span class=n>speak</span><span class=p>();</span> <span class=c1>// 输出: Meow! Meow!
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 清理
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>delete</span> <span class=n>animal1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>delete</span> <span class=n>animal2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，<code>Animal</code> 是一个基类，它有一个虚函数 <code>speak</code>。<code>Dog</code> 和 <code>Cat</code> 是 <code>Animal</code> 的派生类，它们重写了 <code>speak</code> 函数。在 <code>main</code> 函数中，我们创建了 <code>Dog</code> 和 <code>Cat</code> 的对象，并通过基类指针 <code>Animal*</code> 调用了 <code>speak</code> 函数。由于多态性，即使我们通过基类指针调用，实际执行的也是派生类中重写的 <code>speak</code> 函数。</p><p>这种通过基类接口来操作不同派生类对象的能力，就是多态性的体现。它使得我们可以编写更加通用的代码，而不必担心对象的具体类型。</p><h2 id=4编译时多态的优点>4.编译时多态的优点</h2><p>在实际开发中，选择使用编译时多态而不是运行时多态的原因通常包括以下几点：</p><ol><li><p><strong>性能</strong>：</p><ul><li>编译时多态（如函数重载和模板）通常比运行时多态（如虚函数）具有更高的性能。这是因为编译时多态在编译期间就已经确定了函数调用，没有运行时的类型检查和函数查找开销。</li></ul></li><li><p><strong>类型安全</strong>：</p><ul><li>编译时多态提供了更强的类型安全保证。编译器可以在编译期间检查类型错误和不一致性，从而避免了许多运行时错误。</li></ul></li><li><p><strong>代码清晰和可维护性</strong>：</p><ul><li>函数重载和模板可以提供更清晰的代码结构，使得代码更容易理解和维护。开发者可以直观地看到所有重载的函数或模板实例化，而不需要深入到类的继承层次中。</li></ul></li><li><p><strong>避免虚函数的限制</strong>：</p><ul><li>运行时多态依赖于虚函数，但虚函数有一些限制，例如不能是静态的，不能是构造函数，也不能是友元函数。在这些情况下，编译时多态是更合适的选择。</li></ul></li><li><p><strong>避免虚函数表的开销</strong>：</p><ul><li>运行时多态需要使用虚函数表（vtable）来实现，这会带来一定的内存和性能开销。对于小型对象或性能敏感的应用，这可能是不可接受的。</li></ul></li><li><p><strong>静态链接</strong>：</p><ul><li>编译时多态不依赖于运行时的动态链接，这使得程序的部署和链接更加简单和可靠。</li></ul></li><li><p><strong>编译时决策</strong>：</p><ul><li>在某些情况下，我们可能希望在编译时就做出某些决策，例如根据编译时常量来选择不同的实现。编译时多态允许我们根据模板参数或其他编译时已知信息来实现这一点。</li></ul></li><li><p><strong>避免动态绑定的不确定性</strong>：</p><ul><li>运行时多态的动态绑定可能会导致一些不确定性，例如当基类指针或引用指向的对象类型未知时。编译时多态可以消除这种不确定性，因为所有决策都是在编译时做出的。</li></ul></li><li><p><strong>特定场景的需求</strong>：</p><ul><li>在某些特定场景下，如元编程或编译时计算，编译时多态是实现这些需求的唯一或最佳方式。</li></ul></li><li><p><strong>避免运行时错误</strong>：</p><ul><li>运行时多态可能会因为类型不匹配或其他问题导致运行时错误。编译时多态可以在编译期间捕捉这些错误，从而提高程序的稳定性。</li></ul></li></ol><p>总之，编译时多态和运行时多态各有优势和适用场景。在实际开发中，开发者需要根据具体需求、性能要求、代码可维护性和其他因素来选择最合适的方法。在某些情况下，两者也可以结合使用，以实现最佳的编程效果。</p><hr><h2 id=关于作者>关于作者</h2><ul><li>微信公众号:WeSiGJ</li><li>GitHub:<a class=link href=https://github.com/wesigj/cplusplusboys target=_blank rel=noopener>https://github.com/wesigj/cplusplusboys</a></li><li>CSDN:<a class=link href=https://blog.csdn.net/wesigj target=_blank rel=noopener>https://blog.csdn.net/wesigj</a></li><li>微博:</li><li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。</li></ul><img src=/./img/wechat.jpg width=60%></section><footer class=article-footer><section class=article-tags><a href=/tags/c++/>C++</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/c-basic-features/><div class=article-details><h2 class=article-title>C++ basic Features</h2></div></a></article><article><a href=/p/c-basic-abstract/><div class=article-details><h2 class=article-title>C++ basic abstract</h2></div></a></article><article><a href=/p/c-basic-assert/><div class=article-details><h2 class=article-title>C++ basic assert</h2></div></a></article><article><a href=/p/c-basic-bit_field/><div class=article-details><h2 class=article-title>C++ basic bit_field</h2></div></a></article><article><a href=/p/c-basic-bit_operation/><div class=article-details><h2 class=article-title>C++ basic bit_operation</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Wesigj's blog</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

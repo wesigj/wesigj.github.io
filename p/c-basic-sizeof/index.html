@@ -1,0 +1,422 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="C++面试基础系列-sizeof [TOC]\nOverview sizeof，可用于分析数据结构的内存分配，字节对齐 类 结构体 基础类型int，char等 数组 模板 sizeof与类， 空类的大小为1字节 虚函数本身、成员函数（包括静态与非静态）和静态数据成员都是不占用类对象的存储空间 对于包含虚函数的类，不管有多少个虚函数，只有一个虚指针,vptr的大小 普通继承，派生类继承了所有基类的函数与成员，要按照字节对齐来计算大小 虚函数继承，不管是单继承还是多继承，都是继承了基类的vptr。(32位操作系统4字节，64位操作系统 8字节)！ 虚继承,继承基类的vptr。 1.sizeof基本用法 在 C++ 中，sizeof 运算符用于确定变量或类型在内存中的大小，以字节为单位。sizeof 是编译时运算符，它的值在编译时就已经确定，并被用作一个常量表达式。\n"><title>C++ basic sizeof</title>
+<link rel=canonical href=https://wesigj.github.io/p/c-basic-sizeof/><link rel=stylesheet href=/scss/style.min.eb7f50cc23d1bd7ff2d2052c25614348c70e74f31980578f9f89974c5a7447d4.css><meta property='og:title' content="C++ basic sizeof"><meta property='og:description' content="C++面试基础系列-sizeof [TOC]\nOverview sizeof，可用于分析数据结构的内存分配，字节对齐 类 结构体 基础类型int，char等 数组 模板 sizeof与类， 空类的大小为1字节 虚函数本身、成员函数（包括静态与非静态）和静态数据成员都是不占用类对象的存储空间 对于包含虚函数的类，不管有多少个虚函数，只有一个虚指针,vptr的大小 普通继承，派生类继承了所有基类的函数与成员，要按照字节对齐来计算大小 虚函数继承，不管是单继承还是多继承，都是继承了基类的vptr。(32位操作系统4字节，64位操作系统 8字节)！ 虚继承,继承基类的vptr。 1.sizeof基本用法 在 C++ 中，sizeof 运算符用于确定变量或类型在内存中的大小，以字节为单位。sizeof 是编译时运算符，它的值在编译时就已经确定，并被用作一个常量表达式。\n"><meta property='og:url' content='https://wesigj.github.io/p/c-basic-sizeof/'><meta property='og:site_name' content="Wesigj's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='C++'><meta property='article:published_time' content='2024-09-07T15:07:39+08:00'><meta property='article:modified_time' content='2024-09-07T15:07:39+08:00'><meta name=twitter:title content="C++ basic sizeof"><meta name=twitter:description content="C++面试基础系列-sizeof [TOC]\nOverview sizeof，可用于分析数据结构的内存分配，字节对齐 类 结构体 基础类型int，char等 数组 模板 sizeof与类， 空类的大小为1字节 虚函数本身、成员函数（包括静态与非静态）和静态数据成员都是不占用类对象的存储空间 对于包含虚函数的类，不管有多少个虚函数，只有一个虚指针,vptr的大小 普通继承，派生类继承了所有基类的函数与成员，要按照字节对齐来计算大小 虚函数继承，不管是单继承还是多继承，都是继承了基类的vptr。(32位操作系统4字节，64位操作系统 8字节)！ 虚继承,继承基类的vptr。 1.sizeof基本用法 在 C++ 中，sizeof 运算符用于确定变量或类型在内存中的大小，以字节为单位。sizeof 是编译时运算符，它的值在编译时就已经确定，并被用作一个常量表达式。\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu7443220043442625548.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Wesigj's blog</a></h1><h2 class=site-description>路漫漫其修远兮，吾将上下而求索。</h2></div></header><ol class=menu-social><li><a href=https://wesigj.github.io/ target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/_index.zh-cn/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#overview>Overview</a></li><li><a href=#1sizeof基本用法>1.sizeof基本用法</a><ol><li><a href=#11基本类型>1.1.基本类型</a></li><li><a href=#12指针类型>1.2.指针类型</a></li><li><a href=#13数组类型>1.3.数组类型</a></li><li><a href=#11结构体和类>1.1.结构体和类</a></li><li><a href=#14引用类型>1.4.引用类型</a></li><li><a href=#15动态内存分配>1.5.动态内存分配</a></li><li><a href=#16sizeof-c11-可变参数模板>1.6.sizeof&mldr; (C++11 可变参数模板)</a></li><li><a href=#17注意事项>1.7.注意事项</a></li></ol></li><li><a href=#2在-c-中如何使用-sizeof-运算符来优化内存分配>2.在 C++ 中，如何使用 sizeof 运算符来优化内存分配？</a><ol><li><a href=#21确定数组大小>2.1.确定数组大小</a></li><li><a href=#22结构体和类的内存布局>2.2.结构体和类的内存布局</a></li><li><a href=#23模板参数推导>2.3.模板参数推导</a></li><li><a href=#24避免内存泄漏和重复分配>2.4.避免内存泄漏和重复分配</a></li></ol></li><li><a href=#3sizeof详细用例>3.sizeof详细用例</a><ol><li><a href=#31动态数组分配>3.1.动态数组分配</a></li><li><a href=#32避免过度分配>3.2.避免过度分配</a></li><li><a href=#33使用-sizeof-与-new-表达式>3.3.使用 <code>sizeof</code> 与 <code>new</code> 表达式</a></li><li><a href=#34动态内存分配的类型安全封装>3.4.动态内存分配的类型安全封装</a></li><li><a href=#35优化容器类>3.5.优化容器类</a></li><li><a href=#36内存对齐>3.6.内存对齐</a></li><li><a href=#37避免内存泄漏>3.7.避免内存泄漏</a></li><li><a href=#38利用编译时常量>3.8.利用编译时常量</a></li><li><a href=#39使用-stdsize>3.9.使用 <code>std::size</code></a></li><li><a href=#310c11-标准库特性>3.10.C++11 标准库特性</a></li></ol></li><li><a href=#4sizeof与类>4.sizeof与类</a><ol><li><a href=#41成员变量和类大小>4.1.成员变量和类大小</a></li><li><a href=#42内存对齐>4.2.内存对齐</a></li><li><a href=#43继承和大小>4.3.继承和大小</a></li><li><a href=#44静态成员和大小>4.4.静态成员和大小</a></li><li><a href=#45空类和大小>4.5.空类和大小</a></li><li><a href=#46位域>4.6.位域</a></li><li><a href=#47模板类和大小>4.7.模板类和大小</a></li><li><a href=#48匿名类和大小>4.8.匿名类和大小</a></li><li><a href=#49sizeof-与指针>4.9.<code>sizeof</code> 与指针</a></li><li><a href=#410继承与多态对sizeof的影响>4.10.继承与多态对<code>sizeof</code>的影响</a></li></ol></li><li><a href=#关于作者>关于作者</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/c++/ style=background-color:#2a9d8f;color:#fff>C++</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/c-basic-sizeof/>C++ basic sizeof</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 07, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>10 minute read</time></div></footer></div></header><section class=article-content><h1 id=c面试基础系列-sizeof>C++面试基础系列-sizeof</h1><p>[TOC]</p><h2 id=overview>Overview</h2><ul><li>sizeof，可用于分析数据结构的内存分配，字节对齐<ul><li>类</li><li>结构体</li><li>基础类型int，char等</li><li>数组</li><li>模板</li></ul></li><li>sizeof与类，<ul><li>空类的大小为1字节</li><li>虚函数本身、成员函数（包括静态与非静态）和静态数据成员都是不占用类对象的存储空间</li><li>对于包含虚函数的类，不管有多少个虚函数，只有一个虚指针,vptr的大小</li><li>普通继承，派生类继承了所有基类的函数与成员，要按照字节对齐来计算大小</li><li>虚函数继承，不管是单继承还是多继承，都是继承了基类的vptr。(32位操作系统4字节，64位操作系统 8字节)！</li><li>虚继承,继承基类的vptr。</li></ul></li></ul><h2 id=1sizeof基本用法>1.sizeof基本用法</h2><p>在 C++ 中，<code>sizeof</code> 运算符用于确定变量或类型在内存中的大小，以字节为单位。<code>sizeof</code> 是编译时运算符，它的<strong>值在编译时就已经确定，并被用作一个常量表达式。</strong></p><p>以下是 <code>sizeof</code> 的一些用法示例：</p><h3 id=11基本类型>1.1.基本类型</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>  <span class=c1>// 输出 &#39;i&#39; 的大小，通常是 4 字节（取决于平台）
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=12指针类型>1.2.指针类型</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=o>*</span><span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>p</span><span class=p>);</span>  <span class=c1>// 输出指针 &#39;p&#39; 的大小，通常是 sizeof(void*)（取决于平台）
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=13数组类型>1.3.数组类型</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=n>arr</span><span class=p>[</span><span class=mi>10</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>arr</span><span class=p>);</span>  <span class=c1>// 输出整个数组 &#39;arr&#39; 的大小，10 * sizeof(int)
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=11结构体和类>1.1.结构体和类</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>struct</span> <span class=nc>MyStruct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>double</span> <span class=n>c</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>MyStruct</span><span class=p>);</span>  <span class=c1>// 输出 &#39;MyStruct&#39; 的总大小 4 + 1 + （3）+8 =16
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=14引用类型>1.4.引用类型</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=o>&amp;</span><span class=n>ref</span> <span class=o>=</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>ref</span><span class=p>);</span>  <span class=c1>// 输出引用 &#39;ref&#39; 的大小，通常等于 int 的大小
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=15动态内存分配>1.5.动态内存分配</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=o>*</span><span class=n>dynamicArray</span> <span class=o>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=mi>10</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>dynamicArray</span><span class=p>);</span>  <span class=c1>// 输出指针的大小，不是数组的大小
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>delete</span><span class=p>[]</span> <span class=n>dynamicArray</span><span class=p>;</span>  <span class=c1>// 记得释放内存
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=16sizeof-c11-可变参数模板>1.6.sizeof&mldr; (C++11 可变参数模板)</h3><p>C++11 引入了 <code>sizeof...</code> 运算符，用于在模板中获取参数包中的参数数量。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>countArgs</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>sizeof</span><span class=p>...(</span><span class=n>Args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=17注意事项>1.7.注意事项</h3><ul><li><code>sizeof</code> 一个类型或变量是编译时计算的，不占用运行时间。</li><li><code>sizeof</code> 一个指针总是返回相同大小，因为指针的大小与它指向的对象的大小无关。</li><li><code>sizeof</code> 一个数组返回的是整个数组的大小，不是数组指针的大小。</li><li><code>sizeof</code> 可以用于静态数组，但对于动态数组，它返回的是指针的大小，而不是分配的内存块的大小。</li><li><code>sizeof</code> 可以用于基本数据类型、指针、数组、结构体、类、枚举和引用。</li></ul><p><code>sizeof</code> 是 C++ 中一个非常有用的工具，可以帮助你了解不同类型和变量在内存中占用的空间大小。</p><p>在 C++ 中，<code>sizeof</code> 运算符可以用来确定类型或对象在内存中的大小，这有助于优化内存分配。以下是一些使用 <code>sizeof</code> 来优化内存分配的方法：</p><h2 id=2在-c-中如何使用-sizeof-运算符来优化内存分配>2.在 C++ 中，如何使用 sizeof 运算符来优化内存分配？</h2><p>在 C++ 中，<code>sizeof</code> 运算符可以用来优化内存分配，主要通过确保为对象分配的内存既足够又不过度。以下是一些具体的策略：</p><p>在 C++ 中，可以使用 <code>sizeof</code> 运算符来优化内存分配，以下是一些方法：</p><h3 id=21确定数组大小>2.1.确定数组大小</h3><ol><li><p>静态数组：在定义静态数组时，可以使用 <code>sizeof</code> 来确保数组的大小与特定类型的对象相匹配，避免浪费内存或出现缓冲区溢出。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=n>arr</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=o>*</span> <span class=mi>10</span><span class=p>];</span> <span class=c1>// 创建一个足够容纳 10 个整数的数组
+</span></span></span></code></pre></td></tr></table></div></div><p>这样可以确保数组的大小是根据整数的实际大小计算出来的，而不是使用一个固定的数字，提高了代码的可维护性和灵活性。</p></li><li><p>动态分配数组：在使用 <code>new</code> 运算符动态分配数组时，可以结合 <code>sizeof</code> 来确定数组的大小。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span><span class=o>*</span> <span class=n>dynamicArray</span> <span class=o>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=o>*</span> <span class=n>n</span><span class=p>];</span> <span class=c1>// n 是一个变量，表示所需的整数数量
+</span></span></span></code></pre></td></tr></table></div></div><p>这种方法可以根据实际需求动态地分配内存，避免分配过多或过少的内存。</p></li></ol><h3 id=22结构体和类的内存布局>2.2.结构体和类的内存布局</h3><ol><li><p>了解内存占用：通过 <code>sizeof</code> 运算符可以了解结构体或类对象在内存中的占用大小。这对于优化内存布局和避免不必要的内存浪费非常有用。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>struct</span> <span class=nc>MyStruct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>double</span> <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>c</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of MyStruct: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>MyStruct</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>通过查看结构体的大小，可以确定其中各个成员变量的排列方式以及可能存在的内存对齐问题。如果发现结构体的大小超出了预期，可以考虑重新排列成员变量的顺序或者使用位域等技术来优化内存布局。</p></li><li><p>内存对齐考虑：<code>sizeof</code> 运算符返回的值可能会受到内存对齐的影响。在某些平台上，编译器会对结构体和类的成员变量进行内存对齐，以提高访问效率。了解内存对齐规则可以帮助你更好地利用内存，并避免因对齐问题导致的内存浪费。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>struct</span> <span class=nc>MyAlignedStruct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>short</span> <span class=n>c</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of MyAlignedStruct: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>MyAlignedStruct</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，由于内存对齐的原因，结构体的大小可能会大于各个成员变量大小之和。可以通过调整成员变量的顺序或者使用特定的编译指令来控制内存对齐，以达到优化内存分配的目的。</p></li></ol><h3 id=23模板参数推导>2.3.模板参数推导</h3><ol><li><p>容器类模板：在编写容器类模板时，可以使用 <code>sizeof</code> 运算符来推导模板参数的大小，从而实现更灵活的内存分配策略。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyContainer</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyContainer</span><span class=p>(</span><span class=n>size_t</span> <span class=n>size</span><span class=p>)</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=k>new</span> <span class=n>T</span><span class=p>[</span><span class=n>size</span> <span class=o>*</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>T</span><span class=p>)])</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=o>~</span><span class=n>MyContainer</span><span class=p>()</span> <span class=p>{</span> <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span><span class=o>*</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个容器类模板中，构造函数根据传入的大小参数和 <code>sizeof(T)</code> 来动态分配内存，确保容器能够容纳正确数量的对象。这种方法可以适应不同类型的对象，提高了代码的通用性。</p></li><li><p>函数模板参数推导：在函数模板中，也可以使用 <code>sizeof</code> 来推导参数的大小，从而实现更高效的内存操作。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>copyArray</span><span class=p>(</span><span class=n>T</span><span class=o>*</span> <span class=n>destination</span><span class=p>,</span> <span class=n>T</span><span class=o>*</span> <span class=n>source</span><span class=p>,</span> <span class=n>size_t</span> <span class=n>size</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=n>size_t</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>size</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=p>(</span><span class=n>destination</span> <span class=o>+</span> <span class=n>i</span><span class=p>)</span> <span class=n>T</span><span class=p>(</span><span class=n>source</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个函数模板中，通过 <code>sizeof(T)</code> 可以确定每个元素的大小，从而正确地进行内存复制操作。这种方法可以适用于不同类型的数组，提高了代码的复用性。</p></li></ol><h3 id=24避免内存泄漏和重复分配>2.4.避免内存泄漏和重复分配</h3><ol><li><p>动态内存管理：在使用动态内存分配时，要注意避免内存泄漏和重复分配。可以使用智能指针（如 <code>std::unique_ptr</code> 和 <code>std::shared_ptr</code>）来自动管理内存，或者在手动管理内存时，确保在合适的时机释放内存。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>void</span> <span class=nf>processData</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span><span class=o>*</span> <span class=n>data</span> <span class=o>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=o>*</span> <span class=mi>10</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 使用数据
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，手动分配了一块内存，然后在使用完后及时释放。如果忘记释放内存，就会导致内存泄漏。可以考虑使用智能指针来自动管理内存，避免这种错误。</p></li><li><p>避免重复分配：在一些情况下，可能会多次分配和释放内存，这会导致性能下降。可以通过合理的设计和使用 <code>sizeof</code> 来避免重复分配内存。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyDataProcessor</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyDataProcessor</span><span class=p>(</span><span class=n>size_t</span> <span class=n>size</span><span class=p>)</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>size</span> <span class=o>*</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>int</span><span class=p>)])</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=o>~</span><span class=n>MyDataProcessor</span><span class=p>()</span> <span class=p>{</span> <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>processData</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 使用数据
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span><span class=o>*</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，在类的构造函数中一次性分配了足够的内存，然后在整个对象的生命周期内使用。避免了在每次处理数据时都进行内存分配和释放，提高了性能。</p></li></ol><p>总之，在 C++ 中，<code>sizeof</code> 运算符是一个非常有用的工具，可以帮助你优化内存分配，提高程序的性能和可维护性。但是，要注意正确使用 <code>sizeof</code>，并结合其他内存管理技术，以确保程序的正确性和稳定性。</p><h2 id=3sizeof详细用例>3.sizeof详细用例</h2><p>在 C++ 中，<code>sizeof</code> 运算符提供了类型或对象所占内存的大小（以字节为单位），这可以在多种情况下帮助优化内存分配：</p><h3 id=31动态数组分配>3.1.动态数组分配</h3><p>使用 <code>sizeof</code> 确定数组元素类型的大小，然后根据需要的元素数量动态分配数组。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=n>n</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span><span class=o>*</span> <span class=n>arr</span> <span class=o>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>n</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=c1>// 使用 arr
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>delete</span><span class=p>[]</span> <span class=n>arr</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=32避免过度分配>3.2.避免过度分配</h3><p>对于结构体或类，使用 <code>sizeof</code> 来确保为实例分配的内存正好满足需求。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>struct</span> <span class=nc>MyStruct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>size_t</span> <span class=n>size</span> <span class=o>=</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>MyStruct</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>MyStruct</span><span class=o>*</span> <span class=n>s</span> <span class=o>=</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=n>MyStruct</span><span class=o>*&gt;</span><span class=p>(</span><span class=k>operator</span> <span class=k>new</span><span class=p>(</span><span class=n>size</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=c1>// 使用 s
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>operator</span> <span class=nf>delete</span><span class=p>(</span><span class=n>s</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=33使用-sizeof-与-new-表达式>3.3.使用 <code>sizeof</code> 与 <code>new</code> 表达式</h3><p>在分配未知大小的对象时，可以使用 <code>sizeof</code> 来确保分配正确的大小。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>char</span><span class=o>*</span> <span class=n>data</span> <span class=o>=</span> <span class=k>new</span> <span class=kt>char</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=n>MyStruct</span><span class=p>)];</span>
+</span></span><span class=line><span class=cl><span class=c1>// 使用 data 作为 MyStruct 类型的内存
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>MyStruct</span><span class=o>*</span> <span class=n>s</span> <span class=o>=</span> <span class=k>reinterpret_cast</span><span class=o>&lt;</span><span class=n>MyStruct</span><span class=o>*&gt;</span><span class=p>(</span><span class=n>data</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 使用 s
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=34动态内存分配的类型安全封装>3.4.动态内存分配的类型安全封装</h3><p>创建模板函数或类来封装内存分配逻辑，使用 <code>sizeof</code> 确保类型安全。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=n>T</span><span class=o>*</span> <span class=n>allocateArray</span><span class=p>(</span><span class=n>size_t</span> <span class=n>count</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>new</span> <span class=n>T</span><span class=p>[</span><span class=n>count</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span><span class=o>*</span> <span class=n>intArray</span> <span class=o>=</span> <span class=n>allocateArray</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span><span class=p>(</span><span class=mi>100</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 使用 intArray
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>delete</span><span class=p>[]</span> <span class=n>intArray</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=35优化容器类>3.5.优化容器类</h3><p>如果你实现了自定义容器类，使用 <code>sizeof</code> 来确定存储元素所需的内存，可以避免使用额外的内存分配器。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=p>,</span> <span class=n>size_t</span> <span class=n>N</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Stack</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=n>buffer</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=36内存对齐>3.6.内存对齐</h3><p>使用 <code>sizeof</code> 来确保对象按照特定的对齐要求分配内存，这有助于提高访问效率。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>struct</span> <span class=nc>AlignedStruct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>double</span> <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>size_t</span> <span class=n>alignment</span> <span class=o>=</span> <span class=k>alignof</span><span class=p>(</span><span class=n>AlignedStruct</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>size_t</span> <span class=n>size</span> <span class=o>=</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>AlignedStruct</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span><span class=o>*</span> <span class=n>memory</span> <span class=o>=</span> <span class=k>operator</span> <span class=k>new</span><span class=p>(</span><span class=n>size</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>AlignedStruct</span><span class=o>*</span> <span class=n>alignedStruct</span> <span class=o>=</span> <span class=k>reinterpret_cast</span><span class=o>&lt;</span><span class=n>AlignedStruct</span><span class=o>*&gt;</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=k>reinterpret_cast</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>uintptr_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>memory</span><span class=p>)</span> <span class=o>+</span> <span class=n>alignment</span> <span class=o>-</span>
+</span></span><span class=line><span class=cl>    <span class=k>reinterpret_cast</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>uintptr_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>memory</span><span class=p>)</span> <span class=o>%</span> <span class=n>alignment</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 使用 alignedStruct
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>operator</span> <span class=nf>delete</span><span class=p>(</span><span class=n>memory</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=37避免内存泄漏>3.7.避免内存泄漏</h3><p>使用 <code>sizeof</code> 来跟踪分配的内存大小，确保正确释放内存。</p><h3 id=38利用编译时常量>3.8.利用编译时常量</h3><p>由于 <code>sizeof</code> 是编译时常量，可以在编译时计算所需内存大小，从而避免运行时计算的开销。</p><h3 id=39使用-stdsize>3.9.使用 <code>std::size</code></h3><p>对于标准库容器，使用 <code>std::size</code> 成员函数来获取容器中元素的数量，然后结合 <code>sizeof</code> 来分配所需内存。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>vec</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>size_t</span> <span class=n>numElements</span> <span class=o>=</span> <span class=n>vec</span><span class=p>.</span><span class=n>size</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span><span class=o>*</span> <span class=n>array</span> <span class=o>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>numElements</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=c1>// 使用 array
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>delete</span><span class=p>[]</span> <span class=n>array</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=310c11-标准库特性>3.10.C++11 标准库特性</h3><p>利用 C++11 的 <code>std::array</code> 或 <code>std::unique_ptr</code> 等特性，它们内部使用 <code>sizeof</code> 来管理内存，提供自动内存管理。</p><p>通过这些方法，<code>sizeof</code> 运算符可以帮助你更精确地控制内存的使用，从而提高程序的性能和效率。然而，也要注意，过度优化可能会导致代码复杂性增加，因此应当在真正需要优化的地方使用这些技术。</p><p>在 C++ 中，<code>sizeof</code> 运算符提供了一种在编译时获取类型或对象所占内存大小的方式。当涉及到类时，<code>sizeof</code> 的行为可以更加复杂，因为类可能包含成员变量、继承、内存对齐要求等。以下是一些更详细的点，解释了 <code>sizeof</code> 与类在 C++ 中的使用：</p><h2 id=4sizeof与类>4.sizeof与类</h2><h3 id=41成员变量和类大小>4.1.成员变量和类大小</h3><p>类的大小由其所有非静态成员变量的大小决定。继承的成员也会被计算在内。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span><span class=p>;</span> <span class=c1>// 4 字节（大多数系统上）
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>char</span> <span class=n>b</span><span class=p>;</span> <span class=c1>// 1 字节
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>double</span> <span class=n>c</span><span class=p>;</span> <span class=c1>// 8 字节
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of MyClass: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>MyClass</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=s>&#34; bytes&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出通常是 13 字节，但可能会因为内存对齐而更大，比如16字节。
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=42内存对齐>4.2.内存对齐</h3><p>编译器可能会在类成员之间或类末尾添加填充（padding），以确保数据按照特定的对齐边界存储。这可能会增加类的总大小。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>AlignExample</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>double</span> <span class=n>b</span><span class=p>;</span> <span class=c1>// 可能需要 8 字节对齐
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of AlignExample: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>AlignExample</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出可能大于 9 字节，因为可能会在 &#39;a&#39; 和 &#39;b&#39; 之间添加填充。
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=43继承和大小>4.3.继承和大小</h3><p>派生类的 <code>sizeof</code> 包括了所有基类的成员，以及它自己的成员。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Base</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Derived</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Base</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>double</span> <span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of Derived: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>Derived</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出将包括 Base 中的 &#39;x&#39; 和 Derived 中的 &#39;y&#39; 的大小。
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=44静态成员和大小>4.4.静态成员和大小</h3><p>静态成员不属于任何类实例，因此它们不计入 <code>sizeof</code> 类的结果。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=kt>int</span> <span class=n>staticVar</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of MyClass with static member: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>MyClass</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出通常为 1，因为静态成员不计入大小。
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=45空类和大小>4.5.空类和大小</h3><p>空类的大小通常至少为 1 字节，以确保在内存中可以区分不同的实例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Empty</span> <span class=p>{};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of Empty class: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>Empty</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出通常为 1。
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=46位域>4.6.位域</h3><p>位域是一种特殊的成员，它占用一个固定数量的位，但不一定增加类的大小。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>BitFields</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=nl>a</span> <span class=p>:</span> <span class=mi>1</span><span class=p>;</span> <span class=c1>// 占用 1 位
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>int</span> <span class=nl>b</span> <span class=p>:</span> <span class=mi>7</span><span class=p>;</span> <span class=c1>// 占用 7 位，可能占用额外的存储单元
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of BitFields: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>BitFields</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出可能小于 5 字节，因为位域可能共享存储单元。
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=47模板类和大小>4.7.模板类和大小</h3><p>模板类的大小取决于实例化时使用的类型。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>TemplateClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=n>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of TemplateClass&lt;int&gt;: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>TemplateClass</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出将取决于 &#39;int&#39; 的大小。
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=48匿名类和大小>4.8.匿名类和大小</h3><p>匿名类的大小由其成员决定，但它们通常用于定义不命名的类型。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>lambda</span> <span class=o>=</span> <span class=p>[]()</span> <span class=p>{};</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of anonymous lambda: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>lambda</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 输出取决于捕获的变量和编译器实现。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=49sizeof-与指针>4.9.<code>sizeof</code> 与指针</h3><p><code>sizeof</code> 一个类的指针总是等于指针的大小，而不是类实例的大小。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>MyClass</span><span class=o>*</span> <span class=n>ptr</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Size of pointer to MyClass: &#34;</span> <span class=o>&lt;&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>ptr</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出是指针的大小，通常为 4 或 8 字节。
+</span></span></span></code></pre></td></tr></table></div></div><p>理解 <code>sizeof</code> 在类中的应用可以帮助你更好地管理内存和优化性能。然而，依赖于 <code>sizeof</code> 进行编程应该谨慎，因为内存布局可能因编译器和平台而异。</p><p>在 C++中，<code>sizeof</code>运算符在涉及类时有以下一些重要特点和用途：</p><h3 id=410继承与多态对sizeof的影响>4.10.继承与多态对<code>sizeof</code>的影响</h3><ol><li><p>单继承：</p><ul><li><p>当一个类从另一个类继承时，派生类对象的大小包括基类部分的大小和派生类自身成员变量的大小。</p></li><li><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Base</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>baseData</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Derived</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Base</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>derivedData</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><code>sizeof(Derived)</code>的结果将大于等于<code>sizeof(Base)+sizeof(char)</code>，具体大小取决于内存对齐要求。</p></li></ul></li><li><p>多继承：</p><ul><li><p>在多继承的情况下，派生类对象的大小是各个基类部分大小之和，再加上派生类自身成员变量的大小以及可能的内存对齐所需的额外空间。</p></li><li><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Base1</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>data1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Base2</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>double</span> <span class=n>data2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>DerivedMulti</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Base1</span><span class=p>,</span> <span class=k>public</span> <span class=n>Base2</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>data3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><code>sizeof(DerivedMulti)</code>的结果将取决于<code>Base1</code>、<code>Base2</code>和<code>DerivedMulti</code>各自的大小以及内存对齐要求。</p></li></ul></li><li><p>虚函数与虚继承：</p><ul><li><p>如果一个类包含虚函数，编译器通常会为该类对象添加一个指向虚函数表的指针，这会增加类对象的大小。</p></li><li><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>WithVirtual</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=n>doVirtual</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>normalData</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><code>sizeof(WithVirtual)</code>将大于<code>sizeof(int)</code>，因为需要额外的空间来存储虚函数表指针。</p></li><li><p>如果一个类使用虚继承，也会增加类对象的大小，以存储额外的信息来解决多继承中的二义性问题。</p></li></ul></li></ol><hr><h2 id=关于作者>关于作者</h2><ul><li>微信公众号:WeSiGJ</li><li>GitHub:<a class=link href=https://github.com/wesigj/cplusplusboys target=_blank rel=noopener>https://github.com/wesigj/cplusplusboys</a></li><li>CSDN:<a class=link href=https://blog.csdn.net/wesigj target=_blank rel=noopener>https://blog.csdn.net/wesigj</a></li><li>微博:</li><li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。</li></ul><img src=/./img/wechat.jpg width=60%></section><footer class=article-footer><section class=article-tags><a href=/tags/c++/>C++</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/c-basic-features/><div class=article-details><h2 class=article-title>C++ basic Features</h2></div></a></article><article><a href=/p/c-basic-abstract/><div class=article-details><h2 class=article-title>C++ basic abstract</h2></div></a></article><article><a href=/p/c-basic-assert/><div class=article-details><h2 class=article-title>C++ basic assert</h2></div></a></article><article><a href=/p/c-basic-bit_field/><div class=article-details><h2 class=article-title>C++ basic bit_field</h2></div></a></article><article><a href=/p/c-basic-bit_operation/><div class=article-details><h2 class=article-title>C++ basic bit_operation</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Wesigj's blog</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

@@ -1,0 +1,676 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="设计模式-单例模式 [TOC]\nOverview 单例模式是一种创建型设计模式， 让你能够保证一个类只有一个实例， 并提供一个访问该实例的全局节点。\n初次接触，直接说懒汉式和饿汉式，容易把人搞懵掉，先认识一下吧！\n"><title>design pattern Singleton Pattern</title>
+<link rel=canonical href=https://wesigj.github.io/p/design-pattern-singleton-pattern/><link rel=stylesheet href=/scss/style.min.eb7f50cc23d1bd7ff2d2052c25614348c70e74f31980578f9f89974c5a7447d4.css><meta property='og:title' content="design pattern Singleton Pattern"><meta property='og:description' content="设计模式-单例模式 [TOC]\nOverview 单例模式是一种创建型设计模式， 让你能够保证一个类只有一个实例， 并提供一个访问该实例的全局节点。\n初次接触，直接说懒汉式和饿汉式，容易把人搞懵掉，先认识一下吧！\n"><meta property='og:url' content='https://wesigj.github.io/p/design-pattern-singleton-pattern/'><meta property='og:site_name' content="Wesigj's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='design_pattern'><meta property='article:published_time' content='2024-09-08T00:08:00+08:00'><meta property='article:modified_time' content='2024-09-08T00:08:00+08:00'><meta name=twitter:title content="design pattern Singleton Pattern"><meta name=twitter:description content="设计模式-单例模式 [TOC]\nOverview 单例模式是一种创建型设计模式， 让你能够保证一个类只有一个实例， 并提供一个访问该实例的全局节点。\n初次接触，直接说懒汉式和饿汉式，容易把人搞懵掉，先认识一下吧！\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu7443220043442625548.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Wesigj's blog</a></h1><h2 class=site-description>路漫漫其修远兮，吾将上下而求索。</h2></div></header><ol class=menu-social><li><a href=https://wesigj.github.io/ target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/_index.zh-cn/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#overview>Overview</a></li><li><a href=#1单例模式中懒汉式和饿汉式区别>1.单例模式中懒汉式和饿汉式区别</a><ol><li><a href=#11懒汉式lazy-initialization>1.1.懒汉式（Lazy Initialization）</a></li><li><a href=#12饿汉式eager-initialization>1.2.饿汉式（Eager Initialization）</a></li><li><a href=#13选择建议>1.3.选择建议</a></li></ol></li><li><a href=#2单例模式-singleton-实现方式及详细介绍>2.单例模式 Singleton 实现方式及详细介绍</a><ol><li><a href=#21-懒汉式线程不安全>2.1. 懒汉式（线程不安全）</a></li><li><a href=#22-懒汉式线程安全>2.2. 懒汉式（线程安全）</a></li><li><a href=#23-饿汉式线程安全>2.3. 饿汉式（线程安全）</a></li><li><a href=#24-c11后-局部静态变量线程安全>2.4. C++11后 局部静态变量（线程安全）</a></li><li><a href=#25-注意事项>2.5. 注意事项</a></li></ol></li><li><a href=#3单例模式的应用场景>3.单例模式的应用场景</a></li><li><a href=#4单例模式在多线程环境下如何保证线程安全>4.单例模式在多线程环境下如何保证线程安全？</a><ol><li><a href=#41-双重检查锁定double-checked-locking-dcl>4.1. 双重检查锁定（Double-Checked Locking, DCL）</a></li><li><a href=#42-局部静态变量>4.2. 局部静态变量</a></li><li><a href=#43-原子操作>4.3. 原子操作</a></li><li><a href=#44-使用-stdcall_once-和-stdonce_flag>4.4. 使用 <code>std::call_once</code> 和 <code>std::once_flag</code></a></li><li><a href=#45-注意事项>4.5. 注意事项</a></li></ol></li><li><a href=#5除了懒汉式和饿汉式还有哪些实现单例模式的方法>5.除了懒汉式和饿汉式，还有哪些实现单例模式的方法？</a><ol><li><a href=#51-线程安全静态局部变量c11>5.1. 线程安全静态局部变量（C++11）</a></li><li><a href=#52-基于函数的局部静态变量>5.2. 基于函数的局部静态变量</a></li><li><a href=#53-使用-stdcall_once-和-stdonce_flag>5.3. 使用 <code>std::call_once</code> 和 <code>std::once_flag</code></a></li><li><a href=#54-使用智能指针>5.4. 使用智能指针</a></li><li><a href=#55-注意事项>5.5. 注意事项</a></li></ol></li><li><a href=#关于作者>关于作者</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/design_pattern/ style=background-color:#2a9d8f;color:#fff>design_pattern</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/design-pattern-singleton-pattern/>design pattern Singleton Pattern</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 08, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>9 minute read</time></div></footer></div></header><section class=article-content><h1 id=设计模式-单例模式>设计模式-单例模式</h1><p>[TOC]</p><h2 id=overview>Overview</h2><p>单例模式是一种创建型设计模式， 让你能够保证一个类只有一个实例， 并提供一个访问该实例的全局节点。</p><hr><p><strong>初次接触，直接说懒汉式和饿汉式，容易把人搞懵掉，先认识一下吧！</strong></p><h2 id=1单例模式中懒汉式和饿汉式区别>1.单例模式中懒汉式和饿汉式区别</h2><p>单例模式中的懒汉式和饿汉式是两种不同的实现策略，它们在实例化单例对象的时机和线程安全性方面有所不同。以下是懒汉式和饿汉式单例模式的主要区别：</p><h3 id=11懒汉式lazy-initialization>1.1.懒汉式（Lazy Initialization）</h3><ol><li><p><strong>实例化时机</strong>：懒汉式单例在第一次被使用时才会创建实例，即延迟初始化。</p></li><li><p><strong>线程安全性</strong>：标准的懒汉式实现不是线程安全的。需要引入锁机制（如双重检查锁定）来保证线程安全。</p></li><li><p><strong>资源利用率</strong>：由于延迟初始化，懒汉式可能在某些情况下减少资源占用，但这也取决于具体实现和使用场景。</p></li><li><p><strong>性能开销</strong>：在多线程环境下，可能因为锁机制引入额外的性能开销。</p></li><li><p><strong>实现示例</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>LazySingleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>LazySingleton</span><span class=o>*</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>mutex</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>LazySingleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>LazySingleton</span><span class=o>*</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>instance</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>lock_guard</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>instance</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>instance</span> <span class=o>=</span> <span class=k>new</span> <span class=n>LazySingleton</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>LazySingleton</span><span class=o>*</span> <span class=n>LazySingleton</span><span class=o>::</span><span class=n>instance</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>LazySingleton</span><span class=o>::</span><span class=n>mutex</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><h3 id=12饿汉式eager-initialization>1.2.饿汉式（Eager Initialization）</h3><ol><li><p><strong>实例化时机</strong>：饿汉式单例在程序启动时就立即创建实例，即立即初始化。</p></li><li><p><strong>线程安全性</strong>：饿汉式实现是线程安全的，因为它在程序启动时就完成了实例化，不存在多线程竞争的问题。</p></li><li><p><strong>资源利用率</strong>：饿汉式可能会在程序启动时就占用资源，即使该单例实例尚未被使用。</p></li><li><p><strong>性能开销</strong>：由于避免了锁机制，饿汉式在单例获取时通常具有较高的性能。</p></li><li><p><strong>实现示例</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>EagerSingleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>EagerSingleton</span> <span class=n>instance</span><span class=p>;</span> <span class=c1>// 静态实例
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=n>EagerSingleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>EagerSingleton</span><span class=o>&amp;</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>EagerSingleton</span> <span class=n>EagerSingleton</span><span class=o>::</span><span class=n>instance</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><h3 id=13选择建议>1.3.选择建议</h3><ul><li>如果单例对象的创建成本较高，且在程序早期不需要立即使用，懒汉式可能更合适，因为它可以延迟对象的创建。</li><li>如果需要确保线程安全，且对单例对象的创建时机没有特别要求，饿汉式是一个简单且有效的选择。</li><li>在多线程环境中，如果使用懒汉式，需要确保通过适当的同步机制（如双重检查锁定）来保证线程安全。</li></ul><p>两种实现方式各有优缺点，应根据具体应用场景和需求来选择最合适的实现策略。</p><h2 id=2单例模式-singleton-实现方式及详细介绍>2.单例模式 Singleton 实现方式及详细介绍</h2><p>在 C++中，单例模式是一种创建型设计模式，它确保一个类只有一个实例，并提供一个全局访问点来访问这个实例。以下是单例模式的实现方式及详细介绍：</p><h3 id=21-懒汉式线程不安全>2.1. 懒汉式（线程不安全）</h3><p>懒汉式单例模式在第一次使用时才会创建实例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>instance</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>instance</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Singleton</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 其他成员函数和数据成员
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=nf>doSomething</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 初始化静态成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Singleton</span><span class=o>*</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>instance</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>在上述代码中， getInstance 函数在第一次被调用时才会创建Singleton类的实例。如果该函数后续被再次调用，将直接返回已经创建的实例。</li></ul><h3 id=22-懒汉式线程安全>2.2. 懒汉式（线程安全）</h3><ul><li>懒汉式单例模式在多线程环境下可能会出现问题。如果多个线程同时进入getInstance函数并且instance为nullptr，那么可能会创建多个实例。</li><li>为了解决这个问题，可以使用互斥锁来确保在多线程环境下只有一个线程能够创建实例。例如：</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;mutex&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>mutex</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>instance</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>lock_guard</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>instance</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>instance</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Singleton</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 其他成员函数和数据成员
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=nf>doSomething</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 初始化静态成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Singleton</span><span class=o>*</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>instance</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>mutex</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=23-饿汉式线程安全>2.3. 饿汉式（线程安全）</h3><p>饿汉式单例模式在程序启动时就创建实例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span> <span class=n>instance</span><span class=p>;</span> <span class=c1>// 静态实例
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>&amp;</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 其他成员函数和数据成员
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=nf>doSomething</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 实现静态成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Singleton</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>instance</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=24-c11后-局部静态变量线程安全>2.4. C++11后 局部静态变量（线程安全）</h3><ul><li>实现原理<ul><li>C++11 引入了线程安全的静态局部变量初始化特性。利用这个特性，可以在获取单例实例的方法中声明一个静态局部变量，该变量在第一次调用方法时被初始化，并且保证线程安全。</li><li>利用局部静态变量的线程安全特性实现单例模式。</li></ul></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>&amp;</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>static</span> <span class=n>Singleton</span> <span class=n>instance</span><span class=p>;</span> <span class=c1>// 局部静态变量
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 其他成员函数和数据成员
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=nf>doSomething</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=25-注意事项>2.5. 注意事项</h3><ul><li>单例类的构造函数、拷贝构造函数和赋值操作符通常都是私有的，以防止创建多个实例。</li><li>需要确保单例的析构函数是公共的，以便能够销毁单例对象。</li><li>在多线程环境中，需要特别注意线程安全问题，可以选择使用锁或原子操作来保证线程安全。</li></ul><p>单例模式在实际应用中非常广泛，比如配置管理器、数据库连接池管理器等场景。然而，过度使用单例可能导致代码难以测试和维护，因此应谨慎使用。</p><h2 id=3单例模式的应用场景>3.单例模式的应用场景</h2><ul><li>日志系统<ul><li>在一个应用程序中，通常只需要一个日志系统来记录各种信息。使用单例模式可以确保无论在程序的哪个部分调用日志系统，都只有一个实例在运行，避免了多个日志系统之间的冲突和资源浪费。</li><li>例如，可以将日志系统实现为单例类，提供统一的接口来记录不同级别的日志信息。</li></ul></li><li>数据库连接<ul><li>在访问数据库时，通常需要建立一个数据库连接。使用单例模式可以确保只有一个数据库连接实例存在，避免了重复建立连接的开销和资源浪费。</li><li>例如，可以将数据库连接类实现为单例类，提供方法来执行数据库查询和更新操作。</li></ul></li><li>配置管理<ul><li>应用程序的配置信息通常在整个程序中都需要访问。使用单例模式可以确保只有一个配置管理实例存在，方便在程序的任何地方获取和修改配置信息。</li><li>例如，可以将配置管理类实现为单例类，提供方法来读取和修改配置文件中的参数。</li></ul></li></ul><p>总之，单例模式在 C++ 中是一种非常有用的设计模式，它可以确保一个类只有一个实例，并提供一个全局访问点来访问这个实例。在实际应用中，可以根据具体情况选择懒汉式或饿汉式单例模式，并注意线程安全和资源管理等问题。</p><h2 id=4单例模式在多线程环境下如何保证线程安全>4.单例模式在多线程环境下如何保证线程安全？</h2><p>在多线程环境下保证单例模式的线程安全，可以采用以下几种方法：</p><h3 id=41-双重检查锁定double-checked-locking-dcl>4.1. 双重检查锁定（Double-Checked Locking, DCL）</h3><p>双重检查锁定是一种常见的线程安全单例实现方式，它减少了锁的开销。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;mutex&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>mutex</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>instance</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>lock_guard</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>instance</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span> <span class=c1>// 再次检查实例是否已被创建
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=n>instance</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Singleton</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 初始化静态成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Singleton</span><span class=o>*</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>instance</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>mutex</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=42-局部静态变量>4.2. 局部静态变量</h3><p>利用局部静态变量的线程安全特性，编译器和其他运行时环境保证了局部静态变量的线程安全初始化。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>&amp;</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>static</span> <span class=n>Singleton</span> <span class=n>instance</span><span class=p>;</span> <span class=c1>// 局部静态变量
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=43-原子操作>4.3. 原子操作</h3><p>使用原子操作来确保实例化过程的原子性，避免多线程同时创建实例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;atomic&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;mutex&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>atomic</span><span class=o>&lt;</span><span class=kt>bool</span><span class=o>&gt;</span> <span class=n>initialized</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>mutex</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>initialized</span><span class=p>.</span><span class=n>load</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>lock_guard</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>initialized</span><span class=p>.</span><span class=n>load</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>instance</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Singleton</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>                <span class=n>initialized</span><span class=p>.</span><span class=n>store</span><span class=p>(</span><span class=nb>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 初始化静态成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>std</span><span class=o>::</span><span class=n>atomic</span><span class=o>&lt;</span><span class=kt>bool</span><span class=o>&gt;</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>initialized</span><span class=p>(</span><span class=nb>false</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>Singleton</span><span class=o>*</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>instance</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>mutex</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=44-使用-stdcall_once-和-stdonce_flag>4.4. 使用 <code>std::call_once</code> 和 <code>std::once_flag</code></h3><p>C++11 引入了 <code>std::call_once</code> 函数，它保证在多线程环境下对给定函数的首次调用是单线程执行的。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;mutex&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>mutex</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>once_flag</span> <span class=n>onceFlag</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>call_once</span><span class=p>(</span><span class=n>onceFlag</span><span class=p>,</span> <span class=p>[](){</span>
+</span></span><span class=line><span class=cl>            <span class=n>instance</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Singleton</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 初始化静态成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>mutex</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>once_flag</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>onceFlag</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>Singleton</span><span class=o>*</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>instance</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=45-注意事项>4.5. 注意事项</h3><ul><li>双重检查锁定需要使用 <code>std::atomic</code> 或者合适的锁机制来避免多线程环境下的竞态条件。</li><li>局部静态变量的方法简单且线程安全，但可能在程序的生命周期内无法释放单例对象占用的资源。</li><li><code>std::call_once</code> 是C++11引入的，它提供了一种优雅的方式来保证线程安全的单例模式实现。</li></ul><p>在设计单例模式时，需要根据实际的应用场景和需求来选择合适的线程安全实现方式。</p><h2 id=5除了懒汉式和饿汉式还有哪些实现单例模式的方法>5.除了懒汉式和饿汉式，还有哪些实现单例模式的方法？</h2><p>除了懒汉式和饿汉式，C++中还有其他几种实现单例模式的方法，包括使用C++11标准引入的线程安全静态局部变量、基于函数的局部静态变量、以及使用智能指针。以下是这些方法的示例：</p><h3 id=51-线程安全静态局部变量c11>5.1. 线程安全静态局部变量（C++11）</h3><p>C++11标准规定，静态局部变量在首次使用时会自动初始化，并且是线程安全的。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>&amp;</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>static</span> <span class=n>Singleton</span> <span class=n>instance</span><span class=p>;</span> <span class=c1>// 线程安全的静态局部变量
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 其他成员函数和数据成员
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=52-基于函数的局部静态变量>5.2. 基于函数的局部静态变量</h3><p>在C++中，函数内部的静态变量在首次调用函数时初始化，并且具有线程安全的特性。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>&amp;</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>static</span> <span class=n>Singleton</span><span class=o>&amp;</span> <span class=n>instance</span> <span class=o>=</span> <span class=n>createInstance</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>&amp;</span> <span class=n>createInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>static</span> <span class=n>Singleton</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 其他成员函数和数据成员
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=53-使用-stdcall_once-和-stdonce_flag>5.3. 使用 <code>std::call_once</code> 和 <code>std::once_flag</code></h3><p>C++11引入了<code>std::call_once</code>，它用于确保在多线程环境下对某个函数的调用是单次的。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;mutex&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>once_flag</span> <span class=n>onceFlag</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>Singleton</span><span class=o>*</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>call_once</span><span class=p>(</span><span class=n>onceFlag</span><span class=p>,</span> <span class=p>[](){</span>
+</span></span><span class=line><span class=cl>            <span class=n>instance</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Singleton</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 确保析构函数是公共的，以便能够销毁单例对象
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=o>~</span><span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 初始化静态成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>std</span><span class=o>::</span><span class=n>once_flag</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>onceFlag</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>Singleton</span><span class=o>*</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>instance</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=54-使用智能指针>5.4. 使用智能指针</h3><p>使用<code>std::shared_ptr</code>来管理单例实例，可以自动处理内存释放。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;memory&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Singleton</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=n>Singleton</span><span class=o>&gt;</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=p>()</span> <span class=p>{}</span> <span class=c1>// 私有构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁用拷贝构造函数和赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Singleton</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Singleton</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>Singleton</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=n>Singleton</span><span class=o>&gt;</span> <span class=n>getInstance</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>instance</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>instance</span><span class=p>.</span><span class=n>reset</span><span class=p>(</span><span class=k>new</span> <span class=n>Singleton</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>instance</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 其他成员函数和数据成员
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 初始化静态成员变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=n>Singleton</span><span class=o>&gt;</span> <span class=n>Singleton</span><span class=o>::</span><span class=n>instance</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=55-注意事项>5.5. 注意事项</h3><ul><li>选择实现单例模式的方法时，需要考虑线程安全性、性能、资源管理等因素。</li><li>确保单例的析构函数是公共的，以便能够销毁单例对象。</li><li>智能指针方法虽然可以自动管理内存，但在某些情况下可能会引起循环引用或其他问题，需要谨慎使用。</li></ul><p>这些方法各有优缺点，可以根据项目的具体需求和约束来选择最合适的实现方式。</p><hr><h2 id=关于作者>关于作者</h2><ul><li>微信公众号:WeSiGJ</li><li>GitHub:<a class=link href=https://github.com/wesigj/cplusplusboys target=_blank rel=noopener>https://github.com/wesigj/cplusplusboys</a></li><li>CSDN:<a class=link href=https://blog.csdn.net/wesigj target=_blank rel=noopener>https://blog.csdn.net/wesigj</a></li><li>微博:</li><li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。</li></ul><img src=/./img/wechat.jpg width=60%></section><footer class=article-footer><section class=article-tags><a href=/tags/design_pattern/>Design_pattern</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/design-pattern-chain-of-responsibility-pattern/><div class=article-details><h2 class=article-title>design pattern Chain of Responsibility Pattern</h2></div></a></article><article><a href=/p/design-pattern-command-pattern/><div class=article-details><h2 class=article-title>design pattern Command Pattern</h2></div></a></article><article><a href=/p/design-pattern-composite-pattern/><div class=article-details><h2 class=article-title>design pattern Composite Pattern</h2></div></a></article><article><a href=/p/design-pattern-facade-pattern/><div class=article-details><h2 class=article-title>design pattern Facade Pattern</h2></div></a></article><article><a href=/p/design-pattern-factory-method-pattern/><div class=article-details><h2 class=article-title>design pattern Factory Method Pattern</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Wesigj's blog</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
