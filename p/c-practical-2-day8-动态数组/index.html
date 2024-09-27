@@ -1,0 +1,581 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="C++ Practical-2 day8 动态数组 [TOC]\nOverview C++不练习coding，就相当于空中楼阁，基础不扎实 光吃不干，等于没吃 1.在C++中，除了使用new和delete，还有其他方式可以创建动态数组吗？ 在C++中，除了使用new和delete操作符来创建和销毁动态数组，还有以下几种常见的方法来创建和管理动态数组：\n"><title>C++ Practical-2 day8 动态数组</title>
+<link rel=canonical href=https://wesigj.github.io/p/c-practical-2-day8-%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84/><link rel=stylesheet href=/scss/style.min.fb788271c6df6928bf35246ecbbfeb1eb9a17bcbe87d71daa3085497c92c891b.css><meta property='og:title' content="C++ Practical-2 day8 动态数组"><meta property='og:description' content="C++ Practical-2 day8 动态数组 [TOC]\nOverview C++不练习coding，就相当于空中楼阁，基础不扎实 光吃不干，等于没吃 1.在C++中，除了使用new和delete，还有其他方式可以创建动态数组吗？ 在C++中，除了使用new和delete操作符来创建和销毁动态数组，还有以下几种常见的方法来创建和管理动态数组：\n"><meta property='og:url' content='https://wesigj.github.io/p/c-practical-2-day8-%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84/'><meta property='og:site_name' content="Wesigj's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='C++'><meta property='article:tag' content='C++ Practical-2'><meta property='article:published_time' content='2024-09-28T01:05:56+08:00'><meta property='article:modified_time' content='2024-09-28T01:05:56+08:00'><meta name=twitter:title content="C++ Practical-2 day8 动态数组"><meta name=twitter:description content="C++ Practical-2 day8 动态数组 [TOC]\nOverview C++不练习coding，就相当于空中楼阁，基础不扎实 光吃不干，等于没吃 1.在C++中，除了使用new和delete，还有其他方式可以创建动态数组吗？ 在C++中，除了使用new和delete操作符来创建和销毁动态数组，还有以下几种常见的方法来创建和管理动态数组：\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu7443220043442625548.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Wesigj's blog</a></h1><h2 class=site-description>路漫漫其修远兮，吾将上下而求索。</h2></div></header><ol class=menu-social><li><a href=https://github.com/wesigj target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/_index.zh-cn/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#overview>Overview</a></li><li><a href=#1在c中除了使用new和delete还有其他方式可以创建动态数组吗>1.在C++中，除了使用new和delete，还有其他方式可以创建动态数组吗？</a></li><li><a href=#2动态数组类>2.动态数组类</a></li><li><a href=#3如何实现动态数组的动态扩容功能>3.如何实现动态数组的动态扩容功能？</a><ol><li><a href=#31解释>3.1.解释</a></li><li><a href=#32注意事项>3.2.注意事项</a></li></ol></li><li><a href=#4动态数组在内存管理方面有哪些潜在的风险我应该如何避免>4.动态数组在内存管理方面有哪些潜在的风险，我应该如何避免？</a></li><li><a href=#5如何使用stdvector进行高效的动态数组管理>5.如何使用&rsquo;std:vector&rsquo;进行高效的动态数组管理？</a></li><li><a href=#6在c中stdunique_ptr和stdshared_ptr在动态数组管理上有什么不同>6.在C++中，&lsquo;std:unique_ptr&rsquo;和&rsquo;std:shared_ptr&rsquo;在动态数组管理上有什么不同？</a><ol><li><a href=#61主要区别>6.1.主要区别</a></li></ol></li><li><a href=#7c17标准中有哪些新特性可以优化动态数组的内存管理>7.C++17标准中有哪些新特性可以优化动态数组的内存管理？</a></li><li><a href=#关于作者>关于作者</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/c++/ style=background-color:#2a9d8f;color:#fff>C++
+</a><a href=/categories/c++-practical-2/>C++ Practical-2</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/c-practical-2-day8-%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84/>C++ Practical-2 day8 动态数组</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 28, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>12 minute read</time></div></footer></div></header><section class=article-content><h1 id=c-practical-2-day8-动态数组>C++ Practical-2 day8 动态数组</h1><p>[TOC]</p><h2 id=overview>Overview</h2><ul><li>C++不练习coding，就相当于空中楼阁，基础不扎实</li><li>光吃不干，等于没吃</li></ul><hr><h2 id=1在c中除了使用new和delete还有其他方式可以创建动态数组吗>1.在C++中，除了使用new和delete，还有其他方式可以创建动态数组吗？</h2><p>在C++中，除了使用<code>new</code>和<code>delete</code>操作符来创建和销毁动态数组，还有以下几种常见的方法来创建和管理动态数组：</p><ol><li><p><strong>使用<code>std::vector</code></strong>：
+<code>std::vector</code>是C++标准库中的一个动态数组容器，它封装了内存管理的细节，提供了动态扩容、元素访问、插入和删除等操作。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;vector&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>vec</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>vec</span><span class=p>.</span><span class=n>push_back</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>vec</span><span class=p>.</span><span class=n>push_back</span><span class=p>(</span><span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// ...
+</span></span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用<code>std::array</code>（固定大小）</strong>：
+<code>std::array</code>是一个固定大小的数组容器，它存储在栈上，但提供了类似于<code>std::vector</code>的接口。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;array&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>array</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>,</span> <span class=mi>4</span><span class=o>&gt;</span> <span class=n>arr</span> <span class=o>=</span> <span class=p>{</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用<code>std::unique_ptr</code>和自定义删除器</strong>：
+可以使用智能指针<code>std::unique_ptr</code>与自定义删除器来管理动态数组。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;memory&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>[],</span> <span class=kt>void</span><span class=p>(</span><span class=o>*</span><span class=p>)(</span><span class=kt>int</span><span class=o>*</span><span class=p>)</span><span class=o>&gt;</span> <span class=n>uptr</span><span class=p>(</span><span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=mi>10</span><span class=p>],</span> <span class=p>[](</span><span class=kt>int</span><span class=o>*</span> <span class=n>p</span><span class=p>){</span> <span class=k>delete</span><span class=p>[]</span> <span class=n>p</span><span class=p>;</span> <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用<code>std::shared_ptr</code>和自定义删除器</strong>：
+类似于<code>std::unique_ptr</code>，但<code>std::shared_ptr</code>允许多个指针共享同一个动态数组。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;memory&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>sptr</span><span class=p>(</span><span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=mi>10</span><span class=p>],</span> <span class=p>[](</span><span class=kt>int</span><span class=o>*</span> <span class=n>p</span><span class=p>){</span> <span class=k>delete</span><span class=p>[]</span> <span class=n>p</span><span class=p>;</span> <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用<code>malloc</code>和<code>free</code></strong>：
+C语言的<code>malloc</code>和<code>free</code>函数也可以用来分配和释放动态内存。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span><span class=o>*</span> <span class=n>arr</span> <span class=o>=</span> <span class=p>(</span><span class=kt>int</span><span class=o>*</span><span class=p>)</span><span class=n>malloc</span><span class=p>(</span><span class=mi>10</span> <span class=o>*</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>int</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>arr</span> <span class=o>!=</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 使用数组...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>free</span><span class=p>(</span><span class=n>arr</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用<code>std::allocator</code></strong>：
+<code>std::allocator</code>是C++标准库中的一个内存分配器，它可以与容器一起使用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;memory&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>allocator</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>alloc</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span><span class=o>*</span> <span class=n>arr</span> <span class=o>=</span> <span class=n>alloc</span><span class=p>.</span><span class=n>allocate</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>alloc</span><span class=p>.</span><span class=n>deallocate</span><span class=p>(</span><span class=n>arr</span><span class=p>,</span> <span class=mi>10</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用<code>std::make_unique</code></strong>：
+<code>std::make_unique</code>是一个辅助函数，用于创建<code>std::unique_ptr</code>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;memory&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>auto</span> <span class=n>uptr</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>make_unique</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>[]</span><span class=o>&gt;</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用<code>std::make_shared</code></strong>：
+<code>std::make_shared</code>是一个辅助函数，用于创建<code>std::shared_ptr</code>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;memory&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>auto</span> <span class=n>sptr</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>make_shared</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>[]</span><span class=o>&gt;</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用<code>std::vector</code>的<code>data</code>成员函数</strong>：
+如果你需要一个指向<code>std::vector</code>底层数组的指针，可以使用<code>data</code>成员函数。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;vector&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>vec</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span><span class=o>*</span> <span class=n>arr</span> <span class=o>=</span> <span class=n>vec</span><span class=p>.</span><span class=n>data</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用C++17的<code>std::allocator_traits</code></strong>：
+<code>std::allocator_traits</code>提供了一种方式来查询和使用分配器的属性和操作。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;memory&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span> <span class=n>Allocator</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>deallocate</span><span class=p>(</span><span class=n>Allocator</span><span class=o>&amp;</span> <span class=n>alloc</span><span class=p>,</span> <span class=kt>int</span><span class=o>*</span> <span class=n>ptr</span><span class=p>,</span> <span class=n>size_t</span> <span class=n>size</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>allocator_traits</span><span class=o>&lt;</span><span class=n>Allocator</span><span class=o>&gt;::</span><span class=n>deallocate</span><span class=p>(</span><span class=n>alloc</span><span class=p>,</span> <span class=n>ptr</span><span class=p>,</span> <span class=n>size</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><p>在现代C++编程中，推荐使用标准库提供的容器和智能指针，因为它们提供了更好的类型安全性、异常安全性和资源管理。</p><h2 id=2动态数组类>2.动态数组类</h2><p>在C++中，动态数组通常指的是使用<code>new</code>和<code>delete</code>操作符动态分配和释放内存的数组。与静态数组（在栈上分配的数组）不同，动态数组的生命周期由程序员控制，可以在运行时确定大小。</p><p>以下是如何在C++中实现一个简单的动态数组类：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;algorithm&gt;</span><span class=cp> </span><span class=c1>// for std::copy
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;cstddef&gt;</span><span class=cp>   </span><span class=c1>// for std::size_t
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>DynamicArray</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span><span class=o>*</span> <span class=n>data</span><span class=p>;</span>       <span class=c1>// 指向动态分配数组的指针
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>size</span><span class=p>;</span>  <span class=c1>// 数组中元素的数量
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>explicit</span> <span class=n>DynamicArray</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>size</span><span class=p>)</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=k>new</span> <span class=n>T</span><span class=p>[</span><span class=n>size</span><span class=p>]),</span> <span class=n>size</span><span class=p>(</span><span class=n>size</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 析构函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=o>~</span><span class=n>DynamicArray</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 拷贝构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>DynamicArray</span><span class=p>(</span><span class=k>const</span> <span class=n>DynamicArray</span><span class=o>&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=k>new</span> <span class=n>T</span><span class=p>[</span><span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>]),</span> <span class=n>size</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>copy</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>,</span> <span class=n>other</span><span class=p>.</span><span class=n>data</span> <span class=o>+</span> <span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>,</span> <span class=n>data</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 移动构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>DynamicArray</span><span class=p>(</span><span class=n>DynamicArray</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>),</span> <span class=n>size</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>other</span><span class=p>.</span><span class=n>data</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>other</span><span class=p>.</span><span class=n>size</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 拷贝赋值运算符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>DynamicArray</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>DynamicArray</span><span class=o>&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=k>this</span> <span class=o>!=</span> <span class=o>&amp;</span><span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>data</span> <span class=o>=</span> <span class=k>new</span> <span class=n>T</span><span class=p>[</span><span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>            <span class=n>size</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>copy</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>,</span> <span class=n>other</span><span class=p>.</span><span class=n>data</span> <span class=o>+</span> <span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>,</span> <span class=n>data</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>*</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 移动赋值运算符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>DynamicArray</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=n>DynamicArray</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=k>this</span> <span class=o>!=</span> <span class=o>&amp;</span><span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>data</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>size</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>other</span><span class=p>.</span><span class=n>data</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>other</span><span class=p>.</span><span class=n>size</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>*</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获取数组的大小
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>getSize</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>size</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获取指定索引的元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>T</span><span class=o>&amp;</span> <span class=k>operator</span><span class=p>[](</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>index</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>data</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获取指定索引的元素（const版本）
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>const</span> <span class=n>T</span><span class=o>&amp;</span> <span class=k>operator</span><span class=p>[](</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>index</span><span class=p>)</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>data</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>DynamicArray</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>arr</span><span class=p>(</span><span class=mi>5</span><span class=p>);</span> <span class=c1>// 创建一个大小为5的动态数组
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>arr</span><span class=p>.</span><span class=n>getSize</span><span class=p>();</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>arr</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>i</span> <span class=o>*</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>arr</span><span class=p>.</span><span class=n>getSize</span><span class=p>();</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>arr</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>&lt;&lt;</span> <span class=s>&#34; &#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，我们定义了一个<code>DynamicArray</code>类模板，它封装了动态数组的分配、使用和释放。类中包含了：</p><ul><li>一个类型为<code>T*</code>的私有成员<code>data</code>，它指向动态分配的内存。</li><li>一个<code>size</code>成员，记录数组中元素的数量。</li><li>构造函数和析构函数，分别用于分配和释放内存。</li><li>拷贝构造函数和拷贝赋值运算符，用于复制数组内容。</li><li>移动构造函数和移动赋值运算符，用于支持移动语义。</li><li><code>getSize</code>成员函数，返回数组的大小。</li><li><code>operator[]</code>，重载了下标运算符以访问数组元素。</li></ul><p>这个简单的动态数组类模板展示了如何管理动态内存。在实际应用中，你可能还需要添加更多的功能，比如动态扩容、插入和删除元素等操作。</p><h2 id=3如何实现动态数组的动态扩容功能>3.如何实现动态数组的动态扩容功能？</h2><p>实现动态数组的动态扩容功能通常涉及以下几个步骤：</p><ol><li><strong>初始分配</strong>：创建数组时分配初始容量。</li><li><strong>检测容量</strong>：在添加元素前检查是否有足够的空间。</li><li><strong>扩容</strong>：如果空间不足，分配更大的内存空间。</li><li><strong>复制元素</strong>：将旧数组的元素复制到新数组。</li><li><strong>释放旧数组</strong>：删除旧数组以避免内存泄漏。</li></ol><p>以下是如何在C++中实现一个具有动态扩容功能的动态数组类：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span><span class=lnt>93
+</span><span class=lnt>94
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;algorithm&gt;</span><span class=cp> </span><span class=c1>// for std::copy
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;cstddef&gt;</span><span class=cp>   </span><span class=c1>// for std::size_t
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>DynamicArray</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span><span class=o>*</span> <span class=n>data</span><span class=p>;</span>       <span class=c1>// 指向动态分配数组的指针
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>size</span><span class=p>;</span>  <span class=c1>// 当前数组中元素的数量
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>capacity</span><span class=p>;</span> <span class=c1>// 数组分配的总容量
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>resize</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>newCapacity</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>T</span><span class=o>*</span> <span class=n>newData</span> <span class=o>=</span> <span class=k>new</span> <span class=n>T</span><span class=p>[</span><span class=n>newCapacity</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>copy</span><span class=p>(</span><span class=n>data</span><span class=p>,</span> <span class=n>data</span> <span class=o>+</span> <span class=n>size</span><span class=p>,</span> <span class=n>newData</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>data</span> <span class=o>=</span> <span class=n>newData</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>capacity</span> <span class=o>=</span> <span class=n>newCapacity</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>explicit</span> <span class=n>DynamicArray</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>initialCapacity</span> <span class=o>=</span> <span class=mi>10</span><span class=p>)</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=k>new</span> <span class=n>T</span><span class=p>[</span><span class=n>initialCapacity</span><span class=p>]),</span> <span class=n>size</span><span class=p>(</span><span class=mi>0</span><span class=p>),</span> <span class=n>capacity</span><span class=p>(</span><span class=n>initialCapacity</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 析构函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=o>~</span><span class=n>DynamicArray</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁止拷贝构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>DynamicArray</span><span class=p>(</span><span class=k>const</span> <span class=n>DynamicArray</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁止拷贝赋值运算符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>DynamicArray</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>DynamicArray</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 移动构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>DynamicArray</span><span class=p>(</span><span class=n>DynamicArray</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>),</span> <span class=n>size</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>),</span> <span class=n>capacity</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>capacity</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>other</span><span class=p>.</span><span class=n>data</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>other</span><span class=p>.</span><span class=n>size</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>other</span><span class=p>.</span><span class=n>capacity</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 移动赋值运算符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>DynamicArray</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=n>DynamicArray</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=k>this</span> <span class=o>!=</span> <span class=o>&amp;</span><span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>data</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>size</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>capacity</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>capacity</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>other</span><span class=p>.</span><span class=n>data</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>other</span><span class=p>.</span><span class=n>size</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>other</span><span class=p>.</span><span class=n>capacity</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>*</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 添加元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=nf>pushBack</span><span class=p>(</span><span class=k>const</span> <span class=n>T</span><span class=o>&amp;</span> <span class=n>value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>size</span> <span class=o>==</span> <span class=n>capacity</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>newCapacity</span> <span class=o>=</span> <span class=n>capacity</span> <span class=o>==</span> <span class=mi>0</span> <span class=o>?</span> <span class=mi>1</span> <span class=o>:</span> <span class=p>(</span><span class=n>capacity</span> <span class=o>*</span> <span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>resize</span><span class=p>(</span><span class=n>newCapacity</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>data</span><span class=p>[</span><span class=n>size</span><span class=o>++</span><span class=p>]</span> <span class=o>=</span> <span class=n>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获取数组的大小
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>getSize</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>size</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获取指定索引的元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>T</span><span class=o>&amp;</span> <span class=k>operator</span><span class=p>[](</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>index</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>data</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获取指定索引的元素（const版本）
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>const</span> <span class=n>T</span><span class=o>&amp;</span> <span class=k>operator</span><span class=p>[](</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>index</span><span class=p>)</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>data</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>DynamicArray</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>arr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>15</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>arr</span><span class=p>.</span><span class=n>pushBack</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>size_t</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>arr</span><span class=p>.</span><span class=n>getSize</span><span class=p>();</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>arr</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>&lt;&lt;</span> <span class=s>&#34; &#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=31解释>3.1.解释</h3><ol><li><p><strong>初始分配</strong>：</p><ul><li>构造函数中分配初始容量（默认为10）。</li></ul></li><li><p><strong>检测容量</strong>：</p><ul><li>在<code>pushBack</code>方法中，检查当前数组的大小是否等于容量。如果是，则需要扩容。</li></ul></li><li><p><strong>扩容</strong>：</p><ul><li><code>resize</code>方法分配新的容量（默认为当前容量的两倍），并将旧数组的元素复制到新数组。</li></ul></li><li><p><strong>复制元素</strong>：</p><ul><li>使用<code>std::copy</code>将旧数组的元素复制到新数组。</li></ul></li><li><p><strong>释放旧数组</strong>：</p><ul><li>删除旧数组以避免内存泄漏。</li></ul></li></ol><h3 id=32注意事项>3.2.注意事项</h3><ul><li><strong>初始容量</strong>：可以根据需要调整初始容量和扩容策略。</li><li><strong>异常安全</strong>：在实际应用中，需要考虑异常安全，确保在分配新内存或复制元素时不会发生内存泄漏。</li><li><strong>内存管理</strong>：确保正确管理内存，避免内存泄漏和野指针。</li></ul><p>通过这种方式，你可以实现一个具有动态扩容功能的动态数组类，使其在需要时自动扩展容量。</p><h2 id=4动态数组在内存管理方面有哪些潜在的风险我应该如何避免>4.动态数组在内存管理方面有哪些潜在的风险，我应该如何避免？</h2><p>动态数组在内存管理方面主要存在以下潜在风险：</p><ol><li><p><strong>内存泄漏</strong>：如果分配了内存但没有正确释放，会导致内存泄漏。例如，忘记使用 <code>delete[]</code> 释放动态数组 。</p></li><li><p><strong>双重释放</strong>：多次释放同一块内存会导致未定义行为，可能引发程序崩溃。</p></li><li><p><strong>悬挂指针</strong>：释放内存后没有将指针置为 <code>nullptr</code>，使其仍然指向已被释放的内存区域，后续对这片区域的访问是非法的。</p></li><li><p><strong>越界访问</strong>：在动态分配的内存区域内进行不合法的读写操作，例如索引超出数组边界。</p></li><li><p><strong>内存分配失败</strong>：<code>new</code> 分配内存失败时会抛出 <code>std::bad_alloc</code> 异常，而 <code>malloc</code> 会返回 <code>NULL</code> 指针。如果不正确处理，可能会导致程序异常终止。</p></li><li><p><strong>内存碎片</strong>：频繁的内存分配和释放可能导致内存碎片，降低内存使用效率。</p></li></ol><p>为了避免这些风险，可以采取以下措施：</p><ol><li><p><strong>使用智能指针</strong>：如 <code>std::unique_ptr</code> 和 <code>std::shared_ptr</code>，它们可以自动管理内存的释放，避免内存泄漏和悬挂指针 。</p></li><li><p><strong>确保异常安全</strong>：在动态内存分配时使用异常处理机制，确保即使在异常发生时也能正确释放内存。</p></li><li><p><strong>使用 RAII 技术</strong>：确保资源在对象生命周期结束时自动释放，这是一种常用的避免资源泄漏的方法。</p></li><li><p><strong>避免越界访问</strong>：在访问数组元素时，始终检查索引是否在有效范围内。</p></li><li><p><strong>检查内存分配结果</strong>：每次使用 <code>new</code> 或 <code>malloc</code> 后，检查返回值是否为空，确保内存分配成功。</p></li><li><p><strong>内存池</strong>：对于频繁的内存分配和释放，可以使用内存池来减少内存碎片和提高内存分配效率。</p></li><li><p><strong>使用标准库容器</strong>：如 <code>std::vector</code>，它内部管理内存，并提供了自动扩容和缩容的功能，减少了内存管理的复杂性。</p></li></ol><p>通过这些方法，可以有效地管理动态数组的内存，避免常见的内存管理问题，提高程序的稳定性和性能。</p><h2 id=5如何使用stdvector进行高效的动态数组管理>5.如何使用&rsquo;std:vector&rsquo;进行高效的动态数组管理？</h2><p><code>std::vector</code> 是 C++ 标准库中的一个动态数组容器，它封装了动态内存管理的细节，提供了动态扩容、元素访问、插入和删除等操作。以下是如何使用 <code>std::vector</code> 进行高效的动态数组管理的一些关键点：</p><ol><li><p><strong>自动内存管理</strong>：
+<code>std::vector</code> 自动管理内存的分配和释放，无需手动使用 <code>new</code> 和 <code>delete</code>。</p></li><li><p><strong>动态扩容</strong>：
+当添加元素超出当前容量时，<code>std::vector</code> 会自动分配更大的内存空间，并移动现有元素到新内存。</p></li><li><p><strong>提供异常安全性</strong>：
+如果内存分配失败，<code>std::vector</code> 会抛出异常，而不会泄漏内存。</p></li><li><p><strong>随机访问</strong>：
+<code>std::vector</code> 提供了随机访问迭代器，允许快速访问任何元素。</p></li><li><p><strong>范围检查</strong>：
+使用 <code>at()</code> 成员函数可以提供边界检查，当访问超出范围的元素时会抛出 <code>std::out_of_range</code> 异常。</p></li><li><p><strong>迭代器</strong>：
+提供迭代器支持，可以用于循环遍历 <code>std::vector</code>。</p></li><li><p><strong>容量和大小</strong>：
+<code>size()</code> 返回当前元素数量，<code>capacity()</code> 返回当前分配的内存可以容纳的元素数量。</p></li><li><p><strong>插入和删除操作</strong>：
+提供 <code>push_back()</code>, <code>pop_back()</code>, <code>insert()</code>, <code>erase()</code> 等成员函数进行元素的插入和删除。</p></li><li><p><strong>内存优化</strong>：
+<code>shrink_to_fit()</code> 可以请求减小内存使用量，<code>reserve()</code> 可以预先分配足够的内存。</p></li><li><p><strong>数据访问</strong>：
+使用 <code>operator[]</code> 或 <code>at()</code> 访问元素，<code>front()</code> 和 <code>back()</code> 获取首尾元素。</p></li><li><p><strong>构造和复制</strong>：
+提供拷贝构造函数和拷贝赋值运算符，支持移动语义，使用 <code>std::move</code> 进行高效复制。</p></li><li><p><strong>空值检查</strong>：
+使用 <code>empty()</code> 检查 <code>std::vector</code> 是否为空。</p></li><li><p><strong>析构</strong>：
+当 <code>std::vector</code> 被销毁时，会自动释放其管理的内存。</p></li></ol><p>以下是一些使用 <code>std::vector</code> 的示例代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;vector&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 创建一个空的 vector
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>vec</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 添加元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>vec</span><span class=p>.</span><span class=n>push_back</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>vec</span><span class=p>.</span><span class=n>push_back</span><span class=p>(</span><span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>vec</span><span class=p>.</span><span class=n>push_back</span><span class=p>(</span><span class=mi>3</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 访问元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>for</span> <span class=p>(</span><span class=n>size_t</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>vec</span><span class=p>.</span><span class=n>size</span><span class=p>();</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>vec</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>&lt;&lt;</span> <span class=s>&#34; &#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 插入元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>vec</span><span class=p>.</span><span class=n>insert</span><span class=p>(</span><span class=n>vec</span><span class=p>.</span><span class=n>begin</span><span class=p>()</span> <span class=o>+</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>5</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 删除元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>vec</span><span class=p>.</span><span class=n>erase</span><span class=p>(</span><span class=n>vec</span><span class=p>.</span><span class=n>begin</span><span class=p>()</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 使用迭代器遍历
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>for</span> <span class=p>(</span><span class=k>auto</span> <span class=n>it</span> <span class=o>=</span> <span class=n>vec</span><span class=p>.</span><span class=n>begin</span><span class=p>();</span> <span class=n>it</span> <span class=o>!=</span> <span class=n>vec</span><span class=p>.</span><span class=n>end</span><span class=p>();</span> <span class=o>++</span><span class=n>it</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=o>*</span><span class=n>it</span> <span class=o>&lt;&lt;</span> <span class=s>&#34; &#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 范围检查
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>vec</span><span class=p>.</span><span class=n>at</span><span class=p>(</span><span class=mi>10</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>out_of_range</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Exception caught: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 内存优化
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>vec</span><span class=p>.</span><span class=n>shrink_to_fit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用 <code>std::vector</code> 可以大大简化动态数组的管理，减少内存泄漏和悬挂指针的风险，并提高代码的可读性和维护性。</p><h2 id=6在c中stdunique_ptr和stdshared_ptr在动态数组管理上有什么不同>6.在C++中，&lsquo;std:unique_ptr&rsquo;和&rsquo;std:shared_ptr&rsquo;在动态数组管理上有什么不同？</h2><p>在 C++ 中，<code>std::unique_ptr</code> 和 <code>std::shared_ptr</code> 都是智能指针，用于自动管理动态分配的内存，但它们在管理动态数组时有一些关键的区别：</p><ol><li><p><strong><code>std::unique_ptr</code> 与动态数组</strong>：</p><ul><li><code>std::unique_ptr</code> 是独占所有权的智能指针，意味着同一时间只能有一个 <code>std::unique_ptr</code> 指向特定资源。</li><li>它不能被复制，但可以被移动，这允许在不同对象之间传递所有权。</li><li><code>std::unique_ptr</code> 可以被用来管理动态数组，但需要使用特殊的数组删除器 <code>std::default_delete</code>，因为数组的删除需要使用 <code>delete[]</code> 而不是 <code>delete</code>。</li><li>使用 <code>std::unique_ptr</code> 管理动态数组时，可以使用 <code>std::make_unique</code>（C++14 引入）来创建实例。</li></ul><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>[]</span><span class=o>&gt;</span> <span class=n>uptr</span><span class=p>(</span><span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=mi>10</span><span class=p>]);</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong><code>std::shared_ptr</code> 与动态数组</strong>：</p><ul><li><code>std::shared_ptr</code> 是共享所有权的智能指针，允许多个 <code>std::shared_ptr</code> 实例共享同一资源。</li><li>它使用引用计数机制来跟踪有多少个 <code>std::shared_ptr</code> 实例共享同一个资源。</li><li>当最后一个引用被销毁时，资源会被释放。</li><li><code>std::shared_ptr</code> 也可以管理动态数组，但同样需要使用数组删除器，因为它也需要使用 <code>delete[]</code>。</li><li><code>std::shared_ptr</code> 管理动态数组时，通常需要提供一个自定义删除器。</li></ul><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>sptr</span><span class=p>(</span><span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=mi>10</span><span class=p>],</span> <span class=p>[](</span><span class=kt>int</span><span class=o>*</span> <span class=n>p</span><span class=p>){</span> <span class=k>delete</span><span class=p>[]</span> <span class=n>p</span><span class=p>;</span> <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><h3 id=61主要区别>6.1.主要区别</h3><ul><li><p><strong>所有权</strong>：</p><ul><li><code>std::unique_ptr</code> 强调独占所有权，适合于那些不需要共享资源的场景。</li><li><code>std::shared_ptr</code> 允许多个指针共享同一个资源，适合于资源需要在多个对象间共享的情况。</li></ul></li><li><p><strong>删除器</strong>：</p><ul><li><code>std::unique_ptr</code> 和 <code>std::shared_ptr</code> 在管理动态数组时都需要指定数组删除器，因为默认的删除器是 <code>delete</code>，而数组需要 <code>delete[]</code>。</li></ul></li><li><p><strong>性能</strong>：</p><ul><li><code>std::unique_ptr</code> 通常比 <code>std::shared_ptr</code> 更轻量级，因为它不涉及引用计数的开销。</li><li><code>std::shared_ptr</code> 由于需要维护引用计数，所以在性能上可能稍微逊色，尤其是在多线程环境中。</li></ul></li><li><p><strong>线程安全性</strong>：</p><ul><li><code>std::shared_ptr</code> 的引用计数操作是原子的，适合于多线程环境。</li><li><code>std::unique_ptr</code> 在多线程环境中使用时，通常不需要考虑线程安全问题，因为它的设计就是用于单线程或所有权明确转移的场景。</li></ul></li><li><p><strong>使用场景</strong>：</p><ul><li>当你不需要共享资源时，推荐使用 <code>std::unique_ptr</code>，因为它更高效。</li><li>当资源需要在多个对象间共享，或者所有权不明确时，使用 <code>std::shared_ptr</code>。</li></ul></li></ul><p>在选择使用 <code>std::unique_ptr</code> 还是 <code>std::shared_ptr</code> 时，应该根据实际的资源管理和所有权需求来决定。</p><h2 id=7c17标准中有哪些新特性可以优化动态数组的内存管理>7.C++17标准中有哪些新特性可以优化动态数组的内存管理？</h2><p>在 C++17 标准中，有几个新特性可以优化动态数组的内存管理：</p><ol><li><p><strong>std::shared_ptr 对动态数组的支持</strong>：
+C++17 之前，<code>std::shared_ptr</code> 不支持动态数组类型。在 C++17 中，<code>std::shared_ptr</code> 可以模板化动态数组，并且可以直接使用数组类型的模板参数。这意味着可以直接创建一个 <code>std::shared_ptr&lt;int[]></code> 来管理动态数组，并且可以使用 <code>std::shared_ptr</code> 的内置函数，如 <code>operator[]</code> 来访问数组元素。</p></li><li><p><strong>std::unique_ptr 的改进</strong>：
+<code>std::unique_ptr</code> 已经支持动态数组，并且在 C++17 中继续提供对动态数组的优化管理。它确保同一时间只能有一个 <code>std::unique_ptr</code> 指向特定资源，从而避免内存泄漏。</p></li><li><p><strong>std::pmr 内存资源库</strong>：
+C++17 引入了 polymorphic memory resources (PMR)，它是一个多态内存分配器的库，允许开发者自定义内存分配策略，这可以用于优化动态数组的内存管理。</p></li><li><p><strong>结构化绑定</strong>：
+C++17 引入了结构化绑定，它允许从数组或元组中提取多个成员到不同变量中，这可以简化数组元素的访问和操作。</p></li><li><p><strong>if 常量表达式</strong>：
+<code>if constexpr</code> 允许在编译时根据条件编译代码块，这可以用来优化模板代码中的条件逻辑，包括动态数组的处理。</p></li><li><p><strong>编译时的类型推导</strong>：
+C++17 允许在函数模板中使用 <code>auto</code> 进行类型推导，这简化了模板代码的编写，尤其是在处理动态数组时。</p></li><li><p><strong>constexpr lambda 表达式</strong>：
+C++17 允许在编译时构建 lambda 表达式，这可以用来创建复杂的编译时计算，包括数组操作。</p></li><li><p><strong>std::apply</strong>：
+<code>std::apply</code> 函数允许调用一个可调用对象，并将一个元组或数组作为参数传递，这可以简化数组或元组的函数调用。</p></li></ol><p>通过这些特性，C++17 提供了更灵活和高效的方式来管理动态数组的内存，同时减少了内存泄漏的风险，并提高了代码的可读性和可维护性。</p><hr><h2 id=关于作者>关于作者</h2><ul><li>微信公众号:WeSiGJ</li><li>GitHub:<a class=link href=https://github.com/wesigj/cplusplusboys target=_blank rel=noopener>https://github.com/wesigj/cplusplusboys</a></li><li>CSDN:<a class=link href=https://blog.csdn.net/wesigj target=_blank rel=noopener>https://blog.csdn.net/wesigj</a></li><li>微博:</li><li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。</li></ul><img src=/./img/wechat.jpg width=60%></section><footer class=article-footer><section class=article-tags><a href=/tags/c++/>C++</a>
+<a href=/tags/c++-practical-2/>C++ Practical-2</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/c-practical-2-day13-%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F/><div class=article-details><h2 class=article-title>C++ Practical-2 day13 输出格式</h2></div></a></article><article><a href=/p/c-practical-2-day12-%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E7%BB%BC%E5%90%88%E9%A2%98/><div class=article-details><h2 class=article-title>C++ Practical-2 day12 读写文件综合题</h2></div></a></article><article><a href=/p/c-practical-2-day11-%E7%BB%A7%E6%89%BF%E4%B8%8E%E5%B0%81%E8%A3%85/><div class=article-details><h2 class=article-title>C++ Practical-2 day11 继承与封装</h2></div></a></article><article><a href=/p/c-practical-2-day10-%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86-try-exception/><div class=article-details><h2 class=article-title>C++ Practical-2 day10 异常捕获 异常处理 try exception</h2></div></a></article><article><a href=/p/c-practical-2-day9-%E5%AD%97%E5%85%B8%E6%8F%92%E5%85%A5%E4%B8%8E%E6%9F%A5%E6%89%BE/><div class=article-details><h2 class=article-title>C++ Practical-2 day9 字典插入与查找</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Wesigj's blog</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

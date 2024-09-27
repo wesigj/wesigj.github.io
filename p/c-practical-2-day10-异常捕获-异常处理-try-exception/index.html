@@ -1,0 +1,610 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="C++ Practical-2 day10 异常捕获 异常处理 try exception [TOC]\nOverview C++不练习coding，就相当于空中楼阁，基础不扎实 光吃不干，等于没吃 和Practical-1 day9一样的 1.exception 异常处理 在C++中，异常处理是一种错误处理机制，它允许程序在遇到无法正常处理的情况时，将控制权转移给异常处理器。C++使用try、catch、throw和finally（在C++11中用RAII风格替代）关键字来实现异常处理。\n"><title>C++ Practical-2 day10 异常捕获 异常处理 try exception</title>
+<link rel=canonical href=https://wesigj.github.io/p/c-practical-2-day10-%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86-try-exception/><link rel=stylesheet href=/scss/style.min.fb788271c6df6928bf35246ecbbfeb1eb9a17bcbe87d71daa3085497c92c891b.css><meta property='og:title' content="C++ Practical-2 day10 异常捕获 异常处理 try exception"><meta property='og:description' content="C++ Practical-2 day10 异常捕获 异常处理 try exception [TOC]\nOverview C++不练习coding，就相当于空中楼阁，基础不扎实 光吃不干，等于没吃 和Practical-1 day9一样的 1.exception 异常处理 在C++中，异常处理是一种错误处理机制，它允许程序在遇到无法正常处理的情况时，将控制权转移给异常处理器。C++使用try、catch、throw和finally（在C++11中用RAII风格替代）关键字来实现异常处理。\n"><meta property='og:url' content='https://wesigj.github.io/p/c-practical-2-day10-%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86-try-exception/'><meta property='og:site_name' content="Wesigj's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='C++'><meta property='article:tag' content='C++ Practical-2'><meta property='article:published_time' content='2024-09-28T01:05:58+08:00'><meta property='article:modified_time' content='2024-09-28T01:05:58+08:00'><meta name=twitter:title content="C++ Practical-2 day10 异常捕获 异常处理 try exception"><meta name=twitter:description content="C++ Practical-2 day10 异常捕获 异常处理 try exception [TOC]\nOverview C++不练习coding，就相当于空中楼阁，基础不扎实 光吃不干，等于没吃 和Practical-1 day9一样的 1.exception 异常处理 在C++中，异常处理是一种错误处理机制，它允许程序在遇到无法正常处理的情况时，将控制权转移给异常处理器。C++使用try、catch、throw和finally（在C++11中用RAII风格替代）关键字来实现异常处理。\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu7443220043442625548.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Wesigj's blog</a></h1><h2 class=site-description>路漫漫其修远兮，吾将上下而求索。</h2></div></header><ol class=menu-social><li><a href=https://github.com/wesigj target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/_index.zh-cn/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#overview>Overview</a></li><li><a href=#1exception-异常处理>1.exception 异常处理</a><ol><li><a href=#11异常处理的关键字>1.1.异常处理的关键字</a></li><li><a href=#12示例基本的异常处理>1.2.示例：基本的异常处理</a></li><li><a href=#13示例多个catch块>1.3.示例：多个<code>catch</code>块</a></li><li><a href=#14注意事项>1.4.注意事项</a></li></ol></li><li><a href=#2c中有哪些自定义异常类它们通常用于什么场景>2.C++中有哪些自定义异常类，它们通常用于什么场景?</a><ol><li><a href=#21示例自定义异常类>2.1.示例：自定义异常类</a></li><li><a href=#22使用场景>2.2.使用场景</a></li></ol></li><li><a href=#3在c中除了自定义异常类还有哪些错误处理机制>3.在C++中，除了自定义异常类，还有哪些错误处理机制？</a></li><li><a href=#4在c中实现一个多线程程序异常处理应该如何设计以避免线程安全问题>4.在C++中实现一个多线程程序，异常处理应该如何设计以避免线程安全问题？</a><ol><li><a href=#41示例>4.1.示例</a></li></ol></li><li><a href=#5在c中如何使用raii原则来管理资源>5.在C++中，如何使用RAII原则来管理资源？</a><ol><li><a href=#51raii的基本原则>5.1.RAII的基本原则</a></li><li><a href=#52raii的常见应用>5.2.RAII的常见应用</a></li><li><a href=#53示例使用raii管理动态内存>5.3.示例：使用RAII管理动态内存</a></li><li><a href=#54示例使用raii管理文件资源>5.4.示例：使用RAII管理文件资源</a></li><li><a href=#55注意事项>5.5.注意事项</a></li></ol></li><li><a href=#6在c中除了raii还有哪些资源管理技术>6.在C++中，除了RAII，还有哪些资源管理技术？</a></li><li><a href=#7在栈中使用异常处理>7.在栈中使用异常处理</a></li><li><a href=#关于作者>关于作者</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/c++/ style=background-color:#2a9d8f;color:#fff>C++
+</a><a href=/categories/c++-practical-2/>C++ Practical-2</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/c-practical-2-day10-%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86-try-exception/>C++ Practical-2 day10 异常捕获 异常处理 try exception</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 28, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>16 minute read</time></div></footer></div></header><section class=article-content><h1 id=c-practical-2-day10-异常捕获-异常处理-try-exception>C++ Practical-2 day10 异常捕获 异常处理 try exception</h1><p>[TOC]</p><h2 id=overview>Overview</h2><ul><li>C++不练习coding，就相当于空中楼阁，基础不扎实</li><li>光吃不干，等于没吃</li><li>和<code>Practical-1 day9</code>一样的</li></ul><hr><h2 id=1exception-异常处理>1.exception 异常处理</h2><p>在C++中，异常处理是一种错误处理机制，它允许程序在遇到无法正常处理的情况时，将控制权转移给异常处理器。C++使用<code>try</code>、<code>catch</code>、<code>throw</code>和<code>finally</code>（在C++11中用<code>RAII</code>风格替代）关键字来实现异常处理。</p><h3 id=11异常处理的关键字>1.1.异常处理的关键字</h3><ol><li><strong><code>try</code></strong>：用于指定一个代码块，在该代码块中可能会抛出异常。</li><li><strong><code>catch</code></strong>：用于捕获并处理特定类型的异常。</li><li><strong><code>throw</code></strong>：用于抛出一个异常。</li><li><strong><code>finally</code></strong>：在C++11之前，没有<code>finally</code>关键字，但可以使用<code>try</code>块后的代码来执行清理操作。C++11引入了<code>std::exception_ptr</code>和<code>std::rethrow_exception</code>来处理异常传播。</li></ol><h3 id=12示例基本的异常处理>1.2.示例：基本的异常处理</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdexcept&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// 函数声明
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=nf>mightGoWrong</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Something went wrong!&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>mightGoWrong</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Caught exception: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，<code>mightGoWrong</code>函数抛出了一个<code>std::runtime_error</code>异常。在<code>main</code>函数中，我们使用<code>try</code>块来调用这个函数，并使用<code>catch</code>块来捕获和处理异常。</p><h3 id=13示例多个catch块>1.3.示例：多个<code>catch</code>块</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdexcept&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>mightGoWrong</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>i</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Argument is zero&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>i</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>invalid_argument</span><span class=p>(</span><span class=s>&#34;Argument is negative&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>logic_error</span><span class=p>(</span><span class=s>&#34;Argument is too large&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>mightGoWrong</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Runtime error: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>invalid_argument</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Invalid argument: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>logic_error</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Logic error: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>exception</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unknown exception: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，<code>mightGoWrong</code>函数根据参数的不同抛出不同类型的异常。<code>main</code>函数中的<code>try</code>块调用这个函数，并有多个<code>catch</code>块来捕获不同类型的异常。</p><h3 id=14注意事项>1.4.注意事项</h3><ol><li><p><strong>异常应该是异常类的实例</strong>：通常，异常应该是<code>std::exception</code>类或其派生类的实例。</p></li><li><p><strong>异常不应该被忽略</strong>：如果一个<code>try</code>块中的异常没有被捕获，程序将终止。</p></li><li><p><strong>异常的类型</strong>：可以抛出任何类型的异常，但通常是抛出标准异常类型或自定义的异常类型。</p></li><li><p><strong>异常的堆栈跟踪</strong>：在抛出异常时，程序会记录异常的堆栈跟踪信息，这对于调试非常有用。</p></li><li><p><strong>资源管理</strong>：在抛出异常之前，确保释放所有分配的资源，或者使用RAII机制来自动管理资源。</p></li><li><p><strong>异常传播</strong>：在函数中捕获异常并重新抛出，可以使用<code>std::rethrow_exception</code>来保持原始的异常堆栈信息。</p></li><li><p><strong>异常对象的复制</strong>：异常对象在抛出时会被复制，因此应该提供拷贝构造函数。</p></li></ol><p>通过使用异常处理，你可以编写更健壮、更易于维护的代码，并且可以更好地处理程序运行中可能出现的错误情况。</p><h2 id=2c中有哪些自定义异常类它们通常用于什么场景>2.C++中有哪些自定义异常类，它们通常用于什么场景?</h2><p>在C++中，自定义异常类通常是通过继承自<code>std::exception</code>类来实现的。自定义异常允许你为特定错误情况提供更多的上下文信息。以下是创建和使用自定义异常类的一些常见步骤：</p><ol><li><p><strong>继承<code>std::exception</code></strong>：创建一个新类，继承自<code>std::exception</code>，并重写<code>what()</code>方法，该方法返回一个描述异常的字符串。</p></li><li><p><strong>提供构造函数</strong>：为你的异常类提供构造函数，允许设置错误消息和其他相关信息。</p></li><li><p><strong>抛出异常</strong>：在代码中使用<code>throw</code>关键字抛出你的自定义异常对象。</p></li><li><p><strong>捕获异常</strong>：使用<code>try-catch</code>块捕获并处理异常。</p></li></ol><h3 id=21示例自定义异常类>2.1.示例：自定义异常类</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;exception&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// 自定义异常类
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>class</span> <span class=nc>MyException</span> <span class=o>:</span> <span class=k>public</span> <span class=n>std</span><span class=o>::</span><span class=n>exception</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>message</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyException</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>msg</span><span class=p>)</span> <span class=o>:</span> <span class=n>message</span><span class=p>(</span><span class=n>msg</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 重写 what() 方法
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>const</span> <span class=kt>char</span><span class=o>*</span> <span class=nf>what</span><span class=p>()</span> <span class=k>const</span> <span class=k>noexcept</span> <span class=k>override</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>message</span><span class=p>.</span><span class=n>c_str</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 一个可能抛出异常的函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=nf>mightGoWrong</span><span class=p>(</span><span class=kt>int</span> <span class=n>value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>value</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=n>MyException</span><span class=p>(</span><span class=s>&#34;Negative value is not allowed&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>mightGoWrong</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>MyException</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Caught exception: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>exception</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Caught standard exception: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个示例中，<code>MyException</code>类继承自<code>std::exception</code>，并重写了<code>what()</code>方法来返回错误消息。<code>mightGoWrong</code>函数在接收到负值时抛出<code>MyException</code>。<code>main</code>函数中的<code>try-catch</code>块捕获并处理了这个异常。</p><h3 id=22使用场景>2.2.使用场景</h3><ul><li><strong>文件处理</strong>：当文件无法打开或读取时，可以抛出一个包含错误信息的自定义异常。</li><li><strong>网络通信</strong>：在网络请求失败时，可以抛出一个包含错误代码和消息的异常。</li><li><strong>数据验证</strong>：如果输入数据不符合预期，可以抛出一个异常来指示具体的错误。</li><li><strong>业务逻辑</strong>：在业务规则被违反时，可以使用自定义异常来通知调用者。</li></ul><p>自定义异常类使得错误处理更加灵活和表达性更强，有助于调试和维护大型应用程序。</p><h2 id=3在c中除了自定义异常类还有哪些错误处理机制>3.在C++中，除了自定义异常类，还有哪些错误处理机制？</h2><p>在C++中，除了使用自定义异常类进行错误处理，还有以下几种常见的错误处理机制：</p><ol><li><p><strong>错误码</strong>：</p><ul><li>许多函数通过返回特定的错误码来指示操作是否成功，例如<code>errno</code>全局变量常用于指示上一次系统调用的错误。</li></ul></li><li><p><strong>断言（Assert）</strong>：</p><ul><li><code>assert</code>宏用于在调试期间检查程序状态，如果条件为假，则终止程序执行并输出错误信息。它通常用于检查程序的前提条件。</li></ul></li><li><p><strong>返回值</strong>：</p><ul><li>函数可以通过返回值来指示操作是否成功，例如返回布尔值或自定义的枚举类型。</li></ul></li><li><p><strong>输出参数</strong>：</p><ul><li>函数可以将错误信息或状态代码通过输出参数传递给调用者。</li></ul></li><li><p><strong>异常抛出（Throw）</strong>：</p><ul><li>除了自定义异常类，也可以抛出基本数据类型或其他类型的异常对象。</li></ul></li><li><p><strong>错误处理库</strong>：</p><ul><li>使用如Boost.Error或Poco库等第三方库提供的错误处理功能。</li></ul></li><li><p><strong>标准库异常</strong>：</p><ul><li>使用C++标准库提供的异常类，如<code>std::runtime_error</code>、<code>std::logic_error</code>等。</li></ul></li><li><p><strong>资源获取即初始化（RAII）</strong>：</p><ul><li>使用RAII机制管理资源，确保在发生异常时资源能够被正确释放。</li></ul></li><li><p><strong>错误恢复</strong>：</p><ul><li>在某些情况下，程序可以通过执行某些恢复操作来从错误状态中恢复。</li></ul></li><li><p><strong>日志记录</strong>：</p><ul><li>在检测到错误时记录详细的错误信息，以便于后续分析。</li></ul></li><li><p><strong>条件编译</strong>：</p><ul><li>使用预处理器指令（如<code>#ifdef</code>、<code>#ifndef</code>）来处理不同平台或配置下的错误处理。</li></ul></li><li><p><strong>静态分析工具</strong>：</p><ul><li>使用静态分析工具（如Clang Static Analyzer、Cppcheck）来检测潜在的错误。</li></ul></li><li><p><strong>单元测试</strong>：</p><ul><li>通过编写和运行单元测试来确保代码的正确性。</li></ul></li><li><p><strong>代码审查</strong>：</p><ul><li>通过代码审查来发现和修复潜在的错误。</li></ul></li><li><p><strong>用户界面反馈</strong>：</p><ul><li>在图形用户界面（GUI）程序中，通过用户界面提供错误信息。</li></ul></li><li><p><strong>操作系统错误报告</strong>：</p><ul><li>在Windows上使用<code>GetLastError</code>和<code>FormatMessage</code>等函数获取系统错误信息。</li></ul></li><li><p><strong>信号处理</strong>：</p><ul><li>使用信号处理机制（如<code>signal</code>和<code>sigaction</code>）来处理程序运行时的异常情况。</li></ul></li></ol><p>每种错误处理机制都有其适用的场景，选择合适的机制取决于具体的应用需求、性能考虑和编程风格。在实际开发中，通常会结合使用多种错误处理机制来提高程序的健壮性和可维护性。</p><h2 id=4在c中实现一个多线程程序异常处理应该如何设计以避免线程安全问题>4.在C++中实现一个多线程程序，异常处理应该如何设计以避免线程安全问题？</h2><p>在C++中实现多线程程序时，异常处理需要特别小心，因为异常可能会跨越线程边界，这可能导致线程安全问题。以下是一些设计多线程程序异常处理时的准则：</p><ol><li><p><strong>限制异常抛出的范围</strong>：</p><ul><li>尽量在线程函数中避免抛出异常。如果必须抛出，确保它在同一个线程中被捕获和处理。</li></ul></li><li><p><strong>使用异常捕获</strong>：</p><ul><li>在每个线程的执行函数中使用<code>try-catch</code>块来捕获和处理异常。</li></ul></li><li><p><strong>避免在析构函数中抛出异常</strong>：</p><ul><li>析构函数中抛出异常是危险的，因为如果一个线程在执行析构函数时抛出异常，而这个异常没有被捕获，那么程序可能会直接退出。如果需要在析构函数中执行清理工作，考虑使用RAII（资源获取即初始化）技术。</li></ul></li><li><p><strong>使用线程安全的异常处理机制</strong>：</p><ul><li>如果需要在多个线程之间传递异常，可以使用线程安全的异常处理机制，如<code>std::current_exception</code>和<code>std::exception_ptr</code>。</li></ul></li><li><p><strong>使用锁来保护共享资源</strong>：</p><ul><li>在访问共享资源之前获取锁，并在可能抛出异常的操作之前释放锁，以避免死锁。</li></ul></li><li><p><strong>小心使用动态内存分配</strong>：</p><ul><li>在抛出异常之前，确保已经释放了所有动态分配的内存，或者使用智能指针来自动管理内存。</li></ul></li><li><p><strong>使用线程局部存储</strong>：</p><ul><li>使用<code>thread_local</code>关键字来定义线程局部存储，以避免在多个线程之间共享可能导致异常的对象。</li></ul></li><li><p><strong>考虑异常传播</strong>：</p><ul><li>如果你在一个线程中捕获了异常，并且需要将这个异常传递给其他线程，可以使用<code>std::exception_ptr</code>。</li></ul></li><li><p><strong>使用日志记录异常信息</strong>：</p><ul><li>在捕获异常时，使用日志记录异常信息，这样即使异常被处理，也可以在日志中追踪到异常发生的原因。</li></ul></li><li><p><strong>测试多线程程序</strong>：</p><ul><li>多线程程序的异常处理需要通过充分的测试来验证，确保在各种情况下都能正确处理异常。</li></ul></li><li><p><strong>使用标准库中的线程工具</strong>：</p><ul><li>使用C++11及更高版本中的标准库线程工具，如<code>std::thread</code>、<code>std::mutex</code>等，它们提供了一些线程安全的机制。</li></ul></li><li><p><strong>避免使用不安全的函数</strong>：</p><ul><li>避免在多线程环境中使用可能导致未定义行为的函数，如<code>longjmp</code>。</li></ul></li></ol><p>记住，多线程编程中的异常处理比单线程编程更加复杂，需要仔细设计以确保程序的稳定性和可靠性。</p><h3 id=41示例>4.1.示例</h3><p>当然，以下是一个简单的C++多线程程序示例，展示了如何在线程中处理异常：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;exception&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// 线程函数，可能会抛出异常
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=nf>threadFunction</span><span class=p>(</span><span class=kt>int</span> <span class=n>id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 模拟一些可能会抛出异常的操作
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>if</span> <span class=p>(</span><span class=n>id</span> <span class=o>==</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Exception from thread with id 1&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Thread with id &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>id</span> <span class=o>&lt;&lt;</span> <span class=s>&#34; is running...&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>exception</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 在线程内部捕获和处理异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Exception caught in thread with id &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>id</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(...)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 捕获所有类型的异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unknown exception caught in thread with id &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>id</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 创建两个线程
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=kr>thread</span> <span class=n>t1</span><span class=p>(</span><span class=n>threadFunction</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=kr>thread</span> <span class=n>t2</span><span class=p>(</span><span class=n>threadFunction</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// 等待线程完成
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>t1</span><span class=p>.</span><span class=n>join</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=n>t2</span><span class=p>.</span><span class=n>join</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>exception</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 主线程中捕获异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Exception in main thread: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(...)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 捕获所有类型的异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unknown exception in main thread&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个示例中，<code>threadFunction</code> 是一个可能会抛出异常的线程函数。我们使用 <code>try-catch</code> 块来捕获和处理这些异常。如果线程函数抛出了异常，它会在该线程内部被捕获并处理，不会传播到主线程。</p><p>主函数 <code>main</code> 中也使用了 <code>try-catch</code> 块来捕获可能从线程函数传播到主线程的异常，尽管在这个例子中我们没有让异常传播到主线程。</p><p>请注意，这个示例假设异常不会从线程传播到主线程。在实际应用中，如果需要将异常从线程传播到主线程，可以使用 <code>std::exception_ptr</code>。</p><p>这里是一个使用 <code>std::exception_ptr</code> 来传播异常的示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;thread&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;exception&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;vector&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// 线程函数，可能会抛出异常
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>std</span><span class=o>::</span><span class=n>exception_ptr</span> <span class=n>threadFunction</span><span class=p>(</span><span class=kt>int</span> <span class=n>id</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>exception_ptr</span> <span class=n>ptr</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 模拟一些可能会抛出异常的操作
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>if</span> <span class=p>(</span><span class=n>id</span> <span class=o>==</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Exception from thread with id 1&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Thread with id &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>id</span> <span class=o>&lt;&lt;</span> <span class=s>&#34; is running...&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(...)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 捕获所有异常并存储在exception_ptr中
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>ptr</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>current_exception</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=kr>thread</span><span class=o>&gt;</span> <span class=n>threads</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>exception_ptr</span><span class=o>&gt;</span> <span class=n>exceptions</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 创建两个线程
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=mi>2</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>threads</span><span class=p>.</span><span class=n>emplace_back</span><span class=p>(</span><span class=n>threadFunction</span><span class=p>,</span> <span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>exceptions</span><span class=p>.</span><span class=n>push_back</span><span class=p>(</span><span class=n>threadFunction</span><span class=p>(</span><span class=n>i</span><span class=p>));</span> <span class=c1>// 执行线程函数并存储异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// 等待线程完成并重新抛出异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>for</span> <span class=p>(</span><span class=k>auto</span><span class=o>&amp;</span> <span class=nl>t</span> <span class=p>:</span> <span class=n>threads</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>t</span><span class=p>.</span><span class=n>join</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=k>auto</span><span class=o>&amp;</span> <span class=nl>e</span> <span class=p>:</span> <span class=n>exceptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>std</span><span class=o>::</span><span class=n>rethrow_exception</span><span class=p>(</span><span class=n>e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>exception</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 主线程中捕获异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Exception in main thread: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(...)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 捕获所有类型的异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unknown exception in main thread&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个示例中，<code>threadFunction</code> 返回一个 <code>std::exception_ptr</code>，它存储了线程中捕获的异常。在主线程中，我们等待所有线程完成，然后检查每个线程的 <code>std::exception_ptr</code>，如果有异常，就使用 <code>std::rethrow_exception</code> 重新抛出它。这样，异常就可以从线程传播到主线程了。</p><h2 id=5在c中如何使用raii原则来管理资源>5.在C++中，如何使用RAII原则来管理资源？</h2><p>RAII（Resource Acquisition Is Initialization）是C++中一种管理资源获取和释放的编程技术。RAII的核心思想是将资源的生命周期绑定到对象的生命周期。当对象创建时，它获取必要的资源，当对象销毁时，它释放这些资源。这通常通过构造函数来获取资源，通过析构函数来释放资源来实现。</p><h3 id=51raii的基本原则>5.1.RAII的基本原则</h3><ol><li><strong>资源获取</strong>：在类的构造函数中分配或获取资源。</li><li><strong>资源释放</strong>：在类的析构函数中释放资源。</li><li><strong>对象生命周期</strong>：确保对象的生命周期与资源的生命周期一致。</li><li><strong>异常安全</strong>：确保在构造过程中发生异常时，已经获取的资源能够被正确释放。</li></ol><h3 id=52raii的常见应用>5.2.RAII的常见应用</h3><ol><li><strong>动态内存管理</strong>：使用<code>new</code>和<code>delete</code>操作符。</li><li><strong>文件和网络资源</strong>：使用文件句柄和网络连接。</li><li><strong>互斥锁</strong>：使用互斥锁来保护临界区。</li></ol><h3 id=53示例使用raii管理动态内存>5.3.示例：使用RAII管理动态内存</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>AutoPtr</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span><span class=o>*</span> <span class=n>ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>AutoPtr</span><span class=p>()</span> <span class=o>:</span> <span class=n>ptr</span><span class=p>(</span><span class=k>nullptr</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=k>explicit</span> <span class=nf>AutoPtr</span><span class=p>(</span><span class=kt>int</span><span class=o>*</span> <span class=n>p</span><span class=p>)</span> <span class=o>:</span> <span class=n>ptr</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=o>~</span><span class=n>AutoPtr</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>delete</span><span class=p>[]</span> <span class=n>ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁止复制和赋值
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>AutoPtr</span><span class=p>(</span><span class=k>const</span> <span class=n>AutoPtr</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>AutoPtr</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>AutoPtr</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 支持移动语义
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>AutoPtr</span><span class=p>(</span><span class=n>AutoPtr</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=o>:</span> <span class=n>ptr</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>ptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>other</span><span class=p>.</span><span class=n>ptr</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>AutoPtr</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=n>AutoPtr</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=k>this</span> <span class=o>!=</span> <span class=o>&amp;</span><span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>delete</span><span class=p>[]</span> <span class=n>ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>ptr</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>other</span><span class=p>.</span><span class=n>ptr</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>*</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span><span class=o>*</span> <span class=nf>get</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>ptr</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>AutoPtr</span> <span class=n>ap</span><span class=p>(</span><span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=mi>10</span><span class=p>]);</span> <span class=c1>// 分配数组
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// 不需要手动释放，析构函数会自动处理
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，<code>AutoPtr</code>类使用RAII模式管理一个整数数组的生命周期。当<code>AutoPtr</code>对象创建时，它分配内存；当对象销毁时，它释放内存。</p><h3 id=54示例使用raii管理文件资源>5.4.示例：使用RAII管理文件资源</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fstream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>File</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>fstream</span> <span class=n>file</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>File</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>ios_base</span><span class=o>::</span><span class=n>openmode</span> <span class=n>mode</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>file</span><span class=p>.</span><span class=n>open</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=n>mode</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>file</span><span class=p>.</span><span class=n>is_open</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Failed to open file&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>~</span><span class=n>File</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>file</span><span class=p>.</span><span class=n>is_open</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>file</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 禁止复制和赋值
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>File</span><span class=p>(</span><span class=k>const</span> <span class=n>File</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>File</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>File</span><span class=o>&amp;</span><span class=p>)</span> <span class=o>=</span> <span class=k>delete</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 支持移动语义
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>File</span><span class=p>(</span><span class=n>File</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=o>:</span> <span class=n>file</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>file</span><span class=p>))</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=n>File</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=n>File</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>file</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>file</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>*</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>File</span> <span class=n>f</span><span class=p>(</span><span class=s>&#34;example.txt&#34;</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>ios</span><span class=o>::</span><span class=n>in</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 使用文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 文件在f的析构函数中自动关闭
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，<code>File</code>类使用RAII模式管理文件资源。当<code>File</code>对象创建时，它打开文件；当对象销毁时，它关闭文件。</p><h3 id=55注意事项>5.5.注意事项</h3><ol><li><strong>禁止复制</strong>：通常，管理资源的对象应该禁止复制，以避免资源泄漏。</li><li><strong>支持移动语义</strong>：支持移动构造函数和移动赋值运算符，以便在不同对象之间传递资源。</li><li><strong>异常安全</strong>：确保在构造函数中获取资源时，如果发生异常，已经获取的资源能够被正确释放。</li><li><strong>资源泄露</strong>：避免在析构函数中抛出异常，因为这可能导致资源泄露。</li></ol><p>RAII是一种强大的资源管理技术，它可以简化代码，提高资源管理的安全性和可靠性。</p><h2 id=6在c中除了raii还有哪些资源管理技术>6.在C++中，除了RAII，还有哪些资源管理技术？</h2><p>在C++中，除了RAII（Resource Acquisition Is Initialization）原则，还有其他一些资源管理技术，这些技术有助于确保资源的正确管理和释放。以下是一些常见的资源管理技术：</p><ol><li><p><strong>智能指针</strong>：</p><ul><li><code>std::unique_ptr</code>：独占式拥有其所指向的对象，不允许复制，但可以移动。</li><li><code>std::shared_ptr</code>：共享式拥有其所指向的对象，具有引用计数机制。</li><li><code>std::weak_ptr</code>：用于解决<code>std::shared_ptr</code>可能导致的循环引用问题。</li></ul></li><li><p><strong>函数对象</strong>（Functors）：</p><ul><li>封装状态和行为的对象，可以像函数一样被调用。</li></ul></li><li><p><strong>模板类</strong>：</p><ul><li>通过模板编程，可以编写通用的资源管理代码，如<code>std::unique_ptr</code>。</li></ul></li><li><p><strong>继承和多态</strong>：</p><ul><li>通过继承和多态，可以在基类中定义资源管理的接口，由派生类实现具体的资源管理逻辑。</li></ul></li><li><p><strong>异常处理</strong>：</p><ul><li>使用<code>try</code>、<code>catch</code>和<code>throw</code>关键字来捕获和处理异常，确保在异常发生时资源能够被正确释放。</li></ul></li><li><p><strong>条件编译</strong>：</p><ul><li>使用宏定义和条件编译来管理不同平台或配置下的资源。</li></ul></li><li><p><strong>手动管理</strong>：</p><ul><li>直接使用<code>new</code>和<code>delete</code>，<code>malloc</code>和<code>free</code>来管理内存资源。</li></ul></li><li><p><strong>垃圾回收</strong>：</p><ul><li>虽然C++标准库中没有内置的垃圾回收机制，但可以使用第三方库或特定的内存管理策略来实现类似垃圾回收的功能。</li></ul></li><li><p><strong>内存池</strong>（Memory Pool）：</p><ul><li>预先分配一块大的内存区域，用于频繁地分配和释放固定大小的对象，以减少内存碎片和提高性能。</li></ul></li><li><p><strong>对象池</strong>（Object Pool）：</p><ul><li>预先创建一组对象，以便快速重用，避免频繁的构造和析构。</li></ul></li><li><p><strong>线程局部存储</strong>（Thread-Local Storage）：</p><ul><li>使用线程局部变量来存储每个线程独有的资源。</li></ul></li><li><p><strong>原子操作</strong>：</p><ul><li>使用<code>std::atomic</code>来管理对共享资源的并发访问。</li></ul></li><li><p><strong>互斥锁</strong>（Mutexes）：</p><ul><li>使用互斥锁来保护临界区，确保同一时间只有一个线程可以访问共享资源。</li></ul></li><li><p><strong>文件描述符封装</strong>：</p><ul><li>封装文件描述符等操作系统资源，确保在对象销毁时关闭文件。</li></ul></li><li><p><strong>事件驱动编程</strong>：</p><ul><li>在事件循环中管理资源，确保资源在使用完成后能够被释放。</li></ul></li><li><p><strong>依赖注入</strong>：</p><ul><li>通过将资源作为参数传递给函数或对象，而不是在对象内部创建资源。</li></ul></li></ol><p>这些技术可以单独使用，也可以组合使用，以满足不同场景下的资源管理需求。正确选择和管理资源对于编写高效、可靠和可维护的C++程序至关重要。</p><h2 id=7在栈中使用异常处理>7.在栈中使用异常处理</h2><p>在C++中，使用栈（stack）时进行异常处理需要特别注意，因为异常可能会跨越多个栈帧，这可能会导致资源泄漏或其他问题。以下是一些在栈中使用异常处理时的准则：</p><ol><li><p><strong>使用RAII（资源获取即初始化）</strong>：</p><ul><li>RAII是一种确保资源在对象生命周期内被正确管理的机制。当对象超出作用域时，其析构函数将自动被调用，从而释放资源。</li></ul></li><li><p><strong>避免在析构函数中抛出异常</strong>：</p><ul><li>如果一个对象的析构函数抛出异常，而这个异常没有被捕获，那么程序可能会直接退出。因此，应该在析构函数中避免抛出异常。</li></ul></li><li><p><strong>使用智能指针管理动态内存</strong>：</p><ul><li>使用<code>std::unique_ptr</code>或<code>std::shared_ptr</code>来自动管理动态分配的内存。</li></ul></li><li><p><strong>使用<code>std::stack</code>的异常安全</strong>：</p><ul><li><code>std::stack</code>是一个容器适配器，它提供了基本的异常安全保证。但是，如果你在<code>std::stack</code>中存储了自定义对象，并且这些对象的复制或移动操作可能会抛出异常，那么你需要确保这些操作是异常安全的。</li></ul></li><li><p><strong>使用<code>try-catch</code>块</strong>：</p><ul><li>在可能抛出异常的代码周围使用<code>try-catch</code>块来捕获和处理异常。</li></ul></li><li><p><strong>使用<code>std::exception_ptr</code></strong>：</p><ul><li>如果你需要在多个线程之间传递异常，可以使用<code>std::exception_ptr</code>。</li></ul></li><li><p><strong>使用<code>noexcept</code></strong>：</p><ul><li>在不会抛出异常的函数后面使用<code>noexcept</code>关键字，以告诉编译器这个函数不会抛出异常。</li></ul></li><li><p><strong>使用<code>std::uncaught_exceptions</code></strong>：</p><ul><li><code>std::uncaught_exceptions</code>是C++17中引入的，它返回当前线程中未捕获的异常数量。这可以用来检测是否有异常正在传播。</li></ul></li></ol><p>下面是一个示例，展示了如何在栈中使用异常处理：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stack&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;memory&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdexcept&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Resource</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Resource</span><span class=p>()</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Resource acquired</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>~</span><span class=n>Resource</span><span class=p>()</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Resource released</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>safeFunction</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>stack</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=n>Resource</span><span class=o>&gt;&gt;&amp;</span> <span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 模拟可能会抛出异常的操作
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Exception in safeFunction&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(...)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 捕获所有异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Exception caught in safeFunction</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 确保栈中的资源被正确释放
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>s</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>stack</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=n>Resource</span><span class=o>&gt;&gt;</span><span class=p>();</span> <span class=c1>// 清空栈
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>throw</span><span class=p>;</span> <span class=c1>// 重新抛出异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>stack</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=n>Resource</span><span class=o>&gt;&gt;</span> <span class=n>s</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 将资源推入栈中
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>s</span><span class=p>.</span><span class=n>push</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>make_unique</span><span class=o>&lt;</span><span class=n>Resource</span><span class=o>&gt;</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>safeFunction</span><span class=p>(</span><span class=n>s</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>exception</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 主线程中捕获异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Exception in main thread: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(...)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 捕获所有类型的异常
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unknown exception in main thread&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 栈中的资源将自动被释放
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个示例中，我们使用<code>std::unique_ptr</code>来管理<code>Resource</code>对象的生命周期。当<code>Resource</code>对象超出作用域时，其析构函数将自动被调用，从而释放资源。在<code>safeFunction</code>中，我们捕获所有异常，并在捕获异常后清空栈，以确保栈中的资源被正确释放。然后，我们重新抛出异常，以便在主线程中进行处理。</p><p>请注意，这个示例假设异常不会从<code>safeFunction</code>传播到主线程。在实际应用中，如果需要将异常从<code>safeFunction</code>传播到主线程，可以使用<code>std::exception_ptr</code>。</p><hr><h2 id=关于作者>关于作者</h2><ul><li>微信公众号:WeSiGJ</li><li>GitHub:<a class=link href=https://github.com/wesigj/cplusplusboys target=_blank rel=noopener>https://github.com/wesigj/cplusplusboys</a></li><li>CSDN:<a class=link href=https://blog.csdn.net/wesigj target=_blank rel=noopener>https://blog.csdn.net/wesigj</a></li><li>微博:</li><li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。</li></ul><img src=/./img/wechat.jpg width=60%></section><footer class=article-footer><section class=article-tags><a href=/tags/c++/>C++</a>
+<a href=/tags/c++-practical-2/>C++ Practical-2</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/c-practical-2-day13-%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F/><div class=article-details><h2 class=article-title>C++ Practical-2 day13 输出格式</h2></div></a></article><article><a href=/p/c-practical-2-day12-%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E7%BB%BC%E5%90%88%E9%A2%98/><div class=article-details><h2 class=article-title>C++ Practical-2 day12 读写文件综合题</h2></div></a></article><article><a href=/p/c-practical-2-day11-%E7%BB%A7%E6%89%BF%E4%B8%8E%E5%B0%81%E8%A3%85/><div class=article-details><h2 class=article-title>C++ Practical-2 day11 继承与封装</h2></div></a></article><article><a href=/p/c-practical-2-day9-%E5%AD%97%E5%85%B8%E6%8F%92%E5%85%A5%E4%B8%8E%E6%9F%A5%E6%89%BE/><div class=article-details><h2 class=article-title>C++ Practical-2 day9 字典插入与查找</h2></div></a></article><article><a href=/p/c-practical-2-day8-%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84/><div class=article-details><h2 class=article-title>C++ Practical-2 day8 动态数组</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Wesigj's blog</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

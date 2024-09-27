@@ -1,0 +1,686 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="C++ Practical-2 day12 读写文件综合题 [TOC]\nOverview C++不练习coding，就相当于空中楼阁，基础不扎实 光吃不干，等于没吃 1.读写文件综合题 在 C++ 中，读写文件是一个常见的任务。我们可以使用标准的文件流（std::ifstream 用于读取，std::ofstream 用于写入）来处理文件操作。以下是一个综合示例，展示了如何在 C++ 中创建一个文件，写入一些内容，然后读取并显示这些内容。\n"><title>C++ Practical-2 day12 读写文件综合题</title>
+<link rel=canonical href=https://wesigj.github.io/p/c-practical-2-day12-%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E7%BB%BC%E5%90%88%E9%A2%98/><link rel=stylesheet href=/scss/style.min.fb788271c6df6928bf35246ecbbfeb1eb9a17bcbe87d71daa3085497c92c891b.css><meta property='og:title' content="C++ Practical-2 day12 读写文件综合题"><meta property='og:description' content="C++ Practical-2 day12 读写文件综合题 [TOC]\nOverview C++不练习coding，就相当于空中楼阁，基础不扎实 光吃不干，等于没吃 1.读写文件综合题 在 C++ 中，读写文件是一个常见的任务。我们可以使用标准的文件流（std::ifstream 用于读取，std::ofstream 用于写入）来处理文件操作。以下是一个综合示例，展示了如何在 C++ 中创建一个文件，写入一些内容，然后读取并显示这些内容。\n"><meta property='og:url' content='https://wesigj.github.io/p/c-practical-2-day12-%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E7%BB%BC%E5%90%88%E9%A2%98/'><meta property='og:site_name' content="Wesigj's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='C++'><meta property='article:tag' content='C++ Practical-2'><meta property='article:published_time' content='2024-09-28T01:06:00+08:00'><meta property='article:modified_time' content='2024-09-28T01:06:00+08:00'><meta name=twitter:title content="C++ Practical-2 day12 读写文件综合题"><meta name=twitter:description content="C++ Practical-2 day12 读写文件综合题 [TOC]\nOverview C++不练习coding，就相当于空中楼阁，基础不扎实 光吃不干，等于没吃 1.读写文件综合题 在 C++ 中，读写文件是一个常见的任务。我们可以使用标准的文件流（std::ifstream 用于读取，std::ofstream 用于写入）来处理文件操作。以下是一个综合示例，展示了如何在 C++ 中创建一个文件，写入一些内容，然后读取并显示这些内容。\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu7443220043442625548.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Wesigj's blog</a></h1><h2 class=site-description>路漫漫其修远兮，吾将上下而求索。</h2></div></header><ol class=menu-social><li><a href=https://github.com/wesigj target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/_index.zh-cn/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#overview>Overview</a></li><li><a href=#1读写文件综合题>1.读写文件综合题</a><ol><li><a href=#11写入文件>1.1.写入文件</a></li><li><a href=#12读取文件>1.2.读取文件</a></li><li><a href=#13主函数>1.3.主函数</a></li><li><a href=#14完整代码>1.4.完整代码</a></li></ol></li><li><a href=#2如何使用-c-进行更复杂的文件读写比如追加内容或者以二进制模式读写>2.如何使用 C++ 进行更复杂的文件读写，比如追加内容或者以二进制模式读写？</a><ol><li><a href=#21追加模式>2.1.追加模式</a></li><li><a href=#22二进制读写模式>2.2.二进制读写模式</a></li><li><a href=#23主函数>2.3.主函数</a></li><li><a href=#24注意事项>2.4.注意事项</a></li></ol></li><li><a href=#3在c中除了使用文件流还有哪些方法可以进行文件操作>3.在C++中，除了使用文件流，还有哪些方法可以进行文件操作？</a></li><li><a href=#4在c中如何检查文件读写操作是否成功以及在失败时如何处理错误>4.在C++中，如何检查文件读写操作是否成功，以及在失败时如何处理错误？</a><ol><li><a href=#41检查文件操作是否成功>4.1.检查文件操作是否成功</a></li><li><a href=#42错误处理>4.2.错误处理</a></li></ol></li><li><a href=#5如果文件读写操作失败我应该如何优雅地处理异常而不是直接崩溃程序>5.如果文件读写操作失败，我应该如何优雅地处理异常，而不是直接崩溃程序？</a><ol><li><a href=#51-检查流状态>5.1. 检查流状态</a></li><li><a href=#52-使用异常处理>5.2. 使用异常处理</a></li><li><a href=#53-提供错误反馈>5.3. 提供错误反馈</a></li><li><a href=#54-资源清理>5.4. 资源清理</a></li><li><a href=#55-记录日志>5.5. 记录日志</a></li><li><a href=#56示例代码>5.6.示例代码</a></li><li><a href=#57注意事项>5.7.注意事项</a></li></ol></li><li><a href=#关于作者>关于作者</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/c++/ style=background-color:#2a9d8f;color:#fff>C++
+</a><a href=/categories/c++-practical-2/>C++ Practical-2</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/c-practical-2-day12-%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%E7%BB%BC%E5%90%88%E9%A2%98/>C++ Practical-2 day12 读写文件综合题</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Sep 28, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>8 minute read</time></div></footer></div></header><section class=article-content><h1 id=c-practical-2-day12-读写文件综合题>C++ Practical-2 day12 读写文件综合题</h1><p>[TOC]</p><h2 id=overview>Overview</h2><ul><li>C++不练习coding，就相当于空中楼阁，基础不扎实</li><li>光吃不干，等于没吃</li></ul><hr><h2 id=1读写文件综合题>1.读写文件综合题</h2><p>在 C++ 中，读写文件是一个常见的任务。我们可以使用标准的文件流（<code>std::ifstream</code> 用于读取，<code>std::ofstream</code> 用于写入）来处理文件操作。以下是一个综合示例，展示了如何在 C++ 中创建一个文件，写入一些内容，然后读取并显示这些内容。</p><h3 id=11写入文件>1.1.写入文件</h3><p>首先，我们将创建一个函数来写入文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fstream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>writeToFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>,</span> <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>content</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ofstream</span> <span class=n>outFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span> <span class=c1>// 创建一个 ofstream 对象并打开文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>outFile</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unable to create file &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>filename</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span> <span class=o>&lt;&lt;</span> <span class=n>content</span><span class=p>;</span> <span class=c1>// 写入内容到文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span> <span class=c1>// 关闭文件
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=12读取文件>1.2.读取文件</h3><p>接下来，我们将创建一个函数来读取文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>void</span> <span class=nf>readFromFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ifstream</span> <span class=n>inFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span> <span class=c1>// 创建一个 ifstream 对象并打开文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>inFile</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unable to open file &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>filename</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>line</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>getline</span><span class=p>(</span><span class=n>inFile</span><span class=p>,</span> <span class=n>line</span><span class=p>))</span> <span class=p>{</span> <span class=c1>// 逐行读取文件内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>line</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>inFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span> <span class=c1>// 关闭文件
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=13主函数>1.3.主函数</h3><p>最后，我们在 <code>main</code> 函数中使用这些函数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>filename</span> <span class=o>=</span> <span class=s>&#34;example.txt&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>content</span> <span class=o>=</span> <span class=s>&#34;Hello, World!</span><span class=se>\n</span><span class=s>This is a test file.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 写入文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>writeToFile</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=n>content</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 读取文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>readFromFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=14完整代码>1.4.完整代码</h3><p>将以上代码片段组合在一起，我们得到一个完整的程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fstream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>writeToFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>,</span> <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>content</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ofstream</span> <span class=n>outFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>outFile</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unable to create file &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>filename</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span> <span class=o>&lt;&lt;</span> <span class=n>content</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>readFromFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ifstream</span> <span class=n>inFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>inFile</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unable to open file &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>filename</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>line</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>getline</span><span class=p>(</span><span class=n>inFile</span><span class=p>,</span> <span class=n>line</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>line</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>inFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>filename</span> <span class=o>=</span> <span class=s>&#34;example.txt&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>content</span> <span class=o>=</span> <span class=s>&#34;Hello, World!</span><span class=se>\n</span><span class=s>This is a test file.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>writeToFile</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=n>content</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>readFromFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这个程序首先创建一个名为 <code>example.txt</code> 的文件，并向其中写入一些文本内容。然后，程序读取该文件的内容，并将其输出到控制台。这是一个简单的文件读写示例，展示了 C++ 中基本的文件操作。</p><h2 id=2如何使用-c-进行更复杂的文件读写比如追加内容或者以二进制模式读写>2.如何使用 C++ 进行更复杂的文件读写，比如追加内容或者以二进制模式读写？</h2><p>在 C++ 中，进行更复杂的文件读写操作可以通过指定文件打开模式来实现。以下是一些常见的文件操作模式：</p><h3 id=21追加模式>2.1.追加模式</h3><p>在追加模式下打开文件，所有写入操作都会从文件末尾开始追加内容。在 <code>std::ofstream</code> 中，可以使用 <code>std::ios::app</code> 模式来追加内容。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fstream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>appendToFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=o>&amp;</span><span class=n>filename</span><span class=p>,</span> <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=o>&amp;</span><span class=n>content</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ofstream</span> <span class=n>outFile</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>ios</span><span class=o>::</span><span class=n>app</span><span class=p>);</span> <span class=c1>// 以追加模式打开文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>outFile</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unable to open file &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>filename</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span> <span class=o>&lt;&lt;</span> <span class=n>content</span><span class=p>;</span> <span class=c1>// 追加内容到文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>    <span class=c1>// 关闭文件
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=22二进制读写模式>2.2.二进制读写模式</h3><p>在二进制模式下读写文件，可以使用 <code>std::ios::binary</code> 模式。这在处理非文本文件（如图片、音频、视频等）时非常有用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fstream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;vector&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>writeBinaryFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>,</span> <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>char</span><span class=o>&gt;&amp;</span> <span class=n>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ofstream</span> <span class=n>outFile</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>ios</span><span class=o>::</span><span class=n>binary</span><span class=p>);</span> <span class=c1>// 以二进制模式打开文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>outFile</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unable to create binary file &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>filename</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span><span class=p>.</span><span class=n>write</span><span class=p>(</span><span class=n>data</span><span class=p>.</span><span class=n>data</span><span class=p>(),</span> <span class=n>data</span><span class=p>.</span><span class=n>size</span><span class=p>());</span> <span class=c1>// 写入二进制数据
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span> <span class=c1>// 关闭文件
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>readBinaryFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>char</span><span class=o>&gt;&amp;</span> <span class=n>buffer</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ifstream</span> <span class=n>inFile</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>ios</span><span class=o>::</span><span class=n>binary</span><span class=p>);</span> <span class=c1>// 以二进制模式打开文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>inFile</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Unable to open binary file &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>filename</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>inFile</span><span class=p>.</span><span class=n>seekg</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>ios</span><span class=o>::</span><span class=n>end</span><span class=p>);</span> <span class=c1>// 移动到文件末尾
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>size_t</span> <span class=n>fileSize</span> <span class=o>=</span> <span class=n>inFile</span><span class=p>.</span><span class=n>tellg</span><span class=p>();</span> <span class=c1>// 获取文件大小
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>inFile</span><span class=p>.</span><span class=n>seekg</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>ios</span><span class=o>::</span><span class=n>beg</span><span class=p>);</span> <span class=c1>// 回到文件开头
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=n>buffer</span><span class=p>.</span><span class=n>resize</span><span class=p>(</span><span class=n>fileSize</span><span class=p>);</span> <span class=c1>// 调整缓冲区大小
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>inFile</span><span class=p>.</span><span class=n>read</span><span class=p>(</span><span class=n>buffer</span><span class=p>.</span><span class=n>data</span><span class=p>(),</span> <span class=n>fileSize</span><span class=p>);</span> <span class=c1>// 读取文件内容到缓冲区
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>inFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span> <span class=c1>// 关闭文件
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=23主函数>2.3.主函数</h3><p>在 <code>main</code> 函数中，我们可以调用这些函数来执行追加和二进制读写操作。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>filename</span> <span class=o>=</span> <span class=s>&#34;example.txt&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>textContent</span> <span class=o>=</span> <span class=s>&#34;This is additional text.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 追加文本内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>appendToFile</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=n>textContent</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 二进制写入
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>char</span><span class=o>&gt;</span> <span class=n>binaryData</span> <span class=o>=</span> <span class=p>{</span> <span class=mh>0x00</span><span class=p>,</span> <span class=mh>0x01</span><span class=p>,</span> <span class=mh>0x02</span><span class=p>,</span> <span class=mh>0x03</span><span class=p>,</span> <span class=mh>0x04</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=n>writeBinaryFile</span><span class=p>(</span><span class=s>&#34;binaryData.bin&#34;</span><span class=p>,</span> <span class=n>binaryData</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 二进制读取
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>char</span><span class=o>&gt;</span> <span class=n>readData</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>readBinaryFile</span><span class=p>(</span><span class=s>&#34;binaryData.bin&#34;</span><span class=p>,</span> <span class=n>readData</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 显示读取的二进制数据
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>for</span> <span class=p>(</span><span class=kt>char</span> <span class=nl>c</span> <span class=p>:</span> <span class=n>readData</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>hex</span> <span class=o>&lt;&lt;</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>c</span> <span class=o>&lt;&lt;</span> <span class=s>&#34; &#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=24注意事项>2.4.注意事项</h3><ul><li>在写入二进制文件时，确保数据是正确的二进制格式。</li><li>在读取二进制文件时，确保缓冲区足够大，以存储整个文件的内容。</li><li>使用二进制模式时，文件的读写不会受到换行符的影响，这与文本模式不同。</li></ul><p>这些示例展示了如何在 C++ 中执行更复杂的文件操作，包括追加内容和以二进制模式读写文件。</p><h2 id=3在c中除了使用文件流还有哪些方法可以进行文件操作>3.在C++中，除了使用文件流，还有哪些方法可以进行文件操作？</h2><p>在 C++ 中，除了使用文件流（如 <code>std::ifstream</code> 和 <code>std::ofstream</code>），还有一些其他方法可以进行文件操作：</p><ol><li><p><strong>C 风格的文件操作</strong>：
+使用 C 语言的文件操作函数，如 <code>fopen</code>, <code>fclose</code>, <code>fread</code>, <code>fwrite</code>, <code>fprintf</code>, <code>fscanf</code> 等。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>FILE</span><span class=o>*</span> <span class=n>file</span> <span class=o>=</span> <span class=n>fopen</span><span class=p>(</span><span class=s>&#34;example.txt&#34;</span><span class=p>,</span> <span class=s>&#34;w&#34;</span><span class=p>);</span> <span class=c1>// 打开文件用于写操作
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>if</span> <span class=p>(</span><span class=n>file</span> <span class=o>!=</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>fprintf</span><span class=p>(</span><span class=n>file</span><span class=p>,</span> <span class=s>&#34;Hello, World!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>fclose</span><span class=p>(</span><span class=n>file</span><span class=p>);</span> <span class=c1>// 关闭文件
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>C++17 文件系统库 (std::filesystem)</strong>：
+C++17 引入了 <code>std::filesystem</code> 库，提供了更现代的文件系统操作接口。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;filesystem&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>namespace</span> <span class=n>fs</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>filesystem</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>fs</span><span class=o>::</span><span class=n>path</span> <span class=n>filePath</span> <span class=o>=</span> <span class=s>&#34;example.txt&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>fs</span><span class=o>::</span><span class=n>create_directory</span><span class=p>(</span><span class=s>&#34;example_dir&#34;</span><span class=p>);</span> <span class=c1>// 创建目录
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>fs</span><span class=o>::</span><span class=n>copy</span><span class=p>(</span><span class=s>&#34;source.txt&#34;</span><span class=p>,</span> <span class=s>&#34;destination.txt&#34;</span><span class=p>);</span> <span class=c1>// 复制文件
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>fs</span><span class=o>::</span><span class=n>remove</span><span class=p>(</span><span class=s>&#34;example.txt&#34;</span><span class=p>);</span> <span class=c1>// 删除文件
+</span></span></span></code></pre></td></tr></table></div></div></li><li><p><strong>C++标准库中的其他流</strong>：
+使用 <code>std::stringstream</code> 或 <code>std::istringstream</code> 和 <code>std::ostringstream</code> 进行字符串和文件内容之间的转换。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>stringstream</span> <span class=n>ss</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>ss</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Hello, World!&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>fileContent</span> <span class=o>=</span> <span class=n>ss</span><span class=p>.</span><span class=n>str</span><span class=p>();</span> <span class=c1>// 将流内容转换为字符串
+</span></span></span></code></pre></td></tr></table></div></div></li><li><p><strong>低级文件 I/O 操作</strong>：
+使用操作系统提供的系统调用来直接操作文件，如 UNIX/Linux 系统中的 <code>open</code>, <code>read</code>, <code>write</code>, <code>close</code> 等系统调用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;unistd.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fcntl.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>fd</span> <span class=o>=</span> <span class=n>open</span><span class=p>(</span><span class=s>&#34;example.txt&#34;</span><span class=p>,</span> <span class=n>O_WRONLY</span> <span class=o>|</span> <span class=n>O_CREAT</span> <span class=o>|</span> <span class=n>O_TRUNC</span><span class=p>,</span> <span class=n>S_IRUSR</span> <span class=o>|</span> <span class=n>S_IWUSR</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>fd</span> <span class=o>!=</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>char</span><span class=o>*</span> <span class=n>text</span> <span class=o>=</span> <span class=s>&#34;Hello, World!&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>write</span><span class=p>(</span><span class=n>fd</span><span class=p>,</span> <span class=n>text</span><span class=p>,</span> <span class=n>strlen</span><span class=p>(</span><span class=n>text</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=n>close</span><span class=p>(</span><span class=n>fd</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>内存映射文件</strong>：
+使用操作系统提供的内存映射文件功能，如 Windows 的 <code>CreateFileMapping</code> 和 <code>MapViewOfFile</code>，或 UNIX/Linux 的 <code>mmap</code> 系统调用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sys/mman.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fcntl.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;unistd.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>fd</span> <span class=o>=</span> <span class=n>open</span><span class=p>(</span><span class=s>&#34;example.txt&#34;</span><span class=p>,</span> <span class=n>O_RDWR</span> <span class=o>|</span> <span class=n>O_CREAT</span><span class=p>,</span> <span class=n>S_IRUSR</span> <span class=o>|</span> <span class=n>S_IWUSR</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>write</span><span class=p>(</span><span class=n>fd</span><span class=p>,</span> <span class=s>&#34;Hello, World!&#34;</span><span class=p>,</span> <span class=mi>13</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>ftruncate</span><span class=p>(</span><span class=n>fd</span><span class=p>,</span> <span class=mi>13</span><span class=p>);</span> <span class=c1>// 调整文件大小
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// 映射文件到内存
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span><span class=o>*</span> <span class=n>addr</span> <span class=o>=</span> <span class=n>mmap</span><span class=p>(</span><span class=k>nullptr</span><span class=p>,</span> <span class=mi>13</span><span class=p>,</span> <span class=n>PROT_READ</span> <span class=o>|</span> <span class=n>PROT_WRITE</span><span class=p>,</span> <span class=n>MAP_SHARED</span><span class=p>,</span> <span class=n>fd</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>addr</span> <span class=o>!=</span> <span class=n>MAP_FAILED</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 使用映射的内存
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>munmap</span><span class=p>(</span><span class=n>addr</span><span class=p>,</span> <span class=mi>13</span><span class=p>);</span> <span class=c1>// 解除映射
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>close</span><span class=p>(</span><span class=n>fd</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>第三方库</strong>：
+使用第三方库，如 Boost.Filesystem，提供了跨平台的文件系统操作功能。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;boost/filesystem.hpp&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=n>boost</span><span class=o>::</span><span class=n>filesystem</span><span class=o>::</span><span class=n>path</span> <span class=n>filePath</span> <span class=o>=</span> <span class=s>&#34;example.txt&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>boost</span><span class=o>::</span><span class=n>filesystem</span><span class=o>::</span><span class=n>create_directory</span><span class=p>(</span><span class=s>&#34;example_dir&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>boost</span><span class=o>::</span><span class=n>filesystem</span><span class=o>::</span><span class=n>copy_file</span><span class=p>(</span><span class=s>&#34;source.txt&#34;</span><span class=p>,</span> <span class=s>&#34;destination.txt&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>boost</span><span class=o>::</span><span class=n>filesystem</span><span class=o>::</span><span class=n>remove</span><span class=p>(</span><span class=s>&#34;example.txt&#34;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>标准库中的其他工具</strong>：
+使用 <code>std::tmpfile</code> 创建临时文件，这些文件在程序结束时自动删除。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>FILE</span><span class=o>*</span> <span class=n>tempFile</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>tmpfile</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>tempFile</span> <span class=o>!=</span> <span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>fprintf</span><span class=p>(</span><span class=n>tempFile</span><span class=p>,</span> <span class=s>&#34;Temporary data&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>rewind</span><span class=p>(</span><span class=n>tempFile</span><span class=p>);</span> <span class=c1>// 回到文件开头
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// 读取或处理文件...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>fclose</span><span class=p>(</span><span class=n>tempFile</span><span class=p>);</span> <span class=c1>// 关闭文件，文件内容会被删除
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><p>这些方法提供了不同级别的文件操作控制，从底层系统调用到高级抽象，可以根据具体需求和平台特性选择合适的方法。</p><h2 id=4在c中如何检查文件读写操作是否成功以及在失败时如何处理错误>4.在C++中，如何检查文件读写操作是否成功，以及在失败时如何处理错误？</h2><p>在 C++ 中，检查文件读写操作是否成功通常涉及到检查文件流的状态。<code>std::fstream</code>、<code>std::ifstream</code> 和 <code>std::ofstream</code> 都提供了成员函数 <code>fail()</code> 和 <code>bad()</code> 来检查流的状态。</p><h3 id=41检查文件操作是否成功>4.1.检查文件操作是否成功</h3><ol><li><p><strong>使用 <code>fail()</code> 函数</strong>：
+<code>fail()</code> 函数在流遇到任何形式的输入/输出失败时返回 <code>true</code>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>ofstream</span> <span class=n>outFile</span><span class=p>(</span><span class=s>&#34;example.txt&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Failed to open file for writing.&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Hello, World!&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Failed to write to file.&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用 <code>bad()</code> 函数</strong>：
+<code>bad()</code> 函数在流遇到不可恢复的错误时返回 <code>true</code>，如读写错误。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>ifstream</span> <span class=n>inFile</span><span class=p>(</span><span class=s>&#34;example.txt&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>inFile</span><span class=p>.</span><span class=n>bad</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Failed to open file for reading.&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>line</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>getline</span><span class=p>(</span><span class=n>inFile</span><span class=p>,</span> <span class=n>line</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>inFile</span><span class=p>.</span><span class=n>bad</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Failed to read from file.&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>line</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>inFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>检查特定操作的状态</strong>：
+每次读写操作后，可以立即检查操作是否成功。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>ofstream</span> <span class=n>outFile</span><span class=p>(</span><span class=s>&#34;example.txt&#34;</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>ios</span><span class=o>::</span><span class=n>app</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>outFile</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Appending text.&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>outFile</span><span class=p>)</span> <span class=p>{</span> <span class=c1>// 等同于检查 fail() 或 bad()
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Write operation failed.&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><h3 id=42错误处理>4.2.错误处理</h3><ol><li><p><strong>关闭文件</strong>：
+如果检测到错误，应该关闭文件以释放资源。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 进一步的错误处理...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>抛出异常</strong>：
+可以在检测到错误时抛出异常，让上层代码处理。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Failed to write to file.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>返回错误代码</strong>：
+在函数中返回错误代码，让调用者根据错误代码进行处理。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>bool</span> <span class=nf>writeFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>,</span> <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>content</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ofstream</span> <span class=n>outFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span> <span class=o>&lt;&lt;</span> <span class=n>content</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nb>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>使用错误码</strong>：
+定义错误码枚举或类，用于表示不同的错误情况。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>enum</span> <span class=k>class</span> <span class=nc>FileError</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>None</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>OpenFailed</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>WriteFailed</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>CloseFailed</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>FileError</span> <span class=nf>writeFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>,</span> <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>content</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ofstream</span> <span class=n>outFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>FileError</span><span class=o>::</span><span class=n>OpenFailed</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span> <span class=o>&lt;&lt;</span> <span class=n>content</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>FileError</span><span class=o>::</span><span class=n>WriteFailed</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>FileError</span><span class=o>::</span><span class=n>CloseFailed</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>FileError</span><span class=o>::</span><span class=n>None</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>记录错误信息</strong>：
+使用日志记录错误信息，便于调试和跟踪问题。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>logError</span><span class=p>(</span><span class=s>&#34;File writing failed.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 进一步的错误处理...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>资源泄漏处理</strong>：
+确保在发生错误时释放已分配的资源，避免资源泄漏。</p></li><li><p><strong>用户提示</strong>：
+在 GUI 应用程序或需要用户交互的场景中，向用户显示错误信息。</p></li><li><p><strong>重试机制</strong>：
+在某些情况下，如果操作失败，可以实施重试机制。</p></li></ol><p>通过这些方法，你可以在 C++ 中有效地检查文件操作是否成功，并在失败时进行适当的错误处理。</p><h2 id=5如果文件读写操作失败我应该如何优雅地处理异常而不是直接崩溃程序>5.如果文件读写操作失败，我应该如何优雅地处理异常，而不是直接崩溃程序？</h2><p>在 C++ 中，优雅地处理文件读写操作失败的异常，而不是让程序直接崩溃，通常涉及到以下几个步骤：</p><h3 id=51-检查流状态>5.1. 检查流状态</h3><p>在进行文件操作之前和之后，检查文件流的状态。这可以通过检查流对象的 <code>fail()</code>、<code>bad()</code> 或 <code>eof()</code> 成员函数来实现。</p><h3 id=52-使用异常处理>5.2. 使用异常处理</h3><p>使用 <code>try</code> 和 <code>catch</code> 块来捕获和处理可能抛出的异常。</p><h3 id=53-提供错误反馈>5.3. 提供错误反馈</h3><p>向用户提供清晰的错误信息，而不是让程序默默失败。</p><h3 id=54-资源清理>5.4. 资源清理</h3><p>确保在发生异常时释放所有已分配的资源。</p><h3 id=55-记录日志>5.5. 记录日志</h3><p>记录错误日志，以便于后续分析和调试。</p><h3 id=56示例代码>5.6.示例代码</h3><p>以下是一个示例，展示了如何在文件操作中使用异常处理：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fstream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>writeToFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>,</span> <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>content</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ofstream</span> <span class=n>outFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>outFile</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Unable to open file for writing: &#34;</span> <span class=o>+</span> <span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span> <span class=o>&lt;&lt;</span> <span class=n>content</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>outFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Failed to write to file: &#34;</span> <span class=o>+</span> <span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>outFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>readFromFile</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span><span class=o>&amp;</span> <span class=n>filename</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>ifstream</span> <span class=n>inFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>inFile</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Unable to open file for reading: &#34;</span> <span class=o>+</span> <span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>line</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>getline</span><span class=p>(</span><span class=n>inFile</span><span class=p>,</span> <span class=n>line</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>inFile</span><span class=p>.</span><span class=n>fail</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>inFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Failed to read from file: &#34;</span> <span class=o>+</span> <span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>line</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>inFile</span><span class=p>.</span><span class=n>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>filename</span> <span class=o>=</span> <span class=s>&#34;example.txt&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>content</span> <span class=o>=</span> <span class=s>&#34;Hello, World!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>writeToFile</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=n>content</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>readFromFile</span><span class=p>(</span><span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>exception</span><span class=o>&amp;</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cerr</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Error: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>e</span><span class=p>.</span><span class=n>what</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 这里可以进行额外的错误处理，如用户提示、日志记录等
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=57注意事项>5.7.注意事项</h3><ol><li><strong>不要吞没异常</strong>：不要捕获异常而不处理，至少提供错误反馈或记录日志。</li><li><strong>资源管理</strong>：使用 RAII（资源获取即初始化）原则管理资源，确保资源在异常发生时也能被正确释放。</li><li><strong>用户友好</strong>：提供用户友好的错误信息，避免显示复杂的技术细节。</li><li><strong>日志记录</strong>：记录详细的错误日志，以便于问题追踪和调试。</li><li><strong>异常安全</strong>：确保程序在抛出和捕获异常时不会泄露资源或留下不可用的状态。</li></ol><p>通过这些方法，你可以确保文件读写操作失败时，程序能够优雅地处理异常，而不是直接崩溃。</p><hr><h2 id=关于作者>关于作者</h2><ul><li>微信公众号:WeSiGJ</li><li>GitHub:<a class=link href=https://github.com/wesigj/cplusplusboys target=_blank rel=noopener>https://github.com/wesigj/cplusplusboys</a></li><li>CSDN:<a class=link href=https://blog.csdn.net/wesigj target=_blank rel=noopener>https://blog.csdn.net/wesigj</a></li><li>微博:</li><li>版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。</li></ul><img src=/./img/wechat.jpg width=60%></section><footer class=article-footer><section class=article-tags><a href=/tags/c++/>C++</a>
+<a href=/tags/c++-practical-2/>C++ Practical-2</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/c-practical-2-day13-%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F/><div class=article-details><h2 class=article-title>C++ Practical-2 day13 输出格式</h2></div></a></article><article><a href=/p/c-practical-2-day11-%E7%BB%A7%E6%89%BF%E4%B8%8E%E5%B0%81%E8%A3%85/><div class=article-details><h2 class=article-title>C++ Practical-2 day11 继承与封装</h2></div></a></article><article><a href=/p/c-practical-2-day10-%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86-try-exception/><div class=article-details><h2 class=article-title>C++ Practical-2 day10 异常捕获 异常处理 try exception</h2></div></a></article><article><a href=/p/c-practical-2-day9-%E5%AD%97%E5%85%B8%E6%8F%92%E5%85%A5%E4%B8%8E%E6%9F%A5%E6%89%BE/><div class=article-details><h2 class=article-title>C++ Practical-2 day9 字典插入与查找</h2></div></a></article><article><a href=/p/c-practical-2-day8-%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84/><div class=article-details><h2 class=article-title>C++ Practical-2 day8 动态数组</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Wesigj's blog</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
